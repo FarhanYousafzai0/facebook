@@ -1,6 +1,6 @@
-import moongoose from "moongoose";
+import mongoose from "mongoose";
 
-const userSchema = moongoose.userSchema({
+const userSchema = mongoose.Schema({
 
 name:{
     type:String,
@@ -21,17 +21,21 @@ password:{
     required:true,
 },
 gender:{
-    type:Boolean,
+    type:String,
     required:true
 },
 otp:{
     type:Number,
     default:null
+},
+profilePic:{
+    type:String,
+    default:true,
 }
 
 
 },{timestamps:true})
 
-const user = moongoose.model('User',userSchema);
+const user = mongoose.model('User',userSchema);
 
 export default user
