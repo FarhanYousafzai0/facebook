@@ -1,6 +1,7 @@
 import React from 'react';
-import { FaBars, FaBell, FaFacebookMessenger, FaGamepad, FaUserFriends, FaVideo } from 'react-icons/fa';
+import {  FaBell, FaFacebookMessenger, FaGamepad, FaUserFriends, FaVideo } from 'react-icons/fa';
 import { GoHomeFill } from "react-icons/go";
+import { TbGridDots } from "react-icons/tb";
 
 const Nav = () => {
   return (
@@ -41,10 +42,27 @@ const Nav = () => {
       </div>
 
       {/* Right Side Icons (Messenger, Bell, Menu) */}
-      <div className='flex items-center gap-8'>
-        <FaFacebookMessenger className=" text-white text-2xl cursor-pointer " />
-        <FaBell className=" text-white text-2xl   cursor-pointer " />
-        <FaBars className=" text-white text-2xl   cursor-pointer " />
+      <div className='flex items-center gap-5'>
+<span className='flex items-center justify-center bg-white rounded-full p-2'>
+<TbGridDots className=" text-black text-2xl   cursor-pointer " />
+
+    </span> 
+    <span className='flex items-center justify-center bg-white rounded-full p-2'>
+    <FaFacebookMessenger className=" text-black text-2xl cursor-pointer " />
+
+    </span>
+    <span className='flex items-center justify-center bg-white rounded-full p-2'>
+                <FaBell className=" text-black text-2xl   cursor-pointer " />
+
+    </span>
+    <div className="avatar avatar-online">
+  <div className="w-10 rounded-full cursor-pointer">
+    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+  </div>
+</div>
+
+       
+
       </div>
     </div>
   );
