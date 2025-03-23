@@ -115,3 +115,35 @@ export const register = asyncHandler(async (req, res) => {
         }
     });
 });
+
+
+
+// Login:
+
+
+export const login = asyncHandler(async(req,res)=>{
+
+    const {username,password} = req.body
+
+
+if(!username || !password){
+res.status(401).json({error:"Please fill both fields!"})
+}
+
+const user = await user.findOne({username});
+const isCorrectPassowrd = await bcrypt.compare(password,user?.password);
+
+if(!user){
+    res.status(400).json({error:"User not found!"})
+}
+if(!isCorrectPassowrd){
+    res.status(400).json({error:"Invalied password!"})
+}
+
+
+
+
+
+
+
+});
