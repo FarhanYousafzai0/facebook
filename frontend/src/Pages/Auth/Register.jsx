@@ -137,7 +137,7 @@ const Register = () => {
                   name="gender"
                   value={gender}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                 
                   className={inputClass('gender')}
                   required
                 >
