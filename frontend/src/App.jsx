@@ -13,14 +13,14 @@ const App = () => {
 
 {/* Home */}
 
-<Route  path='/' element={<Home/>} />
+<Route  path='/home' element={<Home/>} />
 
 
 
           {/* Authentication Routes */}
-          <Route path='/user'>
+          <Route path='/'>
             <Route path='register' element={<Register />} /> {/* Removed the leading `/` */}
-            <Route path='login' element={<Login />} />
+            <Route path='' element={<Login />} />
           </Route>
         </Routes>
       </div>
