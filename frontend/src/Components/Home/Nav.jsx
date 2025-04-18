@@ -7,29 +7,32 @@ const Nav = () => {
   const [focus, setFocus] = useState(false);
 
   return (
-    <div className="flex p-3 justify-between bg-blue-500 rounded-md shadow-md">
+    <div className="flex items-center justify-between p-3 bg-white rounded-md shadow-[0_8px_30px_rgba(0,0,0,0.12)] ">
 
-      {/* Logo & Search Input */}
-      <div className={`flex items-center transition-all duration-300 gap-4 p-2 ${focus ? 'rounded shadow-3xl shadow-blue-300/50 bg-white' : ''}`}>
-        
-        {/* Show back arrow only when focused */}
+      {/* Left Section - Logo & Search */}
+      <div className={`flex items-center gap-3  transition-all rounded-md duration-300 ${focus ? ' p-2 shadow-[0_8px_30px_rgba(0,0,0,0.50)]  ' : ''}`}>
+
+
+
+<img src="https://cdn.freebiesupply.com/logos/large/2x/facebook-logo-2019.png" alt="Logo" className={`w-10 h-10 transition-all duration-200 rounded-full cursor-pointer ${focus ? 'hidden opacity-0 ' : 'flex opacity-100'}`} />
+
         {focus && (
-  <span className="flex items-center justify-center bg-gray-100 rounded-full p-2">
-    <TbArrowLeft
-      className="text-black text-[1.1rem] cursor-pointer"
-      onClick={() => setFocus(false)}
-    />
-  </span>
-)}
+          <span className="flex items-center justify-center bg-gray-100 rounded-full p-2">
+            <TbArrowLeft
+              className="text-black text-[1.1rem] cursor-pointer transition-all duration-300"
+              onClick={() => setFocus(false)}
+            />
+          </span>
+        )}
 
-        <div className="bg-white p-1 rounded-full shadow-md flex items-center">
+        <div className={`bg-gray-100 px-3 py-1 rounded-full shadow-inner flex items-center transition-all duration-300 ${focus ? 'w-full' : ''}`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="2"
             stroke="currentColor"
-            className="w-5 h-5 text-gray-500 ml-3"
+            className="w-5 h-5 text-gray-500"
           >
             <path
               strokeLinecap="round"
@@ -43,28 +46,30 @@ const Nav = () => {
             placeholder="Search Facebook"
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
-            className="w-full p-1 pl-3 outline-none bg-transparent text-gray-700"
+            className="w-full p-1 pl-3 outline-none bg-transparent text-black"
           />
         </div>
       </div>
 
       {/* Center Icons */}
-      <div className='flex items-center gap-10'>
-        <GoHomeFill className="text-white text-2xl cursor-pointer" />
-        <FaUserFriends className="text-white text-2xl cursor-pointer" />
-        <FaVideo className="text-white text-2xl cursor-pointer" />
-        <FaGamepad className="text-white text-2xl cursor-pointer" />
-      </div>
+      
+        <div className='flex items-center gap-8 transition-all duration-300'>
+          <GoHomeFill className="text-black text-2xl cursor-pointer" />
+          <FaUserFriends className="text-black text-2xl cursor-pointer" />
+          <FaVideo className="text-black text-2xl cursor-pointer" />
+          <FaGamepad className="text-black text-2xl cursor-pointer" />
+        </div>
+      
 
-      {/* Right Side Icons */}
-      <div className='flex items-center gap-5'>
-        <span className='flex items-center justify-center bg-white rounded-full p-2'>
+      {/* Right Icons */}
+      <div className={`flex items-center gap-4 ${focus ? 'hidden md:flex' : ''}`}>
+        <span className='flex items-center justify-center bg-gray-100 rounded-full p-2'>
           <TbGridDots className="text-black text-xl cursor-pointer" />
         </span>
-        <span className='flex items-center justify-center bg-white rounded-full p-2'>
+        <span className='flex items-center justify-center bg-gray-100 rounded-full p-2'>
           <FaFacebookMessenger className="text-black text-xl cursor-pointer" />
         </span>
-        <span className='flex items-center justify-center bg-white rounded-full p-2'>
+        <span className='flex items-center justify-center bg-gray-100 rounded-full p-2'>
           <FaBell className="text-black text-xl cursor-pointer" />
         </span>
         <div className="avatar avatar-online">
