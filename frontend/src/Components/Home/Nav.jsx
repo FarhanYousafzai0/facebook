@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaBell, FaFacebookMessenger, FaGamepad, FaUserFriends, FaVideo } from 'react-icons/fa';
 import { GoHomeFill } from "react-icons/go";
 import { TbArrowLeft, TbGridDots } from "react-icons/tb";
+import nav_data from './Data/NavData.jsx';
 
 const Nav = () => {
   const [focus, setFocus] = useState(false);
@@ -53,24 +54,32 @@ const Nav = () => {
 
       {/* Center Icons */}
       
-        <div className='flex items-center gap-8 transition-all duration-300'>
-          <GoHomeFill className="text-black text-2xl cursor-pointer" />
-          <FaUserFriends className="text-black text-2xl cursor-pointer" />
-          <FaVideo className="text-black text-2xl cursor-pointer" />
-          <FaGamepad className="text-black text-2xl cursor-pointer" />
-        </div>
+        <ul className='flex items-center  list-unstyled gap-10 transition-all duration-300'>
+       {nav_data?.map((item,index)=>{
+        return <>
+         <li className='text-gray-600  text-2xl relative  px-10 py-3  rounded-md hover:bg-gray-100  group cursor-pointer' key={index}>{item.icon}
+
+         <span className={`absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200  -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-4 py-1 text-sm`}>{item?.title}</span>
+
+         </li>
+
+
+        
+        </>
+       })}
+        </ul>
       
 
       {/* Right Icons */}
       <div className={`flex items-center gap-4 ${focus ? 'hidden md:flex' : ''}`}>
         <span className='flex items-center justify-center bg-gray-100 rounded-full p-2'>
-          <TbGridDots className="text-black text-xl cursor-pointer" />
+          <TbGridDots className="text-gray-600 text-xl cursor-pointer" />
         </span>
         <span className='flex items-center justify-center bg-gray-100 rounded-full p-2'>
-          <FaFacebookMessenger className="text-black text-xl cursor-pointer" />
+          <FaFacebookMessenger className="text-gray-600 text-xl cursor-pointer" />
         </span>
         <span className='flex items-center justify-center bg-gray-100 rounded-full p-2'>
-          <FaBell className="text-black text-xl cursor-pointer" />
+          <FaBell className="text-gray-600 text-xl cursor-pointer" />
         </span>
         <div className="avatar avatar-online">
           <div className="w-10 rounded-full cursor-pointer">
