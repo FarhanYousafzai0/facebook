@@ -5,7 +5,7 @@ export const menu_data = [
       list: [
         {
           id: 1,
-          image: "/menu_icons/event.png",
+          image: "/menu_icons/events.png",
           heading: "Events",
           desc: "Organize or find events and other things to do online and nearby.",
         },
@@ -23,7 +23,7 @@ export const menu_data = [
         },
         {
           id: 4,
-          image: "/menu_icons/news.png",
+          image: "/menu_icons/News.png",
           heading: "News Feed",
           desc: "See relevant posts from people and Pages that you follow.",
         },
@@ -76,12 +76,7 @@ export const menu_data = [
           heading: "Orders and Payments",
           desc: "A seamless, secure way to pay in the apps you already use.",
         },
-        {
-          id: 11,
-          image: "/menu_icons/marketplace.png",
-          heading: "Marketplace",
-          desc: "Buy and sell in your community.",
-        },
+       
       ],
     },
     {
@@ -90,16 +85,11 @@ export const menu_data = [
       list: [
         {
           id: 12,
-          image: "/menu_icons/recent.png",
+          image: "/menu_icons/recent_ad.png",
           heading: "Recent ad activity",
           desc: "See all of the ads you've interacted with on Facebook.",
         },
-        {
-          id: 13,
-          image: "/menu_icons/memories.png",
-          heading: "Memories",
-          desc: "Browse your old photos, videos and posts on Facebook.",
-        },
+        
         {
           id: 14,
           image: "/menu_icons/saved.png",
@@ -114,7 +104,7 @@ export const menu_data = [
       list: [
         {
           id: 15,
-          image: "/menu_icons/ads.png",
+          image: "/menu_icons/recent_ad.png",
           heading: "Ads Manager",
           desc: "Create,manage and track the performance of your ads",
         },
@@ -150,12 +140,7 @@ export const menu_data = [
           heading: "Meta AI",
           desc: "Ask questions, brainstorm ideas, create any image you can imagine and more.",
         },
-        {
-          id: 20,
-          image: "/menu_icons/kids.png",
-          heading: "Messenger Kids",
-          desc: "Let children message close friends and family.",
-        },
+        
         {
           id: 21,
           image: "/menu_icons/whatsapp.png",

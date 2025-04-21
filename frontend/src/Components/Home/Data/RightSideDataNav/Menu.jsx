@@ -78,7 +78,7 @@ const Menu = () => {
                 {create_data?.map((item, index) => {
                   return (
                     <div key={index}>
-                      <li className="flex gap-2 cursor-pointer hover:bg-gray-200 rounded-md p-1 my-1 capitalize items-center">
+                      <li className="flex gap-2 cursor-pointer hover:bg-gray-200 rounded-md p-1 my-2 capitalize items-center">
                         <div className="h-[30px] text-black  rounded-full w-[30px] bg-gray-300 flex items-center justify-center">
                           {item?.icon}
                         </div>
