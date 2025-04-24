@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Register from './Pages/Auth/Register';
 import Login from './Pages/Auth/Login';
@@ -23,6 +24,8 @@ const App = () => {
             <Route path='' element={<Login />} />
           </Route>
         </Routes>
+
+      <Toaster/>
       </div>
     </Router>
   );

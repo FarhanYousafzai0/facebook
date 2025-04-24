@@ -3,7 +3,7 @@ import { use } from "react";
 
 
 //  Base url for the API
-const BASE_URL = "http://localhost:5000/api/users/";
+const BASE_URL = "http://localhost:8000/api/user/";
 
 
 // Save user data to local storage
@@ -23,3 +23,9 @@ export const registerUser = async(userData)=>{
 
 
 // Login User:
+
+export const loginUser = async(userData)=>{
+const response = await axios.post(`${BASE_URL}login`,userData);
+saveUserData(response.data);
+return response.data;
+}

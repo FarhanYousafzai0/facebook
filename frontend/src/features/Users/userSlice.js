@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser } from "./userService";
+import { loginUser, registerUser } from "./userService";
 
 // Check if user is logged in:
 const isUser = JSON.parse(localStorage.getItem("user")) || null;
@@ -28,6 +28,20 @@ export const registerUserData = createAsyncThunk(
   }
 );
 
+// Async thunk for login user:
+export const loginUserData = createAsyncThunk(
+  "auth/login",
+  async (userData, thunkAPI) => {
+    try {
+      return await loginUser(userData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || "Something went wrong!"
+      );
+    }
+  }
+);
+
 // User slice:
 const userSlice = createSlice({
   name: "auth",
@@ -42,6 +56,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // REGISTER
       .addCase(registerUserData.pending, (state) => {
         state.isLoading = true;
       })
@@ -53,6 +68,25 @@ const userSlice = createSlice({
         state.isError = false;
       })
       .addCase(registerUserData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.payload;
+        state.user = null;
+      })
+
+      // LOGIN
+      .addCase(loginUserData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginUserData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload.user;
+        state.message = action.payload.message;
+        state.isError = false;
+      })
+      .addCase(loginUserData.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

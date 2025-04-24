@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { PiWarningOctagonFill } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { registerUserData, userReset } from '../../features/Users/userSlice';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  
   const [errors, setErrors] = useState({});
   const [formFields, setFormFields] = useState({
     name: '',
@@ -17,6 +22,7 @@ const Register = () => {
     confirmPassword: '',
     gender: '',
   });
+  const { name, username, email, password, confirmPassword, gender } = formFields;
 
   const handleChange = (e) => {
     setFormFields({
@@ -26,8 +32,69 @@ const Register = () => {
 
     if (e.target.value.trim() !== '') {
       setErrors((prev) => ({ ...prev, [e.target.name]: false }));
+
+
     }
-  };
+  }
+
+
+  const {isErrror,isLoading,isSuccess,message} = useSelector((state) => state.auth);
+
+
+useEffect(()=>{
+
+if(isErrror){
+  toast.error(message || "Something went wrong")
+}
+
+if(isSuccess){
+  toast.success(message || "User registered successfully")
+}
+
+disptach(userReset());
+
+
+},[isErrror,isLoading,isSuccess,message])
+
+
+
+
+
+
+
+
+  // Handle form submission
+
+  const disptach = useDispatch();
+  const handleSubmit = (e)=>{
+
+
+    e.preventDefault();
+      const user ={
+        name,
+        username,
+        email,
+        password,
+        confirmPassword,
+        gender,
+      }
+      disptach(registerUserData(user));
+
+
+      setFormFields({
+        name: '',
+        username: '',
+        gender : '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      })
+
+  }
+
+
+
+
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
@@ -37,7 +104,7 @@ const Register = () => {
     }));
   };
 
-  const { name, username, email, password, confirmPassword, gender } = formFields;
+ 
 
   const inputClass = (field) =>
     `block w-full pl-10 pr-10 py-2.5 border ${errors[field] ? 'border-red-500' : 'border-gray-300'} rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 outline-none text-black transition duration-200`;
@@ -207,7 +274,8 @@ const Register = () => {
             {/* Sign Up Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5"
+              onClick={handleSubmit}
+              className="w-full bg-gradient-to-r cursor-pointer from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5"
             >
               Create Account
             </button>

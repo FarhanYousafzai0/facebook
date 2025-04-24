@@ -1,5 +1,5 @@
 import express, { Router } from 'express'
-import { register } from '../Controllers/UserControler.js'
+import { login, register } from '../Controllers/UserControler.js'
 
 
 
@@ -11,7 +11,7 @@ const userRouter = express.Router()
 userRouter.post('/register',register)
 // Login:
 
-
+userRouter.post('/login',login);
 
 // Lougout:
 

@@ -3,6 +3,7 @@ import { FaEnvelope, FaLock, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/f
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 import { PiWarningOctagonFill } from 'react-icons/pi';
+import { useDispatch,useSelector } from 'react-redux';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +34,27 @@ const Login = () => {
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
+
+
+  // Handle form submission
+
+  const dispatch = useDispatch();
+
+  const {isLoading, isError, message,isSuccess} = useSelector((state) => state.auth);
+
+
+  
+
+  
+
+
+
+
+
+
+
+
+
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4'>
