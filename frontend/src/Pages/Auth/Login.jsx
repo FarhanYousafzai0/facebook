@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaLock, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 import { PiWarningOctagonFill } from 'react-icons/pi';
+
 import { useDispatch,useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { loginUserData, userReset } from '../../features/Users/userSlice';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +45,35 @@ const Login = () => {
 
   const {isLoading, isError, message,isSuccess} = useSelector((state) => state.auth);
 
+useEffect(() => {
+
+if(isError){
+  toast.error(message) 
+}
+
+if(isSuccess){
+  toast.success(message || 'Login Successfully!') }
+
+  dispatch(userReset());
+
+
+
+}, [isError, isSuccess, message, dispatch]);
+
+
+
+
+  const handleSubmit = async (e) => {     
+ e.preventDefault();
+ const useDetails = {
+  username,
+  password,
+ }
+
+ dispatch(loginUserData(useDetails));
+
+
+      }
 
   
 
@@ -80,13 +112,13 @@ const Login = () => {
           <form className="space-y-6">
             {/* Email */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Email address</label>
+              <label className="block text-sm font-medium text-gray-700">Username</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FaEnvelope className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  type="email"
+                  type="text"
                   name="username"
                   value={username}
                   onChange={handleChange}
@@ -149,6 +181,7 @@ const Login = () => {
 
             <button
               type="submit"
+              onClick={handleSubmit}
               className="w-full bg-gradient-to-r from-blue-500 cursor-pointer to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5"
             >
               Sign In

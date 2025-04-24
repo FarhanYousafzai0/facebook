@@ -121,29 +121,30 @@ export const register = asyncHandler(async (req, res) => {
 // Login:
 
 
-export const login = asyncHandler(async(req,res)=>{
-
-    const {username,password} = req.body
-
-
-if(!username || !password){
-res.status(401).json({error:"Please fill both fields!"})
-}
-
-const user = await user.findOne({username});
-const isCorrectPassowrd = await bcrypt.compare(password,user?.password);
-
-if(!user){
-    res.status(400).json({error:"User not found!"})
-}
-if(!isCorrectPassowrd){
-    res.status(400).json({error:"Invalied password!"})
-}
-
-
-
-
-
-
-
-});
+export const login = asyncHandler(async (req, res) => {
+    const { username, password } = req.body;
+  
+    if (!username || !password) {
+      return res.status(401).json({ error: "Please fill both fields!" });
+    }
+  
+    const foundUser = await user.findOne({ username });
+  
+    if (!foundUser) {
+      return res.status(400).json({ error: "User not found!" });
+    }
+  
+    const isCorrectPassword = await bcrypt.compare(password, foundUser.password);
+  
+    if (!isCorrectPassword) {
+      return res.status(400).json({ error: "Invalid password!" });
+    }
+  
+    // You can now return user data or token
+    res.status(200).json({
+      message: "Login successful!",
+      user: foundUser,
+      // token: generateToken(foundUser._id) // optionally add token logic
+    });
+  });
+  
