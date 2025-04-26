@@ -1,5 +1,5 @@
 import express, { Router } from 'express'
-import { login, register } from '../Controllers/UserControler.js'
+import { login, otpVerify, register } from '../Controllers/UserControler.js'
 
 
 
@@ -17,5 +17,9 @@ userRouter.post('/login',login);
 
 
 
+
+// Otp Verify:
+
+userRouter.post('/verifyOtp/:user_id', otpVerify);
 
 export default userRouter

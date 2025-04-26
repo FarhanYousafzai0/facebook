@@ -116,9 +116,46 @@ export const register = asyncHandler(async (req, res) => {
     });
 });
 
+// Verfiy otp:
+
+export const otpVerify = asyncHandler(async (req, res) => {
+    const { otp } = req.body;
+    const { user_id } = req.params;
+  
+    if (!otp) {
+      return res.status(401).json({ error: "Please enter OTP!" });
+    }
+  
+    const findUser = await user.findById(user_id);
+  
+    if (!findUser) {
+      return res.status(404).json({ error: "User not found!" });
+    }
+  
+    if (findUser.otp == otp) {
+      findUser.otp = null;
+      await findUser.save();
+  
+      return res.status(200).json({ message: "OTP Verified", user: findUser });
+    } else {
+      return res.status(401).json({ error: "Invalid OTP" });
+    }
+  });
+  
+  
+
+
+
+
+
+
+
+
+
 
 
 // Login:
+
 
 
 export const login = asyncHandler(async (req, res) => {
