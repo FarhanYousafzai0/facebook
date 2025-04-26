@@ -176,10 +176,10 @@ const OTPVerificationPage = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={otp.some((digit) => digit === '') || isLoading}
-                className={`w-full py-3 px-4 rounded-xl font-bold text-white transition-all duration-300 ${
+                className={`w-full py-3 px-4 rounded-xl cursor-pointer font-bold text-white transition-all duration-300 ${
                   otp.some((digit) => digit === '') || isLoading
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-blue-500 to-pink-500 hover:shadow-lg'
+                    : 'bg-gradient-to-r from-blue-500 to-blue-300 hover:shadow-lg'
                 }`}
               >
                 {isLoading ? (
