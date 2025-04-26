@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "./userService";
+import { loginUser, registerUser, verifyOtp } from "./userService";
 
 // Check if user is logged in:
 const isUser = JSON.parse(localStorage.getItem("user")) || null;
@@ -41,6 +41,22 @@ export const loginUserData = createAsyncThunk(
     }
   }
 );
+// otp Verify:
+
+export const otpVerifyData = createAsyncThunk('otpverification',async(otpData,thunkAPI)=>{
+
+  try {
+    return await verifyOtp(otpData)
+  } catch (error) {
+    thunkAPI.rejectWithValue(error.response.data.error);
+  }
+})
+
+
+
+
+
+
 
 // User slice:
 const userSlice = createSlice({
@@ -92,8 +108,26 @@ const userSlice = createSlice({
         state.isSuccess = false;
         state.message = action.payload;
         state.user = null;
+      })
+
+      // OTP VERIFY
+      .addCase(otpVerifyData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(otpVerifyData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+        state.isError = false;
+      })
+      .addCase(otpVerifyData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.payload;
       });
-  },
+}
+
 });
 
 export const { userReset } = userSlice.actions;

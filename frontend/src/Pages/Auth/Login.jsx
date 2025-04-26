@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaLock, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PiWarningOctagonFill } from 'react-icons/pi';
 
 import { useDispatch,useSelector } from 'react-redux';
@@ -44,7 +44,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const {isLoading, isError, message,isSuccess} = useSelector((state) => state.auth);
-
+const navigate = useNavigate()
 useEffect(() => {
 
 if(isError){
@@ -56,6 +56,7 @@ if(isSuccess){
 
   dispatch(userReset());
 
+  navigate('/home')
 
 
 }, [isError, isSuccess, message, dispatch]);

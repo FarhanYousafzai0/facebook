@@ -3,7 +3,7 @@ import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { PiWarningOctagonFill } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { registerUserData, userReset } from '../../features/Users/userSlice';
@@ -40,7 +40,7 @@ const Register = () => {
 
   const {isErrror,isLoading,isSuccess,message} = useSelector((state) => state.auth);
 
-
+const navigate = useNavigate()
 useEffect(()=>{
 
 if(isErrror){
@@ -49,6 +49,9 @@ if(isErrror){
 
 if(isSuccess){
   toast.success(message || "User registered successfully")
+
+navigate('/otp')
+
 }
 
 disptach(userReset());

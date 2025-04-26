@@ -29,3 +29,15 @@ const response = await axios.post(`${BASE_URL}login`,userData);
 saveUserData(response.data);
 return response.data;
 }
+
+
+
+
+
+// Otp verify :
+
+export const verifyOtp = async (otpData) => {
+    const response = await axios.post(`${BASE_URL}/verifyOtp/${otpData?.id}`, otpData);
+    return response.data;
+  }
+  
