@@ -6,7 +6,7 @@ import Ads from '../../Components/Home/Main-content/Ads'
 
 const Home = () => {
   return (
-    <div className='w-screen h-screen relative  bg-[#F2F4F7] text-black '>
+    <div className='w-screen h-[100vh] relative  bg-[#F2F4F7] text-black '>
       <Nav/>
 
 <div className='min-h-[91vh]  grid grid-cols-1 md:grid-cols-12  '>
