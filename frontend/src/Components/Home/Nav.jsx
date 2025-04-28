@@ -7,6 +7,7 @@ import Menu from './Data/RightSideDataNav/Menu.jsx';
 
 const Nav = () => {
   const [focus, setFocus] = useState(false);
+const [openMenu,setOpenMenu] = useState(false);
 
   return (
     <>
@@ -74,10 +75,20 @@ const Nav = () => {
 
 {/* Right Icons */}
 <div className={`flex items-center gap-4 ${focus ? 'hidden md:flex' : ''}`}>
-  <span className='flex items-center justify-center relative group bg-gray-200 rounded-full p-2'>
+  
+
+<span onClick={()=>setOpenMenu(!openMenu)} className='flex items-center justify-center relative group bg-gray-200 rounded-full p-2'>
     <TbGridDots className="text-gray-600 text-xl cursor-pointer" />
+    
     <span className={`absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200  -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-4 py-1 text-sm`}>Menu</span>
+
+    
+  {openMenu && <Menu />}
+
   </span>
+
+
+
   <span className='flex items-center group relative justify-center bg-gray-200 rounded-full p-2'>
     <FaFacebookMessenger className="text-gray-600 text-xl cursor-pointer" />
     
@@ -98,7 +109,8 @@ const Nav = () => {
 </div>
 </div>
     
-    <Menu />
+
+
     </>
   );
 };

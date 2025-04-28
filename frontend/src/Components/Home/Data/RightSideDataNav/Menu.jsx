@@ -7,10 +7,10 @@ import { create_data } from "./MenuData/Create_data";
 const Menu = () => {
   return (
     <>
-      {/* <div className="fixed top-0 left-0 bg-transparent min-h-screen w-full"></div> */}
+      <div className="fixed top-0 left-0 bg-black/15 min-h-screen w-full transition-all duration-300 "></div>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#F8F9FB] absolute w-[650px] mt-2 h-[85vh] right-0 rounded-md overflow-y-scroll shadow-xl  px-4  "
+        className="bg-[#F8F9FB] absolute w-[650px] mt-2 h-[85vh] top-12 right-0 rounded-md overflow-y-scroll shadow-xl  px-4  "
       >
         <h2 className="text-black px-3 z-40 py-3 text-2xl   bg-[#F8F9FB] font-bold sticky top-0">
           Menu
