@@ -6,13 +6,13 @@ import Ads from '../../Components/Home/Main-content/Ads'
 
 const Home = () => {
   return (
-    <div className='w-screen h-screen relative  bg-[#F2F4F7] text-black'>
+    <div className='w-screen h-screen relative  bg-[#F2F4F7] text-black '>
       <Nav/>
 
-<div className='min-h-[91vh]  grid grid-cols-1 md:grid-cols-12 '>
+<div className='min-h-[91vh]  grid grid-cols-1 md:grid-cols-12  '>
 
 {/* Sidebar */}
-<div className='xl:col-span-3 xl:block hidden col-span-12'>
+<div className='xl:col-span-3 xl:block hidden col-span-12 overflow-hidden'>
 <Sidebar/>
 </div>
 
