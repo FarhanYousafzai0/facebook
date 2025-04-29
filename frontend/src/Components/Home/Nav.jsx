@@ -104,16 +104,19 @@ const [openAcount,setOpenAcount] = useState(false);
     <span className={`absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200  -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-4 py-1 text-sm`}>Notifications</span>
   </span>
   <div
-  onClick={()=>setOpenAcount(!openAcount)}
-  className="avatar avatar-online relative group">
-    <div className="w-10 rounded-full cursor-pointer " >
-      <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-      <span className={`absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200  -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-3 py-1 text-sm`}>Account</span>
-    </div>
-
-
-  {openAcount &&   <AccountSetting/>}
+  onClick={() => setOpenAcount(!openAcount)}
+  className="avatar avatar-online relative group"
+>
+  <div className="w-10 rounded-full cursor-pointer">
+    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+    <span className="absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-3 py-1 text-sm">
+      Account
+    </span>
   </div>
+
+  {openAcount && <AccountSetting onClose={() => setOpenAcount(false)} />}
+</div>
+
 </div>
 </div>
     
