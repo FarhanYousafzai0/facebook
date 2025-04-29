@@ -1,44 +1,33 @@
-import mongoose from 'mongoose'
-import user from './UserModel.js'
+import mongoose from 'mongoose';
 
-
-
-
-
-const postSchema = mongoose.Schema({
-    caption:{
-        type:String,
-        required:true,
-    
+const postSchema = new mongoose.Schema({
+  caption: {
+    type: String,
+    required: true,
+  },
+  background: {
+    startColor: {
+      type: String,
+      required: true,
+      default: '#fff',
     },
-    background:{
-        type:Object,
-
-  startColor:{
-    type:String,
-    required:true,
-     default: '#fff'
-  },
-  endColor:{
-type:String,
-required:true,
-default:'#fff'
-  },
-  Image:{
-    type:String,
-    required:true
-  },
-  user_id:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:user
-  }
-
+    endColor: {
+      type: String,
+      required: true,
+      default: '#fff',
     }
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  }
+}, {
+  timestamps: true,
+});
 
-
-
-
-},{timeStamps:true})
-
-
-export const post = mongoose.model('post',postSchema)
+export const Post = mongoose.model('Post', postSchema);
