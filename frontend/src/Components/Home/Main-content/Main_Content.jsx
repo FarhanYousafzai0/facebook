@@ -1,15 +1,11 @@
 import React from 'react'
+import AddPost from './Posts/AddPost'
 
 const Main_Content = () => {
   return (
-    <div className=' h-full p-4 '>
-
-        <div className='flex items-center gap-1'>
-            
-            
-            
-             </div>
-      
+    <div className=' h-full  '>
+<AddPost/>
+        
     </div>
   )
 }
