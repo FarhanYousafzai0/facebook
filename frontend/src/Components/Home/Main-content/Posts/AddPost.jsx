@@ -32,7 +32,7 @@ const AddPost = () => {
         <hr className="my-3 border-gray-200" />
 
         {/* Action Buttons Row */}
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-2 whitespace-nowrap">
           <div className="flex-1 flex items-center justify-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer transition">
             <img src="https://static.xx.fbcdn.net/rsrc.php/v4/yr/r/c0dWho49-X3.png" alt="Live Video" width={20} />
             <span className="text-gray-600 font-medium text-sm">Live Video</span>

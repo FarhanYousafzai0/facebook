@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from '@mui/material/Avatar';
-
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaUser, FaSmile, FaMapMarkerAlt, FaUserTag, FaImage, FaLayerGroup, FaUserFriends, FaArrowCircleDown, FaArrowDown } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoHappyOutline } from "react-icons/io5";
+import { MdArrowBackIosNew } from "react-icons/md";
+import { colors } from "./PostData/colorsData";
+import { Tooltip } from "@mui/material";
+
+
+
+
+
+
 
 const AddPostModal = ({ isOpen, onClose }) => {
+
+    const [OpenColor,setOpenColor] = useState(false);
+
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -20,7 +32,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white rounded-lg shadow-xl w-full max-w-[35%] overflow-hidden"
+            className="bg-white rounded-lg shadow-xl w-[90%] md:max-w-[35%] overflow-hidden"
           >
             {/* Header */}
          <div className="flex items-center justify-center py-3">
@@ -58,12 +70,53 @@ rows={5}
 
 {/* Backgrounds-images and emjoes */}
 
-<div className="flex items-center justify-between">
-<div className="cursor-pointer  rounded-md h-[45px] w-[45px]">
-    <img width={100} src="https://www.facebook.com/images/composer/SATP_Aa_square-2x.png" alt="" />
+<div className="flex items-center  h-[50px] justify-between">
+
+
+
+{OpenColor ? (
+<>
+<div onClick={()=>setOpenColor(false)}  className="cursor-pointer bg-gray-300  flex items-center justify-center rounded-md h-[35px] w-[35px]">
+
+<MdArrowBackIosNew />
 </div>
-<div className="cursor-pointer  rounded-md ">
-<IoHappyOutline className="text-gray-400 text-2xl" />
+
+</>
+
+) : (
+<>
+<div onClick={()=>setOpenColor(true)}  className="cursor-pointer  rounded-md ">
+    <img className="h-[45px] w-[45px]" src="https://www.facebook.com/images/composer/SATP_Aa_square-2x.png" alt="" />
+</div></>
+)}
+
+
+{OpenColor && colors.map((item, index) => (
+  <motion.div
+    key={index}
+
+    initial={{scale:0,rotate:0}}
+    animate={{scale:1,rotate:360}}
+    transition={{delay : index * 0.1,duration :0.3,stiffness:200,type:'spring'
+        ,staggerChildren:1
+    }}
+    className="h-[35px] w-[35px] rounded-md cursor-pointer border border-gray-300"
+    style={{
+      background: item.image
+        ? `url(${item.image}) center/cover`
+        : `linear-gradient(135deg, ${item.startColor}, ${item.endColor})`,
+    }}
+    whileHover={{ scale: 1.1 }}
+  />
+))}
+
+
+
+
+
+
+<div className="cursor-pointer  rounded-md hover:animate-pulse ">
+<IoHappyOutline size={30} className="text-gray-400 " />
 </div>
 
 
@@ -75,6 +128,27 @@ rows={5}
 <div className="rounded-md w-full p-4 flex items-center border-gray-300 justify-between border-[0.1em] my-2">
 
 <p className="font-semibold">Add to your post</p>
+
+
+<div className="flex items-center gap-3">
+    <Tooltip title="Photo/video" arrow>
+    <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/y7/r/Ivw7nhRtXyo.png" alt=""/>
+    </Tooltip>
+    <Tooltip title="Tag people" arrow>
+    <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/yq/r/b37mHA1PjfK.png" alt=""/>
+    </Tooltip>
+    <Tooltip title="Feeling/activity" arrow>
+    <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/yd/r/Y4mYLVOhTwq.png" alt=""/>
+    </Tooltip>
+    <Tooltip title="Check in" arrow>
+    <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/y1/r/8zlaieBcZ72.png" alt=""/>
+    </Tooltip>
+    <Tooltip title="GIF" arrow>
+    <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/yT/r/q7MiRkL7MLC.png" alt=""/>
+    </Tooltip>
+</div>
+
+
 
 </div>
 
