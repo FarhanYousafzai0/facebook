@@ -14,12 +14,10 @@ const [openAcount,setOpenAcount] = useState(false);
 
   return (
     <>
-<div className="flex items-center justify-between p-2 bg-white rounded-md shadow-[0_8px_30px_rgba(0,0,0,0.12)] ">
+<div className="flex items-center justify-between p-2 bg-white h-[70px]  shadow-[0_8px_30px_rgba(0,0,0,0.12)] ">
 
 {/* Left Section - Logo & Search */}
 <div className={`flex items-center gap-3  transition-all rounded-md duration-300 ${focus ? ' p-2 shadow-[0_8px_30px_rgba(0,0,0,0.50)]  ' : ''}`}>
-
-
 
 <img src="https://cdn.freebiesupply.com/logos/large/2x/facebook-logo-2019.png" alt="Logo" className={`w-10 h-10 transition-all duration-200 rounded-full cursor-pointer ${focus ? 'hidden opacity-0 ' : 'flex opacity-100'}`} />
 
@@ -63,7 +61,7 @@ const [openAcount,setOpenAcount] = useState(false);
   <ul className='flex items-center  list-unstyled gap-10 transition-all duration-300'>
  {nav_data?.map((item,index)=>{
   return <>
-   <li className='text-gray-600  text-2xl relative  px-10 py-3  rounded-md hover:bg-gray-100  group cursor-pointer' key={index}>{item.icon}
+   <li className='text-gray-600  text-2xl relative  px-7 py-3  rounded-md hover:bg-gray-100  group cursor-pointer' key={index}>{item.icon}
 
    <span className={`absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200  -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-4 py-1 text-sm`}>{item?.title}</span>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaUser, FaSmile, FaMapMarkerAlt, FaUserTag, FaImage, FaLayerGroup, FaUserFriends, FaArrowCircleDown, FaArrowDown } from "react-icons/fa";
@@ -7,6 +7,7 @@ import { IoHappyOutline } from "react-icons/io5";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { colors } from "./PostData/colorsData";
 import { Tooltip } from "@mui/material";
+import { useSelector } from "react-redux";
 
 
 
@@ -16,8 +17,11 @@ import { Tooltip } from "@mui/material";
 
 const AddPostModal = ({ isOpen, onClose }) => {
 
+    const { user } = useSelector((state) => state.auth);
+    
     const [OpenColor,setOpenColor] = useState(false);
 
+  
 
   return (
     <AnimatePresence>
@@ -50,7 +54,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
   sx={{ width: 46, height: 46 }}
 />
 <div className="flex flex-col gap-1 items-start ">
-<p className="text-sm m-0 font-semibold">Farhan Yousafzai</p>
+<p className="text-sm m-0 font-semibold">{user?.name}</p>
 
 <span className="m-0 text-sm font-semibold cursor-pointer bg-gray-200 p-1 rounded ">
     <div className="flex items-center justify-center gap-[3px]">

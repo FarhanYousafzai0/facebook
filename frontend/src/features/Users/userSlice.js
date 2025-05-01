@@ -2,11 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginUser, registerUser, verifyOtp } from "./userService";
 
 // Check if user is logged in:
-const isUser = JSON.parse(localStorage.getItem("user")) || null;
-
-// Initial state:
+const storedUser = JSON.parse(localStorage.getItem("user"));
 const initialState = {
-  user: isUser,
+  user: storedUser || null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -19,7 +17,10 @@ export const registerUserData = createAsyncThunk(
   "auth/registerUser",
   async (userData, thunkAPI) => {
     try {
-      return await registerUser(userData);
+      const response = await registerUser(userData);
+      // Save user to localStorage
+      localStorage.setItem("user", JSON.stringify(response.user));
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.error || "Something went wrong!"
@@ -33,7 +34,10 @@ export const loginUserData = createAsyncThunk(
   "auth/login",
   async (userData, thunkAPI) => {
     try {
-      return await loginUser(userData);
+      const response = await loginUser(userData);
+      // Save user to localStorage
+      localStorage.setItem("user", JSON.stringify(response.user));
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.error || "Something went wrong!"
@@ -41,22 +45,19 @@ export const loginUserData = createAsyncThunk(
     }
   }
 );
-// otp Verify:
 
-export const otpVerifyData = createAsyncThunk('otpverification',async(otpData,thunkAPI)=>{
-
-  try {
-    return await verifyOtp(otpData)
-  } catch (error) {
-    thunkAPI.rejectWithValue(error.response.data.error);
+// OTP Verify
+export const otpVerifyData = createAsyncThunk(
+  "otpverification",
+  async (otpData, thunkAPI) => {
+    try {
+      const response = await verifyOtp(otpData);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.error);
+    }
   }
-})
-
-
-
-
-
-
+);
 
 // User slice:
 const userSlice = createSlice({
@@ -68,6 +69,15 @@ const userSlice = createSlice({
       state.isSuccess = false;
       state.isLoading = false;
       state.message = "";
+    },
+    logoutUser: (state) => {
+      // Clear user data from Redux state and localStorage
+      state.user = null;
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.message = "";
+      localStorage.removeItem("user"); // Remove from localStorage
     },
   },
   extraReducers: (builder) => {
@@ -126,9 +136,8 @@ const userSlice = createSlice({
         state.isSuccess = false;
         state.message = action.payload;
       });
-}
-
+  },
 });
 
-export const { userReset } = userSlice.actions;
+export const { userReset, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
