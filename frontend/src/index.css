@@ -16,23 +16,29 @@
   }
 
   /* Scrollbar hidden by default */
-.scrollbar-hidden::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scrollbar-hidden::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  border-radius: 10px;
-}
-
-/* Scrollbar visible on hover */
-.scrollbar-visible::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-}
-
-/* Optional smooth transition */
-.scrollbar-hidden::-webkit-scrollbar-thumb,
-.scrollbar-visible::-webkit-scrollbar-thumb {
-  transition: background-color 0.3s;
-}
+  .hide-scrollbar::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  
+  .hide-arrows::-webkit-scrollbar {
+    width: 0;
+  }
+  
+  .bg-image {
+    background-size: 100% 100% !important;
+    background-position: 100% 100% !important;
+  }
+  
+  .hr {
+    height: 1px !important;
+    background-color: #e5e7eb !important;
+    border: none !important;
+    margin: 0.5rem 0;
+  }
+  
+  .post-caption::placeholder {
+    font-size: 1.5rem !important;
+  }
+  .post-caption {
+    resize: none;
+  }

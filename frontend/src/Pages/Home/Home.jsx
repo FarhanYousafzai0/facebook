@@ -14,7 +14,7 @@ const Home = () => {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         
         {/* Sidebar (shown on lg and up) */}
-        <div className="hidden lg:block lg:col-span-3 h-full sticky top-[64px] overflow-y-auto">
+        <div className="hidden lg:block lg:col-span-3 h-full sticky top-[64px] overflow-y-auto hide-scrollbar">
           <Sidebar />
         </div>
 

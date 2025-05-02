@@ -8,12 +8,18 @@ import { colors } from "./PostData/colorsData";
 import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addPostData, postReset } from "../../../../features/Posts/postSlice";
+import { IoArrowBack } from "react-icons/io5";
+
+import colors_data from "./PostData/decorative";
 
 const AddPostModal = ({ isOpen, onClose }) => {
   const { user } = useSelector((state) => state.auth);
+  const { postError, postSuccess } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+
   const [OpenColor, setOpenColor] = useState(false);
   const [changed, setChanged] = useState(false);
-  const [showSecondModal,setShowSecondModal] = useState(true)
+  const [postContent, setPostContent] = useState("");
   const [selectedColor, setSelectedColor] = useState({
     startColor: '#fff',
     endColor: '#fff',
@@ -22,31 +28,38 @@ const AddPostModal = ({ isOpen, onClose }) => {
 
   const { startColor, endColor, image } = selectedColor;
 
-  const { postError, postSuccess } = useSelector((state) => state.post);
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    if (postError) {
-      // Handle errors
-    }
     if (postSuccess) {
-      // Handle success
+      // Reset modal and close it
+      setPostContent("");
+      setSelectedColor({ startColor: "#fff", endColor: "#fff", image: "" });
+      setChanged(false);
+      setOpenColor(false);
+      onClose();
     }
     dispatch(postReset());
   }, [postError, postSuccess]);
 
   const handlePostSumbit = () => {
-    dispatch(addPostData());
+    if (!postContent.trim()) return;
+
+    dispatch(addPostData({
+      text: postContent,
+      background: {
+        startColor,
+        endColor,
+        image
+      },
+      author: user?.user?._id
+    }));
   };
 
   return (
+    <>
     <AnimatePresence>
       {isOpen && (
-       <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 bg-opacity-50 ">
-
-
+        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 bg-opacity-50">
           <motion.div
-
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -55,8 +68,9 @@ const AddPostModal = ({ isOpen, onClose }) => {
             className="bg-white rounded-lg shadow-xl w-full md:max-w-[35%] overflow-hidden relative"
           >
             {/* Header */}
-            <div className="flex items-center justify-center py-3">
+            <div className="flex items-center justify-center py-3 relative">
               <h2 className="text-[1.4rem] font-bold">Create Post</h2>
+              <button onClick={onClose} className="absolute right-4 text-gray-600 text-xl font-bold">×</button>
             </div>
             <hr className="text-gray-300" />
 
@@ -78,17 +92,19 @@ const AddPostModal = ({ isOpen, onClose }) => {
 
               {/* Text Area */}
               <textarea
+                value={postContent}
+                onChange={(e) => setPostContent(e.target.value)}
                 style={{
                   background: startColor === ''
                     ? `url(${image})`
                     : `linear-gradient(to right, ${startColor}, ${endColor})`,
                   backgroundSize: "cover",
-                  backgroundPosition:"center"
+                  backgroundPosition: "center"
                 }}
                 className={`w-full outline-0 text-2xl my-2 rounded-md ${changed ? 'text-white font-semibold' : ''}`}
                 rows={changed ? 10 : 5}
                 placeholder={`What's on your mind? ${user?.user?.username}`}
-              ></textarea>
+              />
 
               {/* Backgrounds */}
               <div className="flex items-center h-[50px] justify-between">
@@ -168,33 +184,73 @@ const AddPostModal = ({ isOpen, onClose }) => {
             </div>
 
 
+
             <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="absolute top-0 left-0 w-full h-full  bg-white z-40  overflow-y-scroll">
- 
+    className="absolute top-0 left-0 w-full h-full transition-all duration-200 delay-100  bg-white z-40  overflow-y-scroll">
 
- 
+      <span className="flex items-center justify-center cursor-pointer absolute left-5 top-4 bg-gray-200 w-[40px] h-[40px] rounded-full"><IoArrowBack/>  </span>
+
     <div className=" text-center p-4 ">
       <h2 className="text-xl font-bold">Choose background</h2>
     </div>
+    <hr className="hr"></hr>
+  
+  {colors_data?.map((item,index)=>{
+
+  return <>
    
+   <h3 className="font-semibold text-xl p-4 capitalize">{item.title}</h3>  
+
+
+
+   {/* Colors */}
+   <div className="grid grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5 px-3 gap-3   ">
+
+
+
+
+
+  {item?.list.map((item2,index2)=>{
+
+
+ return  <>
+ 
+ <motion.div 
+ initial={{opacity:0,scale:0,}}
+ animate={{opacity:100,scale:1,}}
+ transition={{delay:index2 * 0.2,duration:0.3, stiffness:200}}
+ whileTap={{scale:0.9}}
+ 
+ key={index2} style={{background:index == 2 ? item2 : `url(${item2.image})`,
+  backgroundPosition:'center center',
+  backgroundSize:'100% 100%'
+ }} className="h-[80px] rounded-xl shadow cursor-pointer "></motion.div>
+ </>
+
+  })}
+
+</div>
+  </>
+
+
+
+
+
+  })}
+
+
+
   </motion.div>
-
           </motion.div>
-
-          
-
-          
-       
-
-
-
-
         </div>
       )}
     </AnimatePresence>
+    
+    
+    </>
   );
 };
 

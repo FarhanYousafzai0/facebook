@@ -6,7 +6,7 @@ const colors_data = [
         {
           id: 1,
           image:
-            "https://scontent.fisb17-1.fna.fbcdn.net/v/t39.10873-6/370171230_1369831523929758_6287117873899340451_n.jpg?stp=dst-jpg_p32x32_tt6&_nc_cat=1&ccb=1-7&_nc_sid=427b5c&_nc_ohc=CQPVVPAWw8EQ7kNvwHAgFmH&_nc_oc=Adnc56F4mvjiGJ4aAXVsQyuml85vqoUmOGQRX0ri65uQk-i08vsiVyZ_4Q8S93unPUQDfE-n_yX8XrVLxbs7IRz8&_nc_zt=14&_nc_ht=scontent.fisb17-1.fna&_nc_gid=hkdCP_TV2isLoSJIT37bHA&oh=00_AfF8W8sL5N88JdUEK1mXKDUu63CGbt5d_x0Rqomr4W2W3A&oe=67FEB092",
+            "https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2020/02/Usign-Gradients-Featured-Image.jpg?resize=1250,1120",
         },
         {
           id: 2,
