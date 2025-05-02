@@ -6,32 +6,29 @@ import Ads from '../../Components/Home/Main-content/Ads'
 
 const Home = () => {
   return (
-    <div className='w-screen h-[100vh] relative  bg-[#F2F4F7] text-black '>
-      <Nav/>
+    <div className='w-screen h-screen bg-[#F2F4F7] text-black flex flex-col overflow-hidden'>
+      {/* Navbar */}
+      <Nav />
 
-<div className='min-h-[91vh]  grid grid-cols-1 md:grid-cols-12  '>
+      {/* Main layout area */}
+      <div className='flex-1 grid grid-cols-1 md:grid-cols-12 overflow-hidden'>
 
-{/* Sidebar */}
-<div className='xl:col-span-3 xl:block hidden col-span-12 overflow-hidden'>
-<Sidebar/>
-</div>
+        {/* Sidebar - Sticky / Fixed */}
+        <div className='xl:col-span-3 md:col-span-4 hidden md:block h-full sticky top-[64px] overflow-y-auto'>
+          <Sidebar />
+        </div>
 
+        {/* Main Content - Scrollable */}
+        <div className='xl:col-span-6 md:col-span-8 col-span-12 h-full overflow-y-auto'>
+          <Main_Content />
+        </div>
 
-{/* Main-Content */}
+        {/* Ads - Sticky / Fixed */}
+        <div className='xl:col-span-3 md:col-span-4 hidden md:block h-full sticky top-[64px] overflow-y-auto'>
+          <Ads />
+        </div>
 
-<div className='xl:col-span-6 md:col-span-8 col-span-12'>
-<Main_Content/>
-</div>
-
-
-{/* Ads section */}
-<div className='xl:col-span-3 md:col-span-4 md:block hidden '>
-<Ads/>
-</div>
-
-</div>
-
-
+      </div>
     </div>
   )
 }

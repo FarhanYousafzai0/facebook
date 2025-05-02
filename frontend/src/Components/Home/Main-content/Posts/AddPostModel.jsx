@@ -7,7 +7,7 @@ import { IoHappyOutline } from "react-icons/io5";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { colors } from "./PostData/colorsData";
 import { Tooltip } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -18,8 +18,28 @@ import { useSelector } from "react-redux";
 const AddPostModal = ({ isOpen, onClose }) => {
 
     const { user } = useSelector((state) => state.auth);
-    
     const [OpenColor,setOpenColor] = useState(false);
+
+    const {} = useSelector((state)=>state.post)
+    const dispatch = useDispatch();
+
+
+
+// To Check the States:
+
+useEffect(()=>{
+    
+})
+
+
+
+
+    // Handle-Sumbit-Post
+    const handlePostSumbit = ()=>{
+
+
+
+    }
 
   
 
@@ -159,7 +179,9 @@ rows={5}
 
 {/* Post-button */}
 
-<button type="submit" className="w-full p-2 rounded-md text-white cursor-pointer hover:bg-blue-500 transition-all bg-blue-600">Post</button>
+<button
+onClick={()=>handlePostSumbit()}
+type="submit" className="w-full p-2 rounded-md text-white cursor-pointer hover:bg-blue-500 transition-all bg-blue-600">Post</button>
 
 
 
