@@ -43,6 +43,7 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         postReset: (state) => {
+            
             state.postError = false;
             state.postLoading = false;
             state.postMessage = '';

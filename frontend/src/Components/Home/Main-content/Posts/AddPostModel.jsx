@@ -17,10 +17,16 @@ import { addPostData, postReset } from "../../../../features/Posts/postSlice";
 
 
 const AddPostModal = ({ isOpen, onClose }) => {
-
     const { user } = useSelector((state) => state.auth);
     const [OpenColor,setOpenColor] = useState(false);
-  
+  const [changed,setChanged] = useState(false);
+
+    const [selectedColor,setSelectedColor] = useState({
+startColor:'#fff',
+endColor:'#fff',
+image:''
+    })
+    const {startColor,endColor} = selectedColor;
 
 
 
@@ -95,11 +101,15 @@ dispatch(postReset());
      </div>
 {/* Text-area */}
 <textarea 
-className="w-full outline-0 text-2xl my-2"
-placeholder={ `What's on your mind?${user?.user?.username}`}
-rows={5}
+style={{ background: `linear-gradient(to right, ${startColor}, ${endColor})` }}
+className={`w-full outline-0 text-2xl my-2 rounded-md ${changed ? 'text-white font-semibold flex items-center ' : ''} `}
+rows={changed ? 10 : 5}
+placeholder={`What's on your mind? ${user?.user?.username}`}
 
-></textarea>
+>
+
+
+</textarea>
 
 {/* Backgrounds-images and emjoes */}
 
@@ -127,7 +137,17 @@ rows={5}
 {OpenColor && colors.map((item, index) => (
   <motion.div
     key={index}
+    onClick={() =>{
 
+      setSelectedColor({
+        endColor: item.endColor,
+        startColor: item.startColor,
+      });
+     index == 0 ? ( setChanged(false)) : ( setChanged(true))
+    }
+
+      
+    }
     initial={{scale:0,rotate:0}}
     animate={{scale:1,rotate:360}}
     transition={{delay : index * 0.1,duration :0.3,stiffness:200,type:'spring'
