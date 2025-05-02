@@ -10,3 +10,11 @@ const response = await axios.post(`${URL}/addPost/${postData.user_id}`,postData)
 return response.data
 
 }
+
+
+
+export const getallPost = async()=>{
+    const response = axios.post(`${URL}/get-all-posts`,)
+    return response.data
+
+}

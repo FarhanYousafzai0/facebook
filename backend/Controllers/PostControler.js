@@ -15,12 +15,19 @@ export const postData = asyncHandler(async (req, res) => {
     const newPost = await Post.create({
         caption,
         background,
-        image: background.image, // assuming image is inside background
         user_id
     });
 
-    res.status(200).json({
-        message: 'Post added successfully!',
-        post: newPost
-    });
+    res.status(200).send(newPost);
 });
+
+
+
+export const getPost = asyncHandler(async(req,res)=>{
+
+    const allPost = await Post.find().sort({createdAt:-1});
+
+res.status(200).json(allPost);
+
+
+})

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addPost } from './postService';
+import { addPost, getallPost } from './postService';
 
 
 // Initial State
@@ -22,7 +22,21 @@ export const addPostData = createAsyncThunk('post/addPost', async (postData, thu
     }
 });
 
+// export 
 
+export const getFacebookPost = createAsyncThunk(
+    'posts/getFacebookPost',
+    async (_, thunkAPI) => {
+      try {
+        const posts = await getAllPosts();
+        return posts;
+      } catch (error) {
+        return thunkAPI.rejectWithValue(
+          error?.response?.data?.error || 'Posts not found!'
+        );
+      }
+    }
+  );
 // Create Slice
 const postSlice = createSlice({
     name: 'post',

@@ -8,6 +8,7 @@ import { MdArrowBackIosNew } from "react-icons/md";
 import { colors } from "./PostData/colorsData";
 import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { addPostData, postReset } from "../../../../features/Posts/postSlice";
 
 
 
@@ -19,17 +20,25 @@ const AddPostModal = ({ isOpen, onClose }) => {
 
     const { user } = useSelector((state) => state.auth);
     const [OpenColor,setOpenColor] = useState(false);
-
-    const {} = useSelector((state)=>state.post)
-    const dispatch = useDispatch();
+  
 
 
 
 // To Check the States:
-
+const {post,postLoading,postError,postMessage,postSuccess} = useSelector((state)=>state.post)
+const dispatch = useDispatch();
 useEffect(()=>{
-    
-})
+    if(postError){
+
+    }
+
+    if(postSuccess){
+
+    }
+dispatch(postReset());
+
+
+},[postError,postSuccess,])
 
 
 
@@ -37,7 +46,7 @@ useEffect(()=>{
     // Handle-Sumbit-Post
     const handlePostSumbit = ()=>{
 
-
+   dispatch(addPostData());
 
     }
 
@@ -56,7 +65,7 @@ useEffect(()=>{
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white rounded-lg shadow-xl w-[90%] md:max-w-[35%] overflow-hidden"
+            className="bg-white rounded-lg shadow-xl w-[100%] md:max-w-[35%] overflow-hidden"
           >
             {/* Header */}
          <div className="flex items-center justify-center py-3">
