@@ -3,9 +3,11 @@ import { FaUser } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 import AddPostModal from "./AddPostModel";
+import { useSelector } from "react-redux";
 
 const AddPost = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {user} = useSelector((state)=>state.auth)
 
   return (
     <>
@@ -22,7 +24,7 @@ const AddPost = () => {
           </div>
           <input
             type="text"
-            placeholder="What's on your mind?"
+            placeholder={`What's on your mind? ${user?.user?.username}`}
             className="flex-1 px-4 py-2 cursor-pointer hover:bg-gray-200 rounded-full bg-gray-100 border border-gray-300 text-gray-700 focus:outline-none"
             onClick={() => setIsModalOpen(true)}
             readOnly

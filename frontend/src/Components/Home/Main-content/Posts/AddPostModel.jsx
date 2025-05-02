@@ -49,12 +49,12 @@ const AddPostModal = ({ isOpen, onClose }) => {
 {/* User-info */}
 <div className="flex items-center gap-2 my-2">
 <Avatar
-  alt="Remy Sharp"
-  src="/static/images/avatar/1.jpg"
+//   alt="Remy Sharp"
+  src={`${user?.user?.profilePic}`}
   sx={{ width: 46, height: 46 }}
 />
 <div className="flex flex-col gap-1 items-start ">
-<p className="text-sm m-0 font-semibold">{user?.name}</p>
+<p className="text-sm m-0 font-semibold ">{user?.user?.username || 'Guest'} </p>
 
 <span className="m-0 text-sm font-semibold cursor-pointer bg-gray-200 p-1 rounded ">
     <div className="flex items-center justify-center gap-[3px]">
@@ -67,7 +67,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
 {/* Text-area */}
 <textarea 
 className="w-full outline-0 text-2xl my-2"
-placeholder="What's on your mind?"
+placeholder={ `What's on your mind?${user?.user?.username}`}
 rows={5}
 
 ></textarea>

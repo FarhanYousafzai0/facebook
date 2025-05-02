@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { menu_data } from '../Data/RightSideDataNav/MenuData/MenuData';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5'; // Icons for up/down arrow
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
+  const {user} = useSelector((state)=>state.auth)
   const visibleItems = showAll ? menu_data : menu_data.slice(0, 2);
 
   return (
@@ -17,14 +19,13 @@ const Sidebar = () => {
           <div className="avatar avatar-online relative group">
             <div className="w-10 rounded-full cursor-pointer">
               <img
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                alt="profile"
+  src={`${user?.user?.profilePic}`}                alt="profile"
               />
             </div>
           </div>
 
           {/* Username */}
-          <p className="font-semibold text-sm">Username</p>
+          <p className="font-semibold text-sm">{user?.user?.username}</p>
         </div>
 
         {/* Menu List */}

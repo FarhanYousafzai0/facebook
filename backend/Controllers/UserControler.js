@@ -45,8 +45,7 @@ export const register = asyncHandler(async (req, res) => {
     });
 
     res.status(201).json({
-        message: "User registered successfully!",
-        user: newUser
+        user:newUser
     });
 
     // Sending OTP
