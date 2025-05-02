@@ -13,6 +13,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
   const { user } = useSelector((state) => state.auth);
   const [OpenColor, setOpenColor] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [showSecondModal,setShowSecondModal] = useState(true)
   const [selectedColor, setSelectedColor] = useState({
     startColor: '#fff',
     endColor: '#fff',
@@ -41,14 +42,17 @@ const AddPostModal = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 bg-opacity-50">
+       <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 bg-opacity-50 ">
+
+
           <motion.div
+
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white rounded-lg shadow-xl w-full md:max-w-[35%] overflow-hidden"
+            className="bg-white rounded-lg shadow-xl w-full md:max-w-[35%] overflow-hidden relative"
           >
             {/* Header */}
             <div className="flex items-center justify-center py-3">
@@ -162,7 +166,32 @@ const AddPostModal = ({ isOpen, onClose }) => {
                 Post
               </button>
             </div>
+
+
+            <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="absolute top-0 left-0 w-full h-full  bg-white z-40  overflow-y-scroll">
+ 
+
+ 
+    <div className=" text-center p-4 ">
+      <h2 className="text-xl font-bold">Choose background</h2>
+    </div>
+   
+  </motion.div>
+
           </motion.div>
+
+          
+
+          
+       
+
+
+
+
         </div>
       )}
     </AnimatePresence>
