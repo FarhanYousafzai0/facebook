@@ -6,6 +6,7 @@ import nav_data from './Data/NavData.jsx';
 import Menu from './Data/RightSideDataNav/Menu.jsx';
 import AccountSetting from './Main-content/AccountSetting.jsx';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Nav = () => {
   const [focus, setFocus] = useState(false);
@@ -22,11 +23,14 @@ const Nav = () => {
         <div className="flex items-center gap-2 md:gap-3 flex-1 md:flex-none">
           <div className={`flex items-center transition-all duration-300 rounded-md ${focus ? 'p-2 shadow-[0_8px_30px_rgba(0,0,0,0.12)] bg-white w-full' : ''}`}>
             {!focus && (
-              <img 
+              <Link to='/home'>
+
+<img 
                 src="https://cdn.freebiesupply.com/logos/large/2x/facebook-logo-2019.png" 
                 alt="Logo" 
                 className="w-10 h-10 rounded-full cursor-pointer"
               />
+              </Link>
             )}
             
             {focus && (
@@ -114,7 +118,7 @@ const Nav = () => {
             className="avatar avatar-online relative group"
           >
             <div className="w-9 h-9 rounded-full cursor-pointer overflow-hidden">
-              <img src={`${user?.user?.profilePic}`} alt="Profile" className="w-full h-full object-cover"/>
+              <img src={`${user?.profilePic}`} alt="Profile" className="w-full h-full object-cover"/>
               <span className="absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-2 py-1 text-xs whitespace-nowrap">
                 Account
               </span>

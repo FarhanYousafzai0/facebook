@@ -21,12 +21,12 @@ const AddPost = () => {
         <div className="flex items-center gap-3 mb-4">
         <div className="w-10 rounded-full cursor-pointer">
               <img
-  src={`${user?.user?.profilePic}`}                alt="profile"
+  src={`${user?.profilePic}`}                alt="profile"
               />
             </div>
           <input
             type="text"
-            placeholder={`What's on your mind? ${user?.user?.username}?`}
+            placeholder={`What's on your mind? ${user?.username}?`}
             className="flex-1 px-4 py-2 cursor-pointer hover:bg-gray-200 rounded-full bg-gray-100 border border-gray-300 text-gray-700 focus:outline-none"
             onClick={() => setIsModalOpen(true)}
             readOnly

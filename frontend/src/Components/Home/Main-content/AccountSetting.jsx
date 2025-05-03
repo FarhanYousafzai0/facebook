@@ -24,12 +24,12 @@ const AccountSetting = ({ onClose }) => {
             <div className="avatar avatar-online relative">
               <div className="w-10 rounded-full overflow-hidden">
                 <img
-                   src={`${user?.user?.profilePic}`}
+                   src={`${user?.profilePic}`}
                   alt="profile"
                 />
               </div>
             </div>
-            <p className="font-semibold text-sm">{user?.user?.username}</p>
+            <p className="font-semibold text-sm">{user?.username}</p>
           </div>
 
           <hr className="my-4 text-gray-300" />

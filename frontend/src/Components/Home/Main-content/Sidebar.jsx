@@ -3,6 +3,7 @@ import { menu_data } from '../Data/RightSideDataNav/MenuData/MenuData';
 import { motion } from "framer-motion";
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -17,12 +18,12 @@ const Sidebar = () => {
       <div className="flex items-center gap-2 mb-6">
         <div className="w-10 h-10 rounded-full overflow-hidden">
           <img
-            src={user?.user?.profilePic}
+            src={user?.profilePic}
             alt="profile"
             className="object-cover w-full h-full"
           />
         </div>
-        <p className="font-semibold text-sm">{user?.user?.username}</p>
+        <p className="font-semibold text-sm">{user?.username}</p>
       </div>
 
       {/* Menu List */}
@@ -36,8 +37,9 @@ const Sidebar = () => {
         {visibleItems.map((item, index) => (
           <div key={index} className="space-y-1">
             {item?.list?.map((item2, index2) => (
-              <motion.div
-                key={index2}
+             <Link to="/climatecenterinfo" key={index2}>
+               <motion.div
+               
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index2 * 0.05, duration: 0.2 }}
@@ -46,6 +48,7 @@ const Sidebar = () => {
                 <img src={item2?.image} width={40} alt="icon" className="rounded-full" />
                 <h5 className="text-sm font-medium">{item2?.heading}</h5>
               </motion.div>
+             </Link>
             ))}
           </div>
         ))}

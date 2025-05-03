@@ -31,6 +31,13 @@ title:"Games",
 icon: <FaGamepad />,
 path: "/game",
 
+    },{
+    id:5,
+title:"Groups",
+icon: <FaUserFriends />,
+
+path: "/groups",
+
     },
 ]
 
