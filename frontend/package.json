@@ -17,6 +17,8 @@
     "@tailwindcss/postcss": "^4.0.13",
     "axios": "^1.8.4",
     "deepmerge": "^4.3.1",
+    "echarts": "^5.6.0",
+    "echarts-for-react": "^3.0.2",
     "framer-motion": "^12.9.2",
     "gsap": "^3.12.7",
     "install": "^0.13.0",

@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import Nav from '../../Components/Home/Nav'
 import { MdGppGood, MdPersonAddAlt } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { IoIosInformationCircleOutline, IoMdShareAlt } from 'react-icons/io'
+import { IoMdShareAlt } from 'react-icons/io'
+import { IoIosInformationCircleOutline } from 'react-icons/io'
+import ReactECharts from 'echarts-for-react'
+import { FaTemperatureLow } from 'react-icons/fa'
+import { WiHumidity } from 'react-icons/wi'
+import { MdAir } from 'react-icons/md'
+import { TbTemperatureCelsius } from 'react-icons/tb'
 import { FcAbout, FcRight } from 'react-icons/fc'
 
 // Animation variants
@@ -53,7 +59,56 @@ const buttonTap = {
   scale: 0.95
 }
 
+const temperatureData = {
+  Karachi: {
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    temperatures: [28, 30, 32, 31, 29, 27, 26],
+  },
+  Lahore: {
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    temperatures: [24, 26, 25, 27, 28, 26, 25],
+  },
+  Islamabad: {
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    temperatures: [22, 23, 21, 22, 24, 23, 22],
+  },
+};
+
 const ClimateCenter = () => {
+  const [selectedCity, setSelectedCity] = useState('Karachi');
+
+  const getChartOption = () => {
+    const data = temperatureData[selectedCity];
+    return {
+      tooltip: {
+        trigger: 'axis',
+      },
+      xAxis: {
+        type: 'category',
+        data: data.days,
+      },
+      yAxis: {
+        type: 'value',
+        name: '°C',
+      },
+      series: [
+        {
+          data: data.temperatures,
+          type: 'line',
+          smooth: true,
+          name: 'Temperature',
+          lineStyle: {
+            color: '#0F9E99',
+            width: 3,
+          },
+          itemStyle: {
+            color: '#0F9E99',
+          },
+        },
+      ],
+    };
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#F2F4F7] overflow-x-hidden">
       <Nav />
@@ -191,7 +246,6 @@ const ClimateCenter = () => {
           </div>
         </motion.div>
 
-
         <motion.div
           className='rounded-xl shadow-md bg-white col-span-2 p-3 h-[300px]'
           variants={cardVariants}
@@ -199,40 +253,33 @@ const ClimateCenter = () => {
           animate="visible"
           whileHover="hover"
         >
-<div className="flex justify-between items-start">
+          <div className="flex justify-between items-start">
             <strong className="text-lg md:text-xl">IPCC updates on adaptation</strong>
             <span className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer transition-all">
               <IoIosInformationCircleOutline size={22} />
             </span>
           </div>
 
-        
-<div className='flex items-center gap-2'>
+          <div className='flex items-center gap-2'>
+            <img src='https://static.xx.fbcdn.net/rsrc.php/v4/yY/r/AgIUP2_rv0r.png' alt="Info icon"/>
+            <p className='max-w-lg'>
+              There are many low-cost and effective options available now to adapt to an already changing climate.
+            </p>
+          </div>
 
-<img src='https://static.xx.fbcdn.net/rsrc.php/v4/yY/r/AgIUP2_rv0r.png'/>
-<p className='max-w-lg'>
-There are many low-cost and effective options available now to adapt to an already changing climate.</p>
+          <div className='flex items-center gap-2 my-2'>
+            <img src='https://static.xx.fbcdn.net/rsrc.php/v4/yL/r/n5bJ1J5bmCt.png' alt="Info icon"/>
+            <p className='max-w-lg'>
+              In order to take advantage of the best adaptation options available, businesses, people, and governments will need to prioritize spending in this area.
+            </p>
+          </div>
 
-</div>
-
-<div className='flex items-center gap-2 my-2'>
-
-<img src='https://static.xx.fbcdn.net/rsrc.php/v4/yL/r/n5bJ1J5bmCt.png'/>
-<p className='max-w-lg'>
-In order to take advantage of the best adaptation options available, businesses, people, and governments will need to prioritize spending in this area.
-</p>
-</div>
-
-
-<div className='flex items-center gap-2 my-2'>
-
-<img src='https://static.xx.fbcdn.net/rsrc.php/v4/yi/r/gWK1Mcy7wJ3.png'/>
-<p className='max-w-lg'>
-Options for adaptation can only help to a certain extent, and will work best when used together with the immediate roll out of global emission-reducing policies and systems.
-</p>
-</div>
-
-
+          <div className='flex items-center gap-2 my-2'>
+            <img src='https://static.xx.fbcdn.net/rsrc.php/v4/yi/r/gWK1Mcy7wJ3.png' alt="Info icon"/>
+            <p className='max-w-lg'>
+              Options for adaptation can only help to a certain extent, and will work best when used together with the immediate roll out of global emission-reducing policies and systems.
+            </p>
+          </div>
         </motion.div>
 
         {/* Card 4 (span 1) */}
@@ -243,160 +290,161 @@ Options for adaptation can only help to a certain extent, and will work best whe
           animate="visible"
           whileHover="hover"
         >
-<div className="flex justify-between items-start">
+          <div className="flex justify-between items-start">
             <strong className="text-lg md:text-xl">Recognized organizations</strong>
             <span className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer transition-all">
               <IoIosInformationCircleOutline size={22} />
             </span>
           </div>
 
+          <div className='flex flex-col gap-2'>
+            <div className='flex items-center justify-between hover:bg-blue-100 p-2 transition-all duration-300 rounded'>
+              <div className='flex gap-2'>
+                <img width={60} className='rounded-full' src='https://scontent.fisb9-1.fna.fbcdn.net/v/t39.30808-1/276176409_275332584771142_507904235747872858_n.png?stp=dst-png_s200x200&_nc_cat=109&ccb=1-7&_nc_sid=f907e8&_nc_ohc=ItlRzBVttRYQ7kNvwHUucvV&_nc_oc=AdnjQP-2AFt5wIC0Qpqps9FmUYdAA1vttg85NR1QQ-Yw96K0G0JyVib3eg9V5xxxKmQ&_nc_zt=24&_nc_ht=scontent.fisb9-1.fna&_nc_gid=6legpieiBDbgA3_1rZ3Umw&oh=00_AfGPywplhLMtxzbY-zhox8JJ7E52fLIRkFx29TlFpvQpbQ&oe=681BE157' alt='IPPC'/>
+                <div className='flex flex-col items-start'>
+                  <span className='flex items-center gap-1 text-blue-500'>
+                    IPPC <MdGppGood />
+                  </span>
+                  <p className='text-sm'>Nonprofit organization</p>
+                </div>
+              </div>
 
-<div className='flex flex-col gap-2'>
-<div className='flex items-center justify-between hover:bg-blue-100 p-2 transition-all duration-300 rounded'>
+              <button className='bg-blue-200 cursor-pointer text-blue-500 p-2 px-6 rounded-md font-semibold'>
+                <span className='flex items-center gap-1'>
+                  <MdPersonAddAlt/>
+                  Follow
+                </span>
+              </button>
+            </div>
 
-  <div className='flex  gap-2'>
-    <img width={60} className='rounded-full' src='https://scontent.fisb9-1.fna.fbcdn.net/v/t39.30808-1/276176409_275332584771142_507904235747872858_n.png?stp=dst-png_s200x200&_nc_cat=109&ccb=1-7&_nc_sid=f907e8&_nc_ohc=ItlRzBVttRYQ7kNvwHUucvV&_nc_oc=AdnjQP-2AFt5wIC0Qpqps9FmUYdAA1vttg85NR1QQ-Yw96K0G0JyVib3eg9V5xxxKmQ&_nc_zt=24&_nc_ht=scontent.fisb9-1.fna&_nc_gid=6legpieiBDbgA3_1rZ3Umw&oh=00_AfGPywplhLMtxzbY-zhox8JJ7E52fLIRkFx29TlFpvQpbQ&oe=681BE157' alt=''/>
-<div className='flex flex-col items-start'>
-<span className='flex items-center gap-1 text-blue-500'>
-IPPC <MdGppGood  />
-</span>
-<p className='text-sm'>Nonprofit organization</p>
-</div>
+            <div className='flex items-center justify-between hover:bg-blue-100 p-2 transition-all duration-300 rounded'>
+              <div className='flex gap-2'>
+                <img width={60} className='rounded-full' src='https://scontent.fisb9-1.fna.fbcdn.net/v/t39.30808-1/271749354_287578106737301_2016233505493951851_n.png?stp=dst-png_s200x200&_nc_cat=105&ccb=1-7&_nc_sid=f907e8&_nc_ohc=cH0wwJKx7fkQ7kNvwGu6zLT&_nc_oc=AdmWVJOgkLqAd-Gn4Q5XbczPS1fp_vYx6U-J29yjgPZd4ISazOrNgzwjz05wRgXJx5s&_nc_zt=24&_nc_ht=scontent.fisb9-1.fna&_nc_gid=6legpieiBDbgA3_1rZ3Umw&oh=00_AfEmrQCDaQEtjyT0RANBtjaWzTatib3luRJL65C5G4pelw&oe=681BE4CA' alt='Meteorological'/>
+                <div className='flex flex-col items-start'>
+                  <span className='flex items-center text-sm text-blue-500'>
+                    Meteorological <MdGppGood />
+                  </span>
+                  <p className='text-sm'>Intergovernmental Organization</p>
+                </div>
+              </div>
 
+              <button className='bg-blue-200 cursor-pointer text-blue-500 p-2 px-6 rounded-md font-semibold'>
+                <span className='flex items-center gap-1'>
+                  <MdPersonAddAlt/>
+                  Follow
+                </span>
+              </button>
+            </div>
 
-  </div>
+            <div className='flex items-center justify-between hover:bg-blue-100 p-2 transition-all duration-300 rounded'>
+              <div className='flex gap-2'>
+                <img width={60} className='rounded-full' src='https://scontent.fisb9-1.fna.fbcdn.net/v/t39.30808-1/271714453_288492856644133_2259217072983045887_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=104&ccb=1-7&_nc_sid=f907e8&_nc_ohc=TnfZ-qaJSqUQ7kNvwEgsw-U&_nc_oc=Admf4pSOceecmlZAiXS-8607yiRW4kHoEgLEV9SyzH3HxlhWP5TeIhT4QWaEcuxFKYo&_nc_zt=24&_nc_ht=scontent.fisb9-1.fna&_nc_gid=6legpieiBDbgA3_1rZ3Umw&oh=00_AfEIx7_9LVHx9_G1YaEOfVCS3tyUT8ACq82nEqs8sKnRdg&oe=681BF195' alt='UN Environment'/>
+                <div className='flex flex-col items-start'>
+                  <span className='flex items-center gap-1 text-blue-500'>
+                    UN Environment <MdGppGood />
+                  </span>
+                  <p className='text-sm'>Organization</p>
+                </div>
+              </div>
 
-<button className='bg-blue-200 cursor-pointer  text-blue-500 p-2 px-6 rounded-md  font-semibold'>
-<span className='flex items-center gap-1'>
-  <MdPersonAddAlt/>
-  Follow
-</span>
+              <button className='bg-blue-200 cursor-pointer text-blue-500 p-2 px-6 rounded-md font-semibold'>
+                <span className='flex items-center gap-1'>
+                  <MdPersonAddAlt/>
+                  Follow
+                </span>
+              </button>
+            </div>
+          </div>
+        </motion.div>
 
-</button>
-</div>
-{/*  */}
+        {/* New Card 5 (span 3) */}
+      
+        <motion.div className='rounded-xl shadow-md bg-white col-span-3 p-3 '>
 
-<div className='flex items-center justify-between hover:bg-blue-100 p-2 transition-all duration-300 rounded'>
+        <div className="mt-10">
+      <label htmlFor="city-select" className="font-semibold text-gray-700">
+        Select City: 
+      </label>
+      <select
+        id="city-select"
+        value={selectedCity}
+        onChange={(e) => setSelectedCity(e.target.value)}
+        className="ml-2 p-2 rounded border border-gray-300"
+      >
+        {Object.keys(temperatureData).map((city) => (
+          <option key={city} value={city}>
+            {city}
+          </option>
+        ))}
+      </select>
+    </div>
 
-  <div className='flex  gap-2'>
-    <img width={60} className='rounded-full' src='https://scontent.fisb9-1.fna.fbcdn.net/v/t39.30808-1/271749354_287578106737301_2016233505493951851_n.png?stp=dst-png_s200x200&_nc_cat=105&ccb=1-7&_nc_sid=f907e8&_nc_ohc=cH0wwJKx7fkQ7kNvwGu6zLT&_nc_oc=AdmWVJOgkLqAd-Gn4Q5XbczPS1fp_vYx6U-J29yjgPZd4ISazOrNgzwjz05wRgXJx5s&_nc_zt=24&_nc_ht=scontent.fisb9-1.fna&_nc_gid=6legpieiBDbgA3_1rZ3Umw&oh=00_AfEmrQCDaQEtjyT0RANBtjaWzTatib3luRJL65C5G4pelw&oe=681BE4CA' alt=''/>
-<div className='flex flex-col items-start'>
-<span className='flex items-center  text-sm text-blue-500'>
- Meteorological<MdGppGood  />
-</span>
-<p className='text-sm '> Intergovernmental Organization
-</p>
-</div>
-
-
-  </div>
-
-<button className='bg-blue-200 cursor-pointer  text-blue-500 p-2 px-6 rounded-md  font-semibold'>
-<span className='flex items-center gap-1'>
-  <MdPersonAddAlt/>
-  Follow
-</span>
-
-</button>
-</div>
-{/*  */}
-<div className='flex items-center justify-between hover:bg-blue-100 p-2 transition-all duration-300 rounded'>
-
-  <div className='flex  gap-2'>
-    <img width={60} className='rounded-full' src='https://scontent.fisb9-1.fna.fbcdn.net/v/t39.30808-1/271714453_288492856644133_2259217072983045887_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=104&ccb=1-7&_nc_sid=f907e8&_nc_ohc=TnfZ-qaJSqUQ7kNvwEgsw-U&_nc_oc=Admf4pSOceecmlZAiXS-8607yiRW4kHoEgLEV9SyzH3HxlhWP5TeIhT4QWaEcuxFKYo&_nc_zt=24&_nc_ht=scontent.fisb9-1.fna&_nc_gid=6legpieiBDbgA3_1rZ3Umw&oh=00_AfEIx7_9LVHx9_G1YaEOfVCS3tyUT8ACq82nEqs8sKnRdg&oe=681BF195' alt=''/>
-<div className='flex flex-col items-start'>
-<span className='flex items-center gap-1 text-blue-500'>
-UN Enviroment<MdGppGood  />
-</span>
-<p className='text-sm'>Organization</p>
-</div>
-
-
-  </div>
-
-<button className='bg-blue-200 cursor-pointer  text-blue-500 p-2 px-6 rounded-md  font-semibold'>
-<span className='flex items-center gap-1'>
-  <MdPersonAddAlt/>
-  Follow
-</span>
-
-</button>
-</div>
-
-</div>
-
+    {/* Temperature Chart */}
+    <div className="mt-6 bg-white p-6 rounded-xl shadow-md">
+      <h2 className="text-xl font-semibold mb-4">
+        Weekly Temperature Overview – {selectedCity}
+      </h2>
+      <ReactECharts 
+        option={getChartOption()} 
+        style={{ height: '300px', width: '100%' }}
+      />
+    </div>
 
         </motion.div>
 
-        {/* New Card 5 (span 1) */}
+        {/* New Card 6 (span 3) */}
         <motion.div
-          className='rounded-xl shadow-md bg-white col-span-1 p-3 h-[350px]'
+          className='rounded-xl shadow-md bg-white col-span-3 p-3 h-[380px] overflow-y-auto'
           variants={cardVariants}
           initial="hidden"
           animate="visible"
           whileHover="hover"
         >
-           <div className="flex justify-between items-start">
-    <strong className="text-lg md:text-xl">Average temperature by year</strong>
-    <span className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer transition-all duration-200">
-      <IoIosInformationCircleOutline size={22} />
-    </span>
-  </div>
+          <div className="flex justify-between items-start">
+            <strong className="text-lg md:text-xl">Facts about climate change</strong>
+            <span className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer transition-all duration-200">
+              <IoIosInformationCircleOutline size={22} />
+            </span>
+          </div>
 
+          <p className="mt-2 mb-4">These facts from climate researchers correct common misconceptions about global warming and its impact.</p>
 
-          
+          <div className='flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-all duration-200 cursor-pointer'>
+            <img 
+              src='https://www.facebook.com/images/assets_DO_NOT_HARDCODE/vs_climate_science_info_center_csic_mythbusters_module_t79943022/CSIC-Myth-Scientists-Small_light-4x.png'
+              className='w-12 h-12 object-contain flex-shrink-0'
+              alt="Scientists fact"
+            />
+            <p className='text-sm'>
+              There are many low-cost and effective options available now to adapt to an already changing climate.
+            </p>
+          </div>
+
+          <div className='flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-all duration-200 cursor-pointer my-2'>
+            <img 
+              src='https://www.facebook.com/images/assets_DO_NOT_HARDCODE/vs_climate_science_info_center_csic_mythbusters_module_t79943022/CSIC-Myth-CleanEnergy-Small_light-4x.png'
+              className='w-12 h-12 object-contain flex-shrink-0'
+              alt="Clean energy fact"
+            />
+            <p className='text-sm'>
+              In order to take advantage of the best adaptation options available, businesses, people, and governments will need to prioritize spending in this area.
+            </p>
+          </div>
+
+          <div className='flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-all duration-200 cursor-pointer my-2'>
+            <img 
+              src='https://www.facebook.com/images/assets_DO_NOT_HARDCODE/vs_climate_science_info_center_csic_mythbusters_module_t79943022/CSIC-Myth-WildFires-Small_light-4x.png'
+              className='w-12 h-12 object-contain flex-shrink-0'
+              alt="Policy fact"
+            />
+            <p className='text-sm'>
+              Options for adaptation can only help to a certain extent, and will work best when used together with the immediate roll out of global emission-reducing policies and systems.
+            </p>
+          </div>
         </motion.div>
 
-        {/* New Card 6 (span 2) */}
-        <motion.div
-  className='rounded-xl shadow-md bg-white col-span-2 p-3 h-[380px] overflow-y-auto'
-  variants={cardVariants}
-  initial="hidden"
-  animate="visible"
-  whileHover="hover"
->
-  <div className="flex justify-between items-start">
-    <strong className="text-lg md:text-xl">Facts about climate change</strong>
-    <span className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer transition-all duration-200">
-      <IoIosInformationCircleOutline size={22} />
-    </span>
-  </div>
 
-  <p className="mt-2 mb-4">These facts from climate researchers correct common misconceptions about global warming and its impact.</p>
 
-  <div className='flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-all duration-200 cursor-pointer'>
-    <img 
-      src='https://www.facebook.com/images/assets_DO_NOT_HARDCODE/vs_climate_science_info_center_csic_mythbusters_module_t79943022/CSIC-Myth-Scientists-Small_light-4x.png'
-      className='w-12 h-12 object-contain flex-shrink-0'
-      alt="Scientists fact"
-    />
-    <p className='text-sm'>
-      There are many low-cost and effective options available now to adapt to an already changing climate.
-    </p>
-  </div>
-
-  <div className='flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-all duration-200 cursor-pointer my-2'>
-    <img 
-      src='https://www.facebook.com/images/assets_DO_NOT_HARDCODE/vs_climate_science_info_center_csic_mythbusters_module_t79943022/CSIC-Myth-CleanEnergy-Small_light-4x.png'
-      className='w-12 h-12 object-contain flex-shrink-0'
-      alt="Clean energy fact"
-    />
-    <p className='text-sm'>
-      In order to take advantage of the best adaptation options available, businesses, people, and governments will need to prioritize spending in this area.
-    </p>
-  </div>
-
-  <div className='flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-all duration-200 cursor-pointer my-2'>
-    <img 
-      src='https://www.facebook.com/images/assets_DO_NOT_HARDCODE/vs_climate_science_info_center_csic_mythbusters_module_t79943022/CSIC-Myth-WildFires-Small_light-4x.png'
-      className='w-12 h-12 object-contain flex-shrink-0'
-      alt="Policy fact"
-    />
-    <p className='text-sm'>
-      Options for adaptation can only help to a certain extent, and will work best when used together with the immediate roll out of global emission-reducing policies and systems.
-    </p>
-  </div>
-</motion.div>
       </div>
     </div>
   )
