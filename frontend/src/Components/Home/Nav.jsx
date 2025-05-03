@@ -15,6 +15,7 @@ const Nav = () => {
 
   return (
     <>
+    
       <div className="flex items-center justify-between px-10 bg-white h-[70px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] sticky top-0 z-50 ">
         
         {/* Left Section - Logo & Search */}
