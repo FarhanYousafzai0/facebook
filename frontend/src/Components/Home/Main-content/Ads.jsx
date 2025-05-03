@@ -19,8 +19,6 @@ const Ads = () => {
 </div>
 
 
-
-
 </div>
 <hr className='my-4 text-gray-300'/>
 
