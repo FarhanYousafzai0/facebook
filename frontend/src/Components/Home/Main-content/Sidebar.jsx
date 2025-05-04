@@ -58,7 +58,7 @@ const Sidebar = () => {
       {menu_data.length > 2 && (
         <button
           onClick={() => setShowAll(!showAll)}
-          className="flex items-center gap-2 justify-center mt-5 w-full py-2 text-sm font-semibold bg-gray-200 hover:bg-gray-300 rounded-md transition"
+          className="flex items-center gap-2 cursor-pointer justify-center mt-5 w-full py-2 text-sm font-semibold bg-gray-200 hover:bg-gray-300 rounded-md transition"
         >
           {showAll ? (
             <>

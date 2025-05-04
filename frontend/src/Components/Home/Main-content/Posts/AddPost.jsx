@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { motion } from "framer-motion";
-
 import AddPostModal from "./AddPostModel";
 import { useSelector } from "react-redux";
 

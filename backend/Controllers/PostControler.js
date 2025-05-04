@@ -7,7 +7,7 @@ export const postData = asyncHandler(async (req, res) => {
     const { user_id } = req.params;
 
     // Validate input
-    if (!caption || !background || !user_id) {
+    if (!caption ) {
         return res.status(400).json({ error: 'Caption, background, and user_id are required!' });
     }
 

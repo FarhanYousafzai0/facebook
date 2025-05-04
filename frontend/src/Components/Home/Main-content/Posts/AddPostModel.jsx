@@ -9,16 +9,20 @@ import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addPostData, postReset } from "../../../../features/Posts/postSlice";
 import { IoArrowBack } from "react-icons/io5";
-
 import colors_data from "./PostData/decorative";
 
+
+
+
+
+
 const AddPostModal = ({ isOpen, onClose }) => {
+  // Redux state and actions
   const { user } = useSelector((state) => state.auth);
   const { postError, postSuccess } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [caption, setCaption] = useState("");
   const [show, setShow] = useState(true);
-
   const [OpenColor, setOpenColor] = useState(false);
   const [changed, setChanged] = useState(false);
   const [showBackgrounds, setShowBackgrounds] = useState(false)
@@ -55,13 +59,9 @@ caption.length > 0 ? setShow(false) : setShow(true)
     if (!postContent.trim()) return;
 
     dispatch(addPostData({
-      text: postContent,
-      background: {
-        startColor,
-        endColor,
-        image
-      },
-      author: user?._id
+      caption,
+      background:setSelectedColor,
+      user_id: user._id,
     }));
   };
 

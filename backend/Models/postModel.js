@@ -6,20 +6,22 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   background: {
+    type: Object,
     startColor: {
       type: String,
-      required: true,
-      default: '#fff',
+     
+      default: '#ffffff',
     },
     endColor: {
       type: String,
-      required: true,
-      default: '#fff',
+     
+      default: '#ffffff',
     }
   },
   image: {
     type: String,
-    required: true,
+    default:''
+   
   },
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
