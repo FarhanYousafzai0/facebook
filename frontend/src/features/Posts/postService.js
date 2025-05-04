@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://localhost:8000/api/post/';
+const URL = 'http://localhost:8000/api/post';
 
 
 
@@ -14,7 +14,7 @@ return response.data
 
 
 export const getallPost = async()=>{
-    const response = axios.post(`${URL}/get-all-posts`,)
+    const response = axios.get(`${URL}/get-all-posts`,)
     return response.data
 
 }

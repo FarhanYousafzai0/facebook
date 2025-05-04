@@ -5,7 +5,7 @@ import { FaComment, FaGlobe, FaRegComment, FaRegThumbsUp, FaWhatsapp } from 'rea
 import { Tooltip } from '@mui/material';
 import { GoThumbsup } from 'react-icons/go';
 import { TbRewindForward10, TbShare2, TbShare3 } from 'react-icons/tb';
-const Feed = () => {
+const Feed = ({caption,startColor,endColor,}) => {
 
     const {user} = useSelector((state)=>state.auth)
   return (
@@ -16,7 +16,6 @@ const Feed = () => {
            <div className="flex  gap-2 my-2">
 <Avatar
 //   alt="Remy Sharp"
-  src={`${user?.user?.profilePic}`}
   sx={{ width: 46, height: 46 }}
 />
 <div className="flex flex-col  ">

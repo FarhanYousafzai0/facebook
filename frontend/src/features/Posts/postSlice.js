@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { addPost, getallPost } from './postService';
 
-
 // Initial State
 const initialState = {
     post: [],
@@ -9,41 +8,42 @@ const initialState = {
     postError: false,
     postSuccess: false,
     postMessage: "",
-    allPosts: []
 };
 
-
-// Async Thunk Function
-export const addPostData = createAsyncThunk('post/addPost', async (postData, thunkAPI) => {
-    try {
-        return await addPost(postData);
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.response?.data?.error || 'Something went wrong!');
+// Async Thunks
+export const addPostData = createAsyncThunk(
+    'post/addPost',
+    async (postData, thunkAPI) => {
+        try {
+            return await addPost(postData);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.error || 'Something went wrong!'
+            );
+        }
     }
-});
-
-// export 
+);
 
 export const getFacebookPost = createAsyncThunk(
-    'posts/getFacebookPost',
+    'post/getFacebookPost',
     async (_, thunkAPI) => {
-      try {
-        const posts = await getAllPosts();
-        return posts;
-      } catch (error) {
-        return thunkAPI.rejectWithValue(
-          error?.response?.data?.error || 'Posts not found!'
-        );
-      }
+        try {
+            const posts = await getallPost(); // fixed function name
+            return posts;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error?.response?.data?.error || 'Posts not found!'
+            );
+        }
     }
-  );
-// Create Slice
+);
+
+// Slice
 const postSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
         postReset: (state) => {
-            
             state.postError = false;
             state.postLoading = false;
             state.postMessage = '';
@@ -52,6 +52,7 @@ const postSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Add Post
             .addCase(addPostData.pending, (state) => {
                 state.postLoading = true;
             })
@@ -65,9 +66,24 @@ const postSlice = createSlice({
                 state.postLoading = false;
                 state.postSuccess = true;
                 state.postMessage = 'Post added successfully!';
-                state.allPosts.push(action.payload); // Assuming you're adding a single post
+                state.post.unshift(action.payload); // fixed: use payload
+            })
+
+            // Get All Posts
+            .addCase(getFacebookPost.pending, (state) => {
+                state.postLoading = true;
+            })
+            .addCase(getFacebookPost.rejected, (state, action) => {
+                state.postLoading = false;
+                state.postError = true;
+                state.postMessage = action.payload;
+            })
+            .addCase(getFacebookPost.fulfilled, (state, action) => {
+                state.postLoading = false;
+                state.postError = false;
+                state.post = action.payload;
             });
-    }
+    },
 });
 
 export const { postReset } = postSlice.actions;

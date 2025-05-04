@@ -5,6 +5,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { IoHappyOutline } from "react-icons/io5";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { colors } from "./PostData/colorsData";
+import toast from 'react-hot-toast';
 import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addPostData, postReset } from "../../../../features/Posts/postSlice";
@@ -19,7 +20,7 @@ import colors_data from "./PostData/decorative";
 const AddPostModal = ({ isOpen, onClose }) => {
   // Redux state and actions
   const { user } = useSelector((state) => state.auth);
-  const { postError, postSuccess } = useSelector((state) => state.post);
+  const { postError, postSuccess,post } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [caption, setCaption] = useState("");
   const [show, setShow] = useState(true);
@@ -44,9 +45,17 @@ caption.length > 0 ? setShow(false) : setShow(true)
   },[caption])
 
   useEffect(() => {
+
+if(postError){
+  // Handle error (e.g., show a notification)
+  console.error("Error posting data:", postError);
+}
+
+
     if (postSuccess) {
+      toast.success("Post added successfully!");
       // Reset modal and close it
-      setPostContent("");
+      setCaption("");
       setSelectedColor({ startColor: "#fff", endColor: "#fff", image: "" });
       setChanged(false);
       setOpenColor(false);
@@ -60,7 +69,7 @@ caption.length > 0 ? setShow(false) : setShow(true)
 
     dispatch(addPostData({
       caption,
-      background:setSelectedColor,
+      background:selectedColor,
       user_id: user._id,
     }));
   };
