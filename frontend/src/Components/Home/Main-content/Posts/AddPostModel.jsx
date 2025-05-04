@@ -16,9 +16,12 @@ const AddPostModal = ({ isOpen, onClose }) => {
   const { user } = useSelector((state) => state.auth);
   const { postError, postSuccess } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const [caption, setCaption] = useState("");
+  const [show, setShow] = useState(true);
 
   const [OpenColor, setOpenColor] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [showBackgrounds, setShowBackgrounds] = useState(false)
   const [postContent, setPostContent] = useState("");
   const [selectedColor, setSelectedColor] = useState({
     startColor: '#fff',
@@ -27,6 +30,14 @@ const AddPostModal = ({ isOpen, onClose }) => {
   });
 
   const { startColor, endColor, image } = selectedColor;
+
+
+
+  // Handle the color selection and set the state accordingly
+  useEffect(()=>{
+caption.length > 0 ? setShow(false) : setShow(true)
+
+  },[caption])
 
   useEffect(() => {
     if (postSuccess) {
@@ -78,7 +89,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
             <div className="p-4">
               {/* User Info */}
               <div className="flex items-center gap-2 my-2">
-                <Avatar src={user?.user?.profilePic} sx={{ width: 46, height: 46 }} />
+                <Avatar  src={user?.user?.profilePic} sx={{ width: 46, height: 46 }} />
                 <div className="flex flex-col gap-1 items-start">
                   <p className="text-sm m-0 font-semibold">{user?.user?.username || 'Guest'}</p>
                   <span className="m-0 text-sm font-semibold cursor-pointer bg-gray-200 p-1 rounded">
@@ -91,7 +102,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
               </div>
 
               {/* Text Area */}
-              <textarea
+              <div
                 value={postContent}
                 onChange={(e) => setPostContent(e.target.value)}
                 style={{
@@ -101,10 +112,38 @@ const AddPostModal = ({ isOpen, onClose }) => {
                   backgroundSize: "cover",
                   backgroundPosition: "center"
                 }}
-                className={`w-full outline-0 text-2xl my-2 rounded-md ${changed ? 'text-white font-semibold' : ''}`}
-                rows={changed ? 10 : 5}
-                placeholder={`What's on your mind? ${user?.user?.username}`}
-              />
+                className={`px-4 pb-4 text-black relative text-[1.5rem] transition-all duration-150 outline-0 my-3 post-caption ${changed ? 'h-[350px] bg-image bg-no-repeat bg-cover text-white flex justify-center items-center placeholder-gray-400 font-extrabold' : 'h-[250px]'} `}
+               
+              >
+           
+           <p
+                  className={`pointer-events-none absolute ${
+                    show ? "block" : "hidden"
+                  }`}
+                >
+                  What's on your mind?{" "}
+                  <span className="capitalize">{user?.f_name}</span>
+                </p>
+
+
+           <textarea
+               value={caption}
+               onChange={(e) => setCaption(e.target.value)}
+                  style={{
+                    
+                    resize: "none", // Disable manual resizing
+                    background: "transparent", // Match gradient background
+                    whiteSpace: "pre-wrap", // Allow text wrapping
+                    wordBreak: "break-word", // Break long words
+                  }}
+                  className={`${
+                    changed ? "" : ""
+                  } w-full outline-0 border-none bg-transparent`}
+                  placeholder=""
+                />
+
+           
+              </div>
 
               {/* Backgrounds */}
               <div className="flex items-center h-[50px] justify-between">
@@ -122,13 +161,16 @@ const AddPostModal = ({ isOpen, onClose }) => {
                   <motion.div
                     key={index}
                     onClick={() => {
-                      if (index === 8) {
-                        setSelectedColor({ startColor: '', endColor: '', image: item.image });
-                      } else {
-                        setSelectedColor({ startColor: item.startColor, endColor: item.endColor, image: '' });
-                      }
+                     index == 9 ? setShowBackgrounds(true) : 
+                     setSelectedColor(
+                      index === 8
+                        ? { startColor: '', endColor: '', image: item.image }
+                        : { startColor: item.startColor, endColor: item.endColor, image: '' }
+                    );
+
                       setChanged(index !== 0);
                     }}
+                    
                     initial={{ scale: 0, rotate: 0 }}
                     animate={{ scale: 1, rotate: 360 }}
                     transition={{
@@ -168,7 +210,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
                   <Tooltip title="Check in" arrow>
                     <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/y1/r/8zlaieBcZ72.png" alt="" />
                   </Tooltip>
-                  <Tooltip title="GIF" arrow>
+                  <Tooltip title="GIF" arrow  >
                     <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/yT/r/q7MiRkL7MLC.png" alt="" />
                   </Tooltip>
                 </div>
@@ -177,73 +219,81 @@ const AddPostModal = ({ isOpen, onClose }) => {
               {/* Submit Button */}
               <button
                 onClick={handlePostSumbit}
+                
                 type="submit"
                 className="w-full p-2 rounded-md text-white cursor-pointer hover:bg-blue-500 transition-all bg-blue-600">
                 Post
               </button>
             </div>
 
-
-
-            <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="absolute top-0 left-0 w-full h-full transition-all duration-200 delay-100  bg-white z-40  overflow-y-scroll">
-
-      <span className="flex items-center justify-center cursor-pointer absolute left-5 top-4 bg-gray-200 w-[40px] h-[40px] rounded-full"><IoArrowBack/>  </span>
-
-    <div className=" text-center p-4 ">
-      <h2 className="text-xl font-bold">Choose background</h2>
-    </div>
-    <hr className="hr"></hr>
-  
-  {colors_data?.map((item,index)=>{
-
-  return <>
-   
-   <h3 className="font-semibold text-xl p-4 capitalize">{item.title}</h3>  
-
-
-
-   {/* Colors */}
-   <div className="grid grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5 px-3 gap-3   ">
+{/* Backgrounds & Gradients */}
 
 
 
 
+<motion.div
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+exit={{ opacity: 0 }}
+className={`absolute top-0 left-0 w-full h-full  translate-x-[100%] ${showBackgrounds && 'translate-x-0'} transition-all duration-200 delay-100   bg-white z-40  overflow-y-scroll `}>
 
-  {item?.list.map((item2,index2)=>{
+  <span
+
+  className="flex items-center justify-center cursor-pointer absolute left-5 top-4 bg-gray-200 w-[40px] h-[40px] rounded-full"><IoArrowBack/>  </span>
+
+<div className=" text-center p-4 ">
+  <h2 className="text-xl font-bold">Choose background</h2>
+</div>
+<hr className="hr"></hr>
+
+{colors_data?.map((item,index)=>{
+
+return <>
+
+<h3 className="font-semibold text-xl p-4 capitalize">{item.title}</h3>  
 
 
- return  <>
- 
- <motion.div 
- initial={{opacity:0,scale:0,}}
- animate={{opacity:100,scale:1,}}
- transition={{delay:index2 * 0.2,duration:0.3, stiffness:200}}
- whileTap={{scale:0.9}}
- 
- key={index2} style={{background:index == 2 ? item2 : `url(${item2.image})`,
-  backgroundPosition:'center center',
-  backgroundSize:'100% 100%'
- }} className="h-[80px] rounded-xl shadow cursor-pointer "></motion.div>
- </>
 
-  })}
+{/* Colors */}
+<div className="grid grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5 px-3 gap-3   ">
+
+
+
+
+
+{item?.list.map((item2,index2)=>{
+
+
+return  <>
+
+<motion.div 
+initial={{opacity:0,scale:0,}}
+animate={{opacity:100,scale:1,}}
+transition={{delay:index2 * 0.2,duration:0.3, stiffness:200}}
+whileTap={{scale:0.9}}
+
+key={index2} style={{background:index == 2 ? item2 : `url(${item2.image})`,
+backgroundPosition:'center center',
+backgroundSize:'100% 100%'
+}} className="h-[80px] rounded-xl shadow cursor-pointer "></motion.div>
+</>
+
+})}
 
 </div>
-  </>
+</>
 
 
 
 
 
-  })}
+})}
 
 
 
-  </motion.div>
+</motion.div>
+
+
           </motion.div>
         </div>
       )}
