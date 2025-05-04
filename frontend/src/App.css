@@ -1,2 +1,53 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+
+
+
+
+
+@keyframes shine {
+    0% {
+      left: -100px;
+    }
+    60%, 100% {
+      left: 100%;
+    }
+  }
+  
+
+
+  html,body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  }
+
+  /* Scrollbar hidden by default */
+  .hide-scrollbar::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  
+  .hide-arrows::-webkit-scrollbar {
+    width: 0  !important;
+  }
+  
+  .bg-image {
+    background-size: 100% 100% !important;
+    background-position: 100% 100% !important;
+  }
+  
+  .hr {
+    height: 1px !important;
+    background-color: #e5e7eb !important;
+    border: none !important;
+    margin: 0.5rem 0;
+  }
+  
+  .post-caption::placeholder {
+    font-size: 1.5rem !important;
+  }
+  .post-caption {
+    resize: none;
+  }

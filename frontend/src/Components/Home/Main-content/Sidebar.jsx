@@ -13,7 +13,7 @@ const Sidebar = () => {
   const visibleItems = showAll ? menu_data : menu_data.slice(0, 2);
 
   return (
-    <div className="h-full p-5">
+    <div className="h-full p-5 ">
       {/* Profile */}
       <div className="flex items-center gap-2 mb-6">
         <div className="w-10 h-10 rounded-full overflow-hidden">

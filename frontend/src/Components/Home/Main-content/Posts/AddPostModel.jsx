@@ -61,7 +61,7 @@ caption.length > 0 ? setShow(false) : setShow(true)
         endColor,
         image
       },
-      author: user?.user?._id
+      author: user?._id
     }));
   };
 
@@ -81,15 +81,20 @@ caption.length > 0 ? setShow(false) : setShow(true)
             {/* Header */}
             <div className="flex items-center justify-center py-3 relative">
               <h2 className="text-[1.4rem] font-bold">Create Post</h2>
-              <button onClick={onClose} className="absolute right-4 text-gray-600 text-xl font-bold">×</button>
+              <motion.button
+whileTap={{ scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              onClick={onClose} className="absolute right-4 cursor-pointer text-gray-600 text-4xl font-bold">×</motion.button>
             </div>
             <hr className="text-gray-300" />
 
             {/* Modal Body */}
-            <div className="p-4">
+            <div className="">
               {/* User Info */}
               <div className="flex items-center gap-2 my-2">
-                <Avatar  src={user?.user?.profilePic} sx={{ width: 46, height: 46 }} />
+                <Avatar  src={user?.profilePic} sx={{ width: 46, height: 46 }} />
                 <div className="flex flex-col gap-1 items-start">
                   <p className="text-sm m-0 font-semibold">{user?.user?.username || 'Guest'}</p>
                   <span className="m-0 text-sm font-semibold cursor-pointer bg-gray-200 p-1 rounded">
@@ -146,6 +151,8 @@ caption.length > 0 ? setShow(false) : setShow(true)
               </div>
 
               {/* Backgrounds */}
+              <div className="p-3"> 
+
               <div className="flex items-center h-[50px] justify-between">
                 {OpenColor ? (
                   <div onClick={() => setOpenColor(false)} className="cursor-pointer bg-gray-300 flex items-center justify-center rounded-md h-[35px] w-[35px]">
@@ -161,7 +168,7 @@ caption.length > 0 ? setShow(false) : setShow(true)
                   <motion.div
                     key={index}
                     onClick={() => {
-                     index == 9 ? setShowBackgrounds(true) : 
+                     index === 9 ? setShowBackgrounds(true) : 
                      setSelectedColor(
                       index === 8
                         ? { startColor: '', endColor: '', image: item.image }
@@ -224,6 +231,8 @@ caption.length > 0 ? setShow(false) : setShow(true)
                 className="w-full p-2 rounded-md text-white cursor-pointer hover:bg-blue-500 transition-all bg-blue-600">
                 Post
               </button>
+
+              </div>
             </div>
 
 {/* Backgrounds & Gradients */}
@@ -235,9 +244,10 @@ caption.length > 0 ? setShow(false) : setShow(true)
 initial={{ opacity: 0 }}
 animate={{ opacity: 1 }}
 exit={{ opacity: 0 }}
-className={`absolute top-0 left-0 w-full h-full  translate-x-[100%] ${showBackgrounds && 'translate-x-0'} transition-all duration-200 delay-100   bg-white z-40  overflow-y-scroll `}>
+className={`absolute top-0 left-0 w-full h-full   ${showBackgrounds ?'translate-x-0 ' : 'translate-x-[100%]'} transition-all duration-200 delay-100   bg-white z-40  overflow-y-scroll `}>
 
   <span
+  onClick={()=>setShowBackgrounds(false)}
 
   className="flex items-center justify-center cursor-pointer absolute left-5 top-4 bg-gray-200 w-[40px] h-[40px] rounded-full"><IoArrowBack/>  </span>
 
@@ -267,6 +277,18 @@ return <>
 return  <>
 
 <motion.div 
+onClick={()=>{
+  
+    setSelectedColor(
+      item2.image ? { startColor: '', endColor: '', image: item2.image } : item2.startColor 
+
+ ? item2 
+ : {startColor:item2,endColor:item2}
+
+
+    );
+    setShowBackgrounds(false);
+}}
 initial={{opacity:0,scale:0,}}
 animate={{opacity:100,scale:1,}}
 transition={{delay:index2 * 0.2,duration:0.3, stiffness:200}}
