@@ -13,6 +13,7 @@ import { IoArrowBack } from "react-icons/io5";
 import colors_data from "./PostData/decorative";
 
 import { FadeLoader, PropagateLoader } from "react-spinners";
+import axios from "axios";
 
 
 
@@ -31,7 +32,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
   const [media,setOpenMedia] = useState(false)
 const [mediaFile,setMediaFile] = useState(false)
 const [mediaPreview,setMediaPreview] = useState(null);
-
+const [images,setImages] = useState(null)
 
 
   const [selectedColor, setSelectedColor] = useState({
@@ -47,6 +48,10 @@ const [mediaPreview,setMediaPreview] = useState(null);
   // Handle the color selection and set the state accordingly
   useEffect(()=>{
 caption.length > 0 ? setShow(false) : setShow(true)
+if(media){
+  setShow(false)
+}
+
 
   },[caption])
 
@@ -78,16 +83,36 @@ if(postError){
       background:selectedColor,
       user_id: user._id,
     }));
+
+
+upLoadImage();
+
+
   };
+
+const upLoadImage = async ()=>{
+  const data = new FormData()
+data.append('file',images);
+data.append('upload_preset','postimages')
+
+const response = await axios.post('https://api.cloudinary.com/v1_1/djfqperqu/image/upload',data)
+console.log(response.data.url)
+
+}
+
+
 
 const  handleChnage = (e)=>{
 const file = e.target.files[0]
 const mediaSrc = URL.createObjectURL(file);
 setMediaPreview(mediaSrc);
+setImages(file);
 setMediaFile(true);
 
 
 }
+
+
 
 
 
@@ -144,7 +169,9 @@ whileTap={{ scale: 0.9 }}
                   backgroundSize: "cover",
                   backgroundPosition: "center"
                 }}
-                className={`px-4 pb-4 overflow-hidden text-black relative text-[1.5rem] transition-all duration-150 outline-0 my-3 post-caption ${changed ? 'h-[350px] bg-image bg-no-repeat bg-cover text-white flex justify-center items-center placeholder-gray-400 font-extrabold' : '270px'} `}
+                className={`px-4 pb-4 overflow-hidden text-black relative text-[1.5rem] transition-all duration-150 outline-0 my-3 ${
+                  changed ? 'h-[350px] bg-image bg-no-repeat bg-cover text-white flex justify-center items-center placeholder-gray-400 font-extrabold' : ''
+                }`}
                
               >
            
