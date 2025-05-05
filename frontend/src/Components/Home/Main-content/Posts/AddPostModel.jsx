@@ -12,7 +12,7 @@ import { addPostData, postReset } from "../../../../features/Posts/postSlice";
 import { IoArrowBack } from "react-icons/io5";
 import colors_data from "./PostData/decorative";
 
-
+import { FadeLoader, PropagateLoader } from "react-spinners";
 
 
 
@@ -20,7 +20,7 @@ import colors_data from "./PostData/decorative";
 const AddPostModal = ({ isOpen, onClose }) => {
   // Redux state and actions
   const { user } = useSelector((state) => state.auth);
-  const { postError, postSuccess,post } = useSelector((state) => state.post);
+  const { postError, postSuccess,post ,postLoading,postMessage} = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [caption, setCaption] = useState("");
   const [show, setShow] = useState(true);
@@ -234,11 +234,18 @@ whileTap={{ scale: 0.9 }}
 
               {/* Submit Button */}
               <button
+             
                 onClick={handlePostSumbit}
-                
+                disabled={show}
                 type="submit"
+                style={
+                  {
+                    background: show ? '#ccc' : '#155dfc',
+                    cursor: show ? 'not-allowed' : 'pointer',
+                  }
+                }
                 className="w-full p-2 rounded-md text-white cursor-pointer hover:bg-blue-500 transition-all bg-blue-600">
-                Post
+          {postLoading ? 'Loadig...' : 'Post'}
               </button>
 
               </div>

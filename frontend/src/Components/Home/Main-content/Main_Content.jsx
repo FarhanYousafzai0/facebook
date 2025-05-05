@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react'
 import AddPost from './Posts/AddPost'
 import Feed from '../Facebook-Feed/Feed'
-import { use } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { getFacebookPost, postReset } from '../../../features/Posts/postSlice'
 
 const Main_Content = () => {
-
 const dispatch = useDispatch()
+
+const {postLoading,postError,postMessage,post} = useSelector((state)=>state.post)
+
+useEffect(()=>{
+  dispatch(getFacebookPost());
+  dispatch(postReset())
+
+},[])
 
 
   return (
@@ -14,7 +21,12 @@ const dispatch = useDispatch()
 <AddPost/>
 
 
-  <Feed/>
+ {post?.map((item,index)=>{
+  return  <Feed key={index} {...item} />
+ }
+ 
+
+)}
 
         
     </div>
