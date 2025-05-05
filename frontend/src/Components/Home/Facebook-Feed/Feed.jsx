@@ -1,94 +1,73 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import Avatar from '@mui/material/Avatar';
-import { FaGlobe, FaRegComment, FaWhatsapp } from 'react-icons/fa';
-import { Tooltip } from '@mui/material';
-import { GoThumbsup } from 'react-icons/go';
-import { TbShare3 } from 'react-icons/tb';
-import moment from 'moment';
+import React from "react";
+import { FaGlobe, FaRegComment, FaThumbsUp, FaUser } from "react-icons/fa";
+import { GoDot, GoDotFill } from "react-icons/go";
+import { FiThumbsUp } from "react-icons/fi";
+import { PiShareFat } from "react-icons/pi";
 
-const Feed = ({ caption, background, id, user_id, createdAt }) => {
-  const { user } = useSelector((state) => state.auth);
-
+const Feed = ({ background, caption, _id, user_id }) => {
   return (
     <>
-      <div className='bg-white rounded-md shadow-md xl:w-[70%] mx-auto lg:w-[80%] md:w-[90%] w-[95%] my-4'>
-        <div className='p-3'>
-          <div className="flex gap-2 my-2">
-            <Avatar sx={{ width: 46, height: 46 }} />
-            <div className="flex flex-col">
-              <p className="text-sm m-0 font-semibold">{user?.user?.username || 'Guest'}</p>
-              <div className='flex items-center gap-1'>
-                <span className='text-xs m-0'>{createdAt ? moment(createdAt).fromNow() : 'Just now'}</span>
-                <span className='bg-black h-[2px] w-[2px] rounded-full'></span>
-                <Tooltip title='Public'>
-                  <span className='m-0 cursor-pointer'><FaGlobe size={10} /></span>
-                </Tooltip>
+      <div className="shadow-lg xl:w-[70%] mx-auto lg:w-[80%] md:w-[90%] w-[95%] bg-white rounded-md my-2">
+        <div className="flex p-3 justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
+              <div className="w-[45px] h-[45px] bg-gray-200 border-gray-300 rounded-full border flex justify-center items-center">
+                <FaUser size={25} className="text-gray-600" />
+              </div>
+            </div>
+            <div className="">
+              <h6 className="font-semibold text-sm">RAC Photography</h6>
+              <div className="flex items-center gap-1">
+                <div className="text-sm font-semibold text-gray-500">6h</div>
+                <div className="text-sm h-[2px] w-[2px] rounded-full font-semibold bg-gray-500"></div>
+                <div className="text-sm font-semibold text-gray-500">
+                  <FaGlobe />
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Caption */}
-          {(background?.image == '' || background?.startColor == '#ffffff' ) && <p className='text-sm m-0'>{caption}</p>} 
         </div>
+        {(background.startColor == "#ffffff" || background.image != "") && (
+          <p className="text-gray-900  p-3 my-2 capitalize ">{caption}</p>
+        )}
 
-        {/* Background or Image */}
         <div
-          style={{
-            background: background?.image
-              ? `url(${background?.image})`
-              : `linear-gradient(to right, ${background?.startColor}, ${background?.endColor})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
           className={
-            (!background?.image && ( background?.startColor === '#ffffff') && ( background?.endColor === '#ffffff'))
-              ? 'hidden'
-              : 'h-[400px] w-full bg-gray-200 rounded relative'
+            background.startColor != "#ffffff" || background.image != ""
+              ? "h-[400px] relative"
+              : "h-0"
           }
-          
+          style={{
+            background: background.image
+              ? `url(${background?.image})`
+              : `linear-gradient(${background?.startColor},${background?.endColor})`,
+            backgroundSize: "contain",
+            backgroundPosition: "center center",
+          }}
         >
-      {(background?.image !== '' || background?.startColor !== '#ffffff')&& 
-      <p className='absolute top-1/2 left-1/2 capitalize -translate-x-1/2 text-white font-semibold text-3xl'>
-        {caption}
-      </p>
-      
-      }
-</div>
-        <div className='p-3'>
-          {/* Like and Comment Count */}
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-1'>
-              <span>❤️👌</span>
-              <span>1.6K</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <span className='text-gray-500'>33 comments</span>
-              <span className='text-gray-500'>10 shares</span>
-            </div>
+          {(background.startColor != "#ffffff" || background.image != "") && (
+            <p className="text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 my-2 text-white capitalize text-4xl">
+              {caption}
+            </p>
+          )}
+        </div>
+        <div className="flex gap-2 p-3">
+          <div className="flex"></div>
+          <p className="text-gray-600 m-0">You and 14 others</p>
+        </div>
+        <hr className="bg-gray-300 h-[1px] border border-0" />
+        <div className="flex justify-between items-center p-3">
+          <div className="flex gap-2 justify-center items-center w-full">
+            <FiThumbsUp className="text-gray-600" />
+            <h6 className="font-semibold text-sm text-gray-600">Like</h6>
           </div>
-
-          <hr className='text-gray-200 my-3 h-[2px]' />
-
-          {/* Like-Comment-Share-Send */}
-          <div className='flex items-center justify-around'>
-            <div className='flex items-center gap-1'>
-              <GoThumbsup className='cursor-pointer' size={20} />
-              <p className='m-0 p-0'>Like</p>
-            </div>
-            <div className='flex items-center gap-1'>
-              <FaRegComment className='cursor-pointer' size={20} />
-              <p className='m-0 p-0'>Comment</p>
-            </div>
-            <div className='flex items-center gap-1'>
-              <FaWhatsapp className='cursor-pointer' size={20} />
-              <p className='m-0 p-0'>Send</p>
-            </div>
-            <div className='flex items-center gap-1'>
-              <TbShare3 className='cursor-pointer' size={20} />
-              <p className='m-0 p-0'>Share</p>
-            </div>
+          <div className="flex gap-2 justify-center items-center w-full">
+            <FaRegComment className="text-gray-600" />
+            <h6 className="font-semibold text-sm text-gray-600">Comment</h6>
+          </div>
+          <div className="flex gap-2 justify-center items-center w-full">
+            <PiShareFat className="text-gray-600" />
+            <h6 className="font-semibold text-sm text-gray-600">Share</h6>
           </div>
         </div>
       </div>
