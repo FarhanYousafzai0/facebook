@@ -53,7 +53,7 @@ if(media){
 }
 
 
-  },[caption])
+  },[caption,media])
 
   useEffect(() => {
 
