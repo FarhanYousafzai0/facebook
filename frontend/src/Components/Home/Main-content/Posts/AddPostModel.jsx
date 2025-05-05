@@ -28,6 +28,12 @@ const AddPostModal = ({ isOpen, onClose }) => {
   const [changed, setChanged] = useState(false);
   const [showBackgrounds, setShowBackgrounds] = useState(false)
   const [postContent, setPostContent] = useState("");
+  const [media,setOpenMedia] = useState(false)
+const [mediaFile,setMediaFile] = useState(false)
+const [mediaPreview,setMediaPreview] = useState(null);
+
+
+
   const [selectedColor, setSelectedColor] = useState({
     startColor: '#fff',
     endColor: '#fff',
@@ -73,6 +79,18 @@ if(postError){
       user_id: user._id,
     }));
   };
+
+const  handleChnage = (e)=>{
+const file = e.target.files[0]
+const mediaSrc = URL.createObjectURL(file);
+setMediaPreview(mediaSrc);
+setMediaFile(true);
+
+
+}
+
+
+
 
   return (
     <>
@@ -126,17 +144,20 @@ whileTap={{ scale: 0.9 }}
                   backgroundSize: "cover",
                   backgroundPosition: "center"
                 }}
-                className={`px-4 pb-4 text-black relative text-[1.5rem] transition-all duration-150 outline-0 my-3 post-caption ${changed ? 'h-[350px] bg-image bg-no-repeat bg-cover text-white flex justify-center items-center placeholder-gray-400 font-extrabold' : 'h-[250px]'} `}
+                className={`px-4 pb-4 overflow-hidden text-black relative text-[1.5rem] transition-all duration-150 outline-0 my-3 post-caption ${changed ? 'h-[350px] bg-image bg-no-repeat bg-cover text-white flex justify-center items-center placeholder-gray-400 font-extrabold' : '270px'} `}
                
               >
            
            <p
                   className={`pointer-events-none absolute ${
                     show ? "block" : "hidden"
-                  }`}
+                  }
+                    ${media ? 'text-[20px]' : ''}`
+                
+                }
                 >
                   What's on your mind?{" "}
-                  <span className="capitalize">{user?.f_name}</span>
+                  <span className="capitalize">{user?.username}</span>
                 </p>
 
 
@@ -155,7 +176,55 @@ whileTap={{ scale: 0.9 }}
                   } w-full outline-0 border-none bg-transparent`}
                   placeholder=""
                 />
+{media && (
 
+<>
+<input 
+onChange={handleChnage}
+
+type="file" multiple name="media" id="media" className="hidden"/>
+<label htmlFor="media" >
+
+<div className="w-full h-60 border overflow-y-scroll border-gray-300 rounded-xl flex flex-col items-center justify-center relative bg-gray-50">
+    <button
+    onClick={()=>setOpenMedia(false)}
+    className="absolute  top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700 text-3xl font-bold">
+      &times;
+    </button>
+    
+
+
+    {mediaFile ? (
+      <img src={mediaPreview} alt="Preview" className=" overflow-hidden object-cover w-full z-50 h-full " />
+    ) : (
+      <div className="flex flex-col z-50 items-center cursor-pointer">
+      <div className="bg-gray-200 rounded-full p-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="black"
+          viewBox="0 0 24 24"
+          className="w-6 h-6"
+        >
+          <path d="M12 5v14m7-7H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </div>
+      <p className="mt-2 font-semibold text-sm">Add photos/videos</p>
+      <p className="text-xs text-gray-500">or drag and drop</p>
+    </div>
+    )}
+
+
+
+   
+  </div>
+
+
+</label>
+
+</>
+
+  
+)}
            
               </div>
 
@@ -168,7 +237,12 @@ whileTap={{ scale: 0.9 }}
                     <MdArrowBackIosNew />
                   </div>
                 ) : (
-                  <div onClick={() => setOpenColor(true)} className="cursor-pointer rounded-md">
+                  <div
+                  disabled={media}
+                     
+              
+
+                  onClick={() => setOpenColor(true)} className="cursor-pointer rounded-md">
                     <img className="h-[45px] w-[45px]" src="https://www.facebook.com/images/composer/SATP_Aa_square-2x.png" alt="" />
                   </div>
                 )}
@@ -208,14 +282,27 @@ whileTap={{ scale: 0.9 }}
                 <div className="cursor-pointer rounded-md hover:animate-pulse">
                   <IoHappyOutline size={30} className="text-gray-400" />
                 </div>
+
+
+
+
+                
               </div>
+
+
+
+        
+
+              
+
+
 
               {/* Add to Post Icons */}
               <div className="rounded-md w-full p-4 flex items-center border-gray-300 justify-between border-[0.1em] my-2">
                 <p className="font-semibold">Add to your post</p>
                 <div className="flex items-center gap-3">
                   <Tooltip title="Photo/video" arrow>
-                    <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/y7/r/Ivw7nhRtXyo.png" alt="" />
+                    <img onClick={()=>setOpenMedia(!media)} className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/y7/r/Ivw7nhRtXyo.png" alt="" />
                   </Tooltip>
                   <Tooltip title="Tag people" arrow>
                     <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/yq/r/b37mHA1PjfK.png" alt="" />

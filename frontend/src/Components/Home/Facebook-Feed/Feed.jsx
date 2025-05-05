@@ -29,7 +29,7 @@ const Feed = ({ caption, background, id, user_id, createdAt }) => {
           </div>
 
           {/* Caption */}
-          {background?.image == '' || background?.startColor == '' || background?.endColor == '#ffffff' ?   <p>{caption}</p> : ''}
+          {(background?.image == '' || background?.startColor == '#ffffff' ) && <p className='text-sm m-0'>{caption}</p>} 
         </div>
 
         {/* Background or Image */}
@@ -43,12 +43,17 @@ const Feed = ({ caption, background, id, user_id, createdAt }) => {
             backgroundRepeat: 'no-repeat',
           }}
           className={
-            (!background?.startColor && !background?.endColor && !background?.image)
+            (background?.startColor == '' && background?.endColor === '#ffffff' || background?.image === '')
               ? 'hidden'
-              : 'h-[300px] w-full bg-gray-200 rounded-md'
+              : 'h-[400px] w-full bg-gray-200 rounded relative'
           }
         >
-        {background?.image !== '' || background?.startColor !== '' || background?.endColor !== '#ffffff' ?   <p>{caption}</p> : ''}
+      {(background?.image !== '' || background?.startColor !== '#ffffff')&& 
+      <p className='absolute top-1/2 left-1/2 capitalize -translate-x-1/2 text-white font-semibold text-3xl'>
+        {caption}
+      </p>
+      
+      }
 </div>
         <div className='p-3'>
           {/* Like and Comment Count */}
