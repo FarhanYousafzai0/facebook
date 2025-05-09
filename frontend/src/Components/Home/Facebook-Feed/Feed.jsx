@@ -4,7 +4,7 @@ import { GoDot, GoDotFill } from "react-icons/go";
 import { FiThumbsUp } from "react-icons/fi";
 import { PiShareFat } from "react-icons/pi";
 
-const Feed = ({ background, caption, _id, user_id }) => {
+const Feed = ({ background, caption, _id, user_id,image }) => {
   return (
     <>
       <div className="shadow-lg xl:w-[70%] mx-auto lg:w-[80%] md:w-[90%] w-[95%] bg-white rounded-md my-2">
@@ -38,11 +38,12 @@ const Feed = ({ background, caption, _id, user_id }) => {
               : "h-0"
           }
           style={{
-            background: background.image
-              ? `url(${background?.image})`
+            background: background.image || image
+              ? `url(${background.image ? background?.image : image })`
               : `linear-gradient(${background?.startColor},${background?.endColor})`,
             backgroundSize: "contain",
             backgroundPosition: "center center",
+            backgroundRepeat:'no-repeat'
           }}
         >
           {(background.startColor != "#ffffff" || background.image != "") && (

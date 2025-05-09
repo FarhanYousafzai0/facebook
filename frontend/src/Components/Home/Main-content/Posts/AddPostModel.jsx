@@ -180,7 +180,7 @@ whileTap={{ scale: 0.9 }}
                   backgroundPosition: "center"
                 }}
                 className={`px-4 pb-4 overflow-hidden text-black relative text-[1.5rem] transition-all duration-150 outline-0 my-3 ${
-                  changed ? 'h-[350px] bg-image bg-no-repeat bg-cover text-white flex justify-center items-center placeholder-gray-400 font-extrabold' : ''
+                  changed ? 'h-[350px]  bg-image bg-no-repeat bg-cover text-white flex justify-center items-center placeholder-gray-400 font-extrabold' : 'h-[300px]'
                 }`}
                
               >
@@ -222,7 +222,7 @@ onChange={handleChnage}
 type="file" multiple name="media" id="media" className="hidden"/>
 <label htmlFor="media" >
 
-<div className="w-full h-60 border overflow-y-scroll border-gray-300 rounded-xl flex flex-col items-center justify-center relative bg-gray-50">
+<div className="w-full h-60 border  border-gray-300 rounded-xl flex flex-col items-center justify-center relative bg-gray-50">
     <button
     onClick={()=>setOpenMedia(false)}
     className="absolute  top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700 text-3xl font-bold">
