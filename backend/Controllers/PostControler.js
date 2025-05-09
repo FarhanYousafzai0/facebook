@@ -3,19 +3,18 @@ import { Post } from '../Models/postModel.js';
 
 // Post Controller
 export const postData = asyncHandler(async (req, res) => {
-    const { caption, background } = req.body;
+    const { caption, background,image } = req.body;
     const { user_id } = req.params;
 
-    // Validate input
-    if (!caption ) {
-        return res.status(400).json({ error: 'Caption, background, and user_id are required!' });
-    }
+ 
+    
 
     // Create new post
     const newPost = await Post.create({
         caption,
         background,
-        user_id
+        user_id,
+        image
     });
 
     res.status(200).send(newPost);

@@ -14,6 +14,7 @@ import colors_data from "./PostData/decorative";
 
 import { FadeLoader, PropagateLoader } from "react-spinners";
 import axios from "axios";
+import { use } from "react";
 
 
 
@@ -33,7 +34,8 @@ const AddPostModal = ({ isOpen, onClose }) => {
 const [mediaFile,setMediaFile] = useState(false)
 const [mediaPreview,setMediaPreview] = useState(null);
 const [images,setImages] = useState(null)
-
+const [imageLink,setImageLink] = useState(null);
+const [imageLoading,setImageLoading] = useState(false);
 
   const [selectedColor, setSelectedColor] = useState({
     startColor: '#fff',
@@ -75,29 +77,37 @@ if(postError){
     dispatch(postReset());
   }, [postError, postSuccess]);
 
-  const handlePostSumbit = () => {
+  const handlePostSumbit = async() => {
     if (!postContent.trim()) return;
 
     dispatch(addPostData({
       caption,
       background:selectedColor,
       user_id: user._id,
+      image: await upLoadImage()
     }));
 
 
-upLoadImage();
+
 
 
   };
 
 const upLoadImage = async ()=>{
-  const data = new FormData()
+  try {
+    const data = new FormData()
 data.append('file',images);
 data.append('upload_preset','postimages')
 
 const response = await axios.post('https://api.cloudinary.com/v1_1/djfqperqu/image/upload',data)
 console.log(response.data.url)
+setImageLink(response.data.url);
 
+return response.data.url
+  } catch (error) {
+
+    
+  }
 }
 
 

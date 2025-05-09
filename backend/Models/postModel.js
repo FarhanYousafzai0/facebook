@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const postSchema = new mongoose.Schema({
   caption: {
     type: String,
-    required: true,
+    required: false,
   },
   background: {
     startColor: {
@@ -18,6 +18,11 @@ const postSchema = new mongoose.Schema({
       type: String,
       default: ''
     },
+  },
+  image:{
+type:String,
+default:"",
+required:false,
   },
   
   user_id: {
