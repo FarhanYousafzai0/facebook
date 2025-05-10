@@ -3,6 +3,7 @@ import { FaGlobe, FaRegComment, FaThumbsUp, FaUser } from "react-icons/fa";
 import { GoDot, GoDotFill } from "react-icons/go";
 import { FiThumbsUp } from "react-icons/fi";
 import { PiShareFat } from "react-icons/pi";
+import FacebookReaction from "./FacebookReaction";
 
 const Feed = ({ background, caption, _id, user_id,image }) => {
   return (
@@ -59,7 +60,7 @@ const Feed = ({ background, caption, _id, user_id,image }) => {
         <hr className="bg-gray-300 h-[1px]  border-0" />
         <div className="flex justify-between items-center p-3">
           <div className="flex gap-2 justify-center items-center w-full">
-            <FiThumbsUp className="text-gray-600" />
+           <FacebookReaction/>
             <h6 className="font-semibold text-sm text-gray-600">Like</h6>
           </div>
           <div className="flex gap-2 justify-center items-center w-full">
