@@ -56,7 +56,7 @@ const Feed = ({ background, caption, _id, user_id,image }) => {
           <div className="flex"></div>
           <p className="text-gray-600 m-0">You and 14 others</p>
         </div>
-        <hr className="bg-gray-300 h-[1px] border border-0" />
+        <hr className="bg-gray-300 h-[1px]  border-0" />
         <div className="flex justify-between items-center p-3">
           <div className="flex gap-2 justify-center items-center w-full">
             <FiThumbsUp className="text-gray-600" />

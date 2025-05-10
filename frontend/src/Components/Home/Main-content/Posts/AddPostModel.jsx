@@ -12,7 +12,7 @@ import { addPostData, postReset } from "../../../../features/Posts/postSlice";
 import { IoArrowBack } from "react-icons/io5";
 import colors_data from "./PostData/decorative";
 
-import { FadeLoader, PropagateLoader } from "react-spinners";
+import { ClockLoader, FadeLoader, PropagateLoader } from "react-spinners";
 import axios from "axios";
 import { use } from "react";
 
@@ -93,23 +93,30 @@ if(postError){
 
   };
 
-const upLoadImage = async ()=>{
-  try {
-    const data = new FormData()
-data.append('file',images);
-data.append('upload_preset','postimages')
-
-const response = await axios.post('https://api.cloudinary.com/v1_1/djfqperqu/image/upload',data)
-console.log(response.data.url)
-setImageLink(response.data.url);
-
-return response.data.url
-  } catch (error) {
-
-    
-  }
-}
-
+  const upLoadImage = async () => {
+    try {
+      setImageLoading(true);
+      const data = new FormData();
+      data.append('file', images);
+      data.append('upload_preset', 'postimages');
+  
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/djfqperqu/image/upload',
+        data
+      );
+  
+      setImageLink(response.data.url);
+      return response.data.url;
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    } finally {
+      setImageLoading(false);
+      setMediaPreview(false)
+      setOpenMedia(false);
+    }
+  };
+  
 
 
 const  handleChnage = (e)=>{
@@ -118,6 +125,7 @@ const mediaSrc = URL.createObjectURL(file);
 setMediaPreview(mediaSrc);
 setImages(file);
 setMediaFile(true);
+setOpenMedia(false)
 
 
 }
@@ -138,7 +146,7 @@ setMediaFile(true);
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white rounded-lg shadow-xl w-full md:max-w-[35%] overflow-hidden relative"
+            className="bg-white rounded-lg shadow-xl w-full md:max-w-[40%] overflow-hidden relative"
           >
             {/* Header */}
             <div className="flex items-center justify-center py-3 relative">
@@ -198,9 +206,12 @@ whileTap={{ scale: 0.9 }}
                 </p>
 
 
-           <textarea
-               value={caption}
-               onChange={(e) => setCaption(e.target.value)}
+                <textarea
+  value={caption}
+  onChange={(e) => {
+    setCaption(e.target.value);
+    setPostContent(e.target.value); // <-- update postContent properly
+  }}
                   style={{
                     
                     resize: "none", // Disable manual resizing
@@ -339,7 +350,12 @@ type="file" multiple name="media" id="media" className="hidden"/>
                 <p className="font-semibold">Add to your post</p>
                 <div className="flex items-center gap-3">
                   <Tooltip title="Photo/video" arrow>
-                    <img onClick={()=>setOpenMedia(!media)} className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/y7/r/Ivw7nhRtXyo.png" alt="" />
+                    <img 
+                   style={{
+                    cursor:setOpenColor ? "not-allowd" : "pointer"
+                   }}
+                    disabled={setOpenColor}
+                    onClick={()=>setOpenMedia(!media)}  className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/y7/r/Ivw7nhRtXyo.png" alt="" />
                   </Tooltip>
                   <Tooltip title="Tag people" arrow>
                     <img className="cursor-pointer" src="https://static.xx.fbcdn.net/rsrc.php/v4/yq/r/b37mHA1PjfK.png" alt="" />
@@ -360,16 +376,16 @@ type="file" multiple name="media" id="media" className="hidden"/>
               <button
              
                 onClick={handlePostSumbit}
-                disabled={show}
+                disabled={show || imageLoading}
                 type="submit"
                 style={
                   {
-                    background: show ? '#ccc' : '#155dfc',
-                    cursor: show ? 'not-allowed' : 'pointer',
+                    background: show || imageLoading ? '#ccc' : '#155dfc',
+                    cursor: show || imageLoading ?  'not-allowed' : 'pointer',
                   }
                 }
                 className="w-full p-2 rounded-md text-white cursor-pointer hover:bg-blue-500 transition-all bg-blue-600">
-          {postLoading ? 'Loadig...' : 'Post'}
+          {postLoading || imageLoading ? <ClockLoader color="white" size={20} /> : 'Post'}
               </button>
 
               </div>
