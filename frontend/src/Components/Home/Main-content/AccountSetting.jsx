@@ -25,7 +25,7 @@ const AccountSetting = ({ onClose }) => {
       {/* Modal */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="absolute top-14 md:right-[0px] h-[350px] w-85 z-50 bg-white rounded-md shadow-lg p-4"
+        className="absolute top-14 -right-5 md:right-[0px] h-[350px] w-85 z-50 bg-white rounded-md shadow-lg p-4"
       >
         <div className="w-full rounded-md">
           {/* Profile Info */}

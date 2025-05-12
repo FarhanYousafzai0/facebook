@@ -3,6 +3,7 @@ import AddPost from './Posts/AddPost'
 import Feed from '../Facebook-Feed/Feed'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFacebookPost, postReset } from '../../../features/Posts/postSlice'
+import Story from '../../../Pages/Story/Story'
 
 const Main_Content = () => {
 const dispatch = useDispatch()
@@ -18,8 +19,10 @@ useEffect(()=>{
 
   return (
     <div className=' h-full overflow-y-scroll  '>
-<AddPost/>
 
+
+<AddPost/>
+<Story/>
 
  {post?.map((item,index)=>{
   return  <Feed key={index} {...item} />

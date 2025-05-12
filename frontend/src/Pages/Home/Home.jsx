@@ -4,6 +4,11 @@ import Sidebar from '../../Components/Home/Main-content/Sidebar';
 import Main_Content from '../../Components/Home/Main-content/Main_Content';
 import Ads from '../../Components/Home/Main-content/Ads';
 
+
+
+
+
+
 const Home = () => {
   return (
     <div className="w-screen h-screen bg-[#F2F4F7] text-black flex flex-col overflow-hidden">
