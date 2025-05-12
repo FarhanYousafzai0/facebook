@@ -62,17 +62,16 @@ export const makeReactions = asyncHandler(async (req, res) => {
   
 
 
+// Geting all the reactions ,store in the mongoDb to show on Client server:
+export const getAllReactions = asyncHandler(async (req, res) => {
+  const { post_id } = req.params;
 
-  export const getAllReactions = asyncHandler(async(req,res)=>{
+  const findPost = await Post.findById(post_id);
 
+  if (!findPost) {
+    return res.status(404).json({ message: "Post not found." });
+  }
 
-    const {post_id} = req.params
-
-
-    const findPost = await Post.findById(post_id);
-
-    res.status(200).json(findPost);
-
-     
-
-  })
+  // If likes is an array, this will work
+  res.status(200).json({ count: findPost.likes.length, likes: findPost.likes });
+});
