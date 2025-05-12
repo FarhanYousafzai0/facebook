@@ -67,11 +67,28 @@ export const getAllReactions = asyncHandler(async (req, res) => {
   const { post_id } = req.params;
 
   const findPost = await Post.findById(post_id);
-
   if (!findPost) {
     return res.status(404).json({ message: "Post not found." });
   }
 
-  // If likes is an array, this will work
-  res.status(200).json({ count: findPost.likes.length, likes: findPost.likes });
+  const countReactions = {};
+
+  // Count each reaction type
+  findPost.likes.forEach((reaction) => {
+    if (reaction.type) {
+      countReactions[reaction.type] = (countReactions[reaction.type] || 0) + 1;
+    }
+  });
+
+  // Sort them by frequency
+  const sortedReactions = Object.entries(countReactions)
+    .sort((a, b) => b[1] - a[1]) // descending order
+    .map(([type, count]) => ({ type, count }));
+
+  // Send both full list and summary
+  res.status(200).json({
+    count: findPost.likes.length,
+    likes: findPost.likes,
+    reactionSummary: sortedReactions
+  });
 });
