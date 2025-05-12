@@ -27,11 +27,10 @@ export const getallPost = async()=>{
 // Add Reactions:
 
 
-export const AddReactions = async(reactionsData)=>{
-
-
-  const response = await axios.post(`{${URL}/make-reactions/${reactionsData.post_id}/${reactionsData.user_id}}`,reactionsData)
-
-
-  return response.data
-}
+export const AddReactions = async (reactionsData) => {
+  const response = await axios.post(
+    `${URL}/make-reactions/${reactionsData.post_id}/${reactionsData.user_id}`,
+    reactionsData
+  );
+  return response.data;
+};

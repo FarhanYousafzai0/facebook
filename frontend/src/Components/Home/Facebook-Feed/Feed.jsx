@@ -58,18 +58,18 @@ const Feed = ({ background, caption, _id, user_id,image }) => {
           <p className="text-gray-600 m-0">You and 14 others</p>
         </div>
         <hr className="bg-gray-300 h-[1px]  border-0" />
-        <div className="flex justify-between items-center p-3">
-          <div className="flex gap-2 justify-center items-center w-full">
+        <div className="flex justify-around items-center p-3">
+          <div className="flex gap-2 justify-center items-center w-full cursor-pointer transition-colors hover:bg-gray-100 py-2 rounded-md">
            <FacebookReaction post_id={_id}
            
            />
            
           </div>
-          <div className="flex gap-2 justify-center items-center w-full">
+          <div className="flex gap-2 justify-center items-center w-full hover:bg-gray-100 transition-colors  py-2 cursor-pointer  rounded-md ">
             <FaRegComment className="text-gray-600" />
             <h6 className="font-semibold text-sm text-gray-600">Comment</h6>
           </div>
-          <div className="flex gap-2 justify-center items-center w-full">
+          <div className="flex gap-2 justify-center items-center w-full hover:bg-gray-100 transition-colors  py-2 cursor-pointer rounded-md ">
             <PiShareFat className="text-gray-600" />
             <h6 className="font-semibold text-sm text-gray-600">Share</h6>
           </div>

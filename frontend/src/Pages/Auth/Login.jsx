@@ -184,7 +184,7 @@ const Login = () => {
               className={`w-full ${
                 blocked
                   ? 'bg-gray-500 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white'
+                  : 'bg-gradient-to-r from-blue-500 cursor-pointer to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white'
               } font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5`}
             >
               {blocked ? 'Blocked' : 'Login'}

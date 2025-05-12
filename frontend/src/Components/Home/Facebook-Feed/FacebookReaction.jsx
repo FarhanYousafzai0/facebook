@@ -2,23 +2,37 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmojiPicker from 'emoji-picker-react';
 import { TbThumbUp } from 'react-icons/tb';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { addReactionsData, postReset } from '../../../features/Posts/postSlice';
 
 const emojiReactions = [
-  { name: 'Like', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f44d/512.webp', color: '#1877F2' }, // Blue
-  { name: 'Love', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/2764_fe0f/512.webp', color: '#F33E58' }, // Red
-  { name: 'Haha', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f602/512.webp', color: '#F7B125' }, // Yellow
-  { name: 'Wow', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f929/512.webp', color: '#F7B125' }, // Yellow
-  { name: 'Sad', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f62d/512.webp', color: '#F7B125' }, // Yellow
-  { name: 'Angry', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f92c/512.webp', color: '#E9710F' }, // Orange
+  { name: 'Like', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f44d/512.webp', color: '#1877F2' },
+  { name: 'Love', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/2764_fe0f/512.webp', color: '#F33E58' },
+  { name: 'Haha', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f602/512.webp', color: '#F7B125' },
+  { name: 'Wow', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f929/512.webp', color: '#F7B125' },
+  { name: 'Sad', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f62d/512.webp', color: '#F7B125' },
+  { name: 'Angry', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f92c/512.webp', color: '#E9710F' },
 ];
 
-
-const FacebookReaction = ({post_id}) => {
+const FacebookReaction = ({ onReactionSelect, post_id }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
   const hoverTimeoutRef = useRef(null);
   const componentRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const { reactionSucess } = useSelector((state) => state.post);
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (reactionSucess) {
+      toast.success('Reaction Added!');
+      dispatch(postReset()); // Reset to avoid repeated toasts
+    }
+  }, [reactionSucess, dispatch]);
 
   const handleMouseEnter = () => {
     clearTimeout(hoverTimeoutRef.current);
@@ -34,38 +48,35 @@ const FacebookReaction = ({post_id}) => {
     }
   };
 
-
-
-// Handle Emojies Reactions to save in the Database:
-
-
-
   const handleEmojiClick = (emoji) => {
-        
-    const reactionData = {
-      user_id,
-      post_id,
-      emojis:emojiReactions.name
-    }
-
-
-
-
-
     setSelectedEmoji(emoji);
     setIsHovering(false);
+
+    if (!user?._id) {
+      toast.error('You must be logged in to react.');
+      return;
+    }
+
+    const reactionData = {
+      user_id: user._id,
+      post_id,
+      emoji: emoji.name,
+    };
+
+    dispatch(addReactionsData(reactionData));
     if (onReactionSelect) {
       onReactionSelect(emoji);
     }
   };
 
   const handlePickerSelect = (emojiData) => {
-    const emojiObj = { name: emojiData.names[0], image: emojiData.imageUrl };
-    setSelectedEmoji(emojiObj);
+    const emojiObj = {
+      name: emojiData.names[0],
+      image: emojiData.imageUrl,
+      color: '#000000',
+    };
+    handleEmojiClick(emojiObj);
     setShowPicker(false);
-    if (onReactionSelect) {
-      onReactionSelect(emojiObj);
-    }
   };
 
   useEffect(() => {
@@ -75,11 +86,8 @@ const FacebookReaction = ({post_id}) => {
         setShowPicker(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -104,14 +112,15 @@ const FacebookReaction = ({post_id}) => {
         }}
       >
         {selectedEmoji ? (
-  <>
-    <img src={selectedEmoji.image} alt={selectedEmoji.name} width={27} height={27} />
-    <span style={{ fontSize: '18px', color: selectedEmoji.color }}>{selectedEmoji.name}</span>
-  </>
-) : (
- <> <TbThumbUp size={20} /> Like</>
-)}
-
+          <>
+            <img src={selectedEmoji.image} alt={selectedEmoji.name} width={27} height={27} />
+            <span style={{ fontSize: '18px', color: selectedEmoji.color }}>{selectedEmoji.name}</span>
+          </>
+        ) : (
+          <>
+            <TbThumbUp size={20} /> Like
+          </>
+        )}
       </button>
 
       <AnimatePresence>
@@ -140,11 +149,7 @@ const FacebookReaction = ({post_id}) => {
                 key={index}
                 whileHover={{ scale: 1.5, y: -10 }}
                 transition={{ type: 'spring', stiffness: 500 }}
-                style={{
-                  margin: '0 6px',
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                }}
+                style={{ margin: '0 6px', cursor: 'pointer', textAlign: 'center' }}
                 onClick={() => handleEmojiClick(emoji)}
               >
                 <img src={emoji.image} alt={emoji.name} width={28} height={28} />
@@ -176,7 +181,7 @@ const FacebookReaction = ({post_id}) => {
       {showPicker && (
         <div style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}>
           <EmojiPicker
-            onEmojiClick={handlePickerSelect}
+            onEmojiClick={(emojiData) => handlePickerSelect(emojiData)}
             width={300}
             height={350}
             previewConfig={{ showPreview: false }}

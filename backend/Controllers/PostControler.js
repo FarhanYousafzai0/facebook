@@ -34,7 +34,7 @@ res.status(200).json(allPost);
 
 export const makeReactions = asyncHandler(async (req, res) => {
     const { post_id, user_id } = req.params;
-    const { emojis } = req.body;
+    const { emoji } = req.body;
   
     const findPost = await Post.findById(post_id);
   
@@ -46,13 +46,13 @@ export const makeReactions = asyncHandler(async (req, res) => {
   
     if (!checkPost) {
       // Add new reaction
-      findPost.likes.push({ type: emojis, id: user_id });
-    } else if (checkPost.type === emojis) {
+      findPost.likes.push({ type: emoji, id: user_id });
+    } else if (checkPost.type === emoji) {
       // Remove reaction (toggle off)
       findPost.likes = findPost.likes.filter((item) => item.id !== user_id);
     } else {
       // Change reaction
-      checkPost.type = emojis;
+      checkPost.type = emoji;
     }
   
     await findPost.save(); // 🔥 this was missing!
@@ -60,3 +60,19 @@ export const makeReactions = asyncHandler(async (req, res) => {
     res.status(200).json(findPost);
   });
   
+
+
+
+  export const getAllReactions = asyncHandler(async(req,res)=>{
+
+
+    const {post_id} = req.params
+
+
+    const findPost = await Post.findById(post_id);
+
+    res.status(200).json(findPost);
+
+     
+
+  })
