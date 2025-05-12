@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './global.css';
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Register from './Pages/Auth/Register';

@@ -26,7 +26,7 @@ const Feed = ({ background, caption, _id, user_id, image }) => {
   }, []);
 
   return (
-    <div className="shadow-lg xl:w-[70%] mx-auto lg:w-[80%] md:w-[90%] w-[95%] bg-white rounded-md my-2">
+    <div className="shadow-lg xl:w-[70%] mx-auto lg:w-[80%] md:w-[90%]  w-[95%] bg-white rounded-md my-2">
       {/* User Info */}
       <div className="flex p-3 justify-between items-center">
         <div className="flex items-center gap-2">

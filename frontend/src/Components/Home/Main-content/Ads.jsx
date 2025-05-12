@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import gsap from 'gsap';
-import { GiCrossedBones } from 'react-icons/gi';
-import { RxCross1, RxCrosshair1 } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
+
 
 const Ads = () => {
   const groupRef = useRef(null);
@@ -70,7 +70,7 @@ const Ads = () => {
       >
         <div className='flex items-center justify-between  m-2'>
           <p className='font-semibold'>New Message</p>
-<RxCrosshair1 onClick={handleToggleGroup} className='hover:rotate-[160deg] text-purple-500 cursor-pointer transition-all' />
+<RxCross2 size={25} onClick={handleToggleGroup} className='hover:rotate-[180deg] text-purple-500 cursor-pointer transition-all' />
 
         </div>
 

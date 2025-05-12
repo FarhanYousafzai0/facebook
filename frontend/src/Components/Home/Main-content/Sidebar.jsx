@@ -16,7 +16,7 @@ const Sidebar = () => {
     <div className="h-full p-5 ">
       {/* Profile */}
       <div className="flex items-center gap-2 mb-6">
-        <div className="w-10 h-10 rounded-full overflow-hidden">
+        <div className="w-10 h-10 rounded-full overflow-hidden hide-scrollbar">
           <img
             src={user?.profilePic}
             alt="profile"

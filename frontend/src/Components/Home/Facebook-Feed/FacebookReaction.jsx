@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmojiPicker from 'emoji-picker-react';
 import { FiThumbsUp } from "react-icons/fi";
-
-
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +16,7 @@ const emojiReactions = [
   { name: 'Angry', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f92c/512.webp', color: '#E9710F' },
 ];
 
-const FacebookReaction = ({ onReactionSelect, post_id,likes }) => {
+const FacebookReaction = ({ onReactionSelect, post_id, likes }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
@@ -32,7 +30,7 @@ const FacebookReaction = ({ onReactionSelect, post_id,likes }) => {
   useEffect(() => {
     if (reactionSucess) {
       toast.success('Reaction Added!');
-      dispatch(postReset()); // Reset to avoid repeated toasts
+      dispatch(postReset());
     }
   }, [reactionSucess, dispatch]);
 
@@ -92,12 +90,7 @@ const FacebookReaction = ({ onReactionSelect, post_id,likes }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-
-
-  const isPresent = likes?.find((item) => {
-    return item?.id == user?._id
-  })
-  
+  const isPresent = likes?.find((item) => item?.id === user?._id);
 
   return (
     <div
@@ -127,33 +120,10 @@ const FacebookReaction = ({ onReactionSelect, post_id,likes }) => {
           </>
         ) : (
           <>
-          
-            {isPresent?.type == 'Like' && <>
-              <FiThumbsUp className="text-gray-600" />
-              <h6 className="font-semibold text-sm text-gray-600">Like</h6>
-            </>}
-            {isPresent?.type == 'Wow' && <>
-              <FiThumbsUp className="text-gray-600" />
-              <h6 className="font-semibold text-sm text-gray-600">Wow</h6>
-            </>}
-            {isPresent?.type == 'Sad' && <>
-              <FiThumbsUp className="text-gray-600" />
-              <h6 className="font-semibold text-sm text-gray-600">Sad</h6>
-            </>}
-            {isPresent?.type == 'Haha' && <>
-              <FiThumbsUp className="text-gray-600" />
-              <h6 className="font-semibold text-sm text-gray-600">Haha</h6>
-            </>}
-            {isPresent?.type == 'Angry' && <>
-              <FiThumbsUp className="text-gray-600" />
-              <h6 className="font-semibold text-sm text-gray-600">Angry</h6>
-            </>}
-            {isPresent?.type == 'Love' && <>
-              <FiThumbsUp className="text-gray-600" />
-              <h6 className="font-semibold text-sm text-gray-600">Love</h6>
-            </>}
-
-          
+            <FiThumbsUp className="text-gray-600" />
+            <h6 className="font-semibold text-sm text-gray-600">
+              {isPresent?.type || 'Like'}
+            </h6>
           </>
         )}
       </button>
@@ -214,7 +184,15 @@ const FacebookReaction = ({ onReactionSelect, post_id,likes }) => {
       </AnimatePresence>
 
       {showPicker && (
-        <div style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '100%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1000,
+          }}
+        >
           <EmojiPicker
             onEmojiClick={(emojiData) => handlePickerSelect(emojiData)}
             width={300}
