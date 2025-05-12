@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addPost, getallPost } from './postService';
+import { addPost, AddReactions, getallPost } from './postService';
+
 
 // Initial State
 const initialState = {
@@ -8,6 +9,11 @@ const initialState = {
     postError: false,
     postSuccess: false,
     postMessage: "",
+    reactions:[],
+    reactionLaoding : false,
+  reactionSuccess:false,
+  reactionError:false,
+  reactionMessage:false
 };
 
 // Async Thunks
@@ -38,6 +44,22 @@ export const getFacebookPost = createAsyncThunk(
     }
 );
 
+
+// Add Reactions:
+
+export const addReactionsData = createAsyncThunk('add-Reactions',async(addReactionsData,thunkAPI)=>{
+try {
+    
+    return await AddReactions(addReactionsData)
+} catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.error) || 'Something Went Wrong.Kindly Check.'
+}
+    
+})
+
+
+
+
 // Slice
 const postSlice = createSlice({
     name: 'post',
@@ -48,6 +70,10 @@ const postSlice = createSlice({
             state.postLoading = false;
             state.postMessage = '';
             state.postSuccess = false;
+            state.reactionError = false;
+            state.reactionLaoding = false;
+            state.reactionSuccess = false;
+            state.reactionMessage = "";
         },
     },
     extraReducers: (builder) => {
@@ -66,7 +92,7 @@ const postSlice = createSlice({
                 state.postLoading = false;
                 state.postSuccess = true;
                 state.postMessage = 'Post added successfully!';
-                state.post.unshift(action.payload); // fixed: use payload
+                state.post.unshift(action.payload);
             })
 
             // Get All Posts
@@ -82,9 +108,23 @@ const postSlice = createSlice({
                 state.postLoading = false;
                 state.postError = false;
                 state.post = action.payload;
+            })
+
+            // Add Reaction
+            .addCase(addReactionsData.pending, (state) => {
+                state.reactionLaoding = true;
+            })
+            .addCase(addReactionsData.rejected, (state, action) => {
+                state.reactionLaoding = false;
+                state.reactionError = true;
+                state.reactionMessage = action.payload;
+            })
+            .addCase(addReactionsData.fulfilled, (state, action) => {
+               
             });
     },
 });
+
 
 export const { postReset } = postSlice.actions;
 export default postSlice.reducer;

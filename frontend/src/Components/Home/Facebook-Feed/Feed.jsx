@@ -61,7 +61,7 @@ const Feed = ({ background, caption, _id, user_id,image }) => {
         <div className="flex justify-between items-center p-3">
           <div className="flex gap-2 justify-center items-center w-full">
            <FacebookReaction/>
-            <h6 className="font-semibold text-sm text-gray-600">Like</h6>
+           
           </div>
           <div className="flex gap-2 justify-center items-center w-full">
             <FaRegComment className="text-gray-600" />
