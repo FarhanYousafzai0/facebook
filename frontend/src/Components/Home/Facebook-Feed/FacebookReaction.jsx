@@ -13,7 +13,7 @@ const emojiReactions = [
 ];
 
 
-const FacebookReaction = ({ onReactionSelect }) => {
+const FacebookReaction = ({post_id}) => {
   const [isHovering, setIsHovering] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
@@ -34,7 +34,24 @@ const FacebookReaction = ({ onReactionSelect }) => {
     }
   };
 
+
+
+// Handle Emojies Reactions to save in the Database:
+
+
+
   const handleEmojiClick = (emoji) => {
+        
+    const reactionData = {
+      user_id,
+      post_id,
+      emojis:emojiReactions.name
+    }
+
+
+
+
+
     setSelectedEmoji(emoji);
     setIsHovering(false);
     if (onReactionSelect) {

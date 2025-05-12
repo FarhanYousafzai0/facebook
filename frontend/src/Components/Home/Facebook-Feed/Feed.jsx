@@ -60,7 +60,9 @@ const Feed = ({ background, caption, _id, user_id,image }) => {
         <hr className="bg-gray-300 h-[1px]  border-0" />
         <div className="flex justify-between items-center p-3">
           <div className="flex gap-2 justify-center items-center w-full">
-           <FacebookReaction/>
+           <FacebookReaction post_id={_id}
+           
+           />
            
           </div>
           <div className="flex gap-2 justify-center items-center w-full">
