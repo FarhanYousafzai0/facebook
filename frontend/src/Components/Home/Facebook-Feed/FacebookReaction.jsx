@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmojiPicker from 'emoji-picker-react';
-import { TbThumbUp } from 'react-icons/tb';
+import { FiThumbsUp } from "react-icons/fi";
+
+
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +18,7 @@ const emojiReactions = [
   { name: 'Angry', image: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f92c/512.webp', color: '#E9710F' },
 ];
 
-const FacebookReaction = ({ onReactionSelect, post_id }) => {
+const FacebookReaction = ({ onReactionSelect, post_id,likes }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
@@ -90,6 +92,13 @@ const FacebookReaction = ({ onReactionSelect, post_id }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+
+
+  const isPresent = likes?.find((item) => {
+    return item?.id == user?._id
+  })
+  
+
   return (
     <div
       ref={componentRef}
@@ -118,7 +127,33 @@ const FacebookReaction = ({ onReactionSelect, post_id }) => {
           </>
         ) : (
           <>
-            <TbThumbUp size={20} /> Like
+          
+            {isPresent?.type == 'Like' && <>
+              <FiThumbsUp className="text-gray-600" />
+              <h6 className="font-semibold text-sm text-gray-600">Like</h6>
+            </>}
+            {isPresent?.type == 'Wow' && <>
+              <FiThumbsUp className="text-gray-600" />
+              <h6 className="font-semibold text-sm text-gray-600">Wow</h6>
+            </>}
+            {isPresent?.type == 'Sad' && <>
+              <FiThumbsUp className="text-gray-600" />
+              <h6 className="font-semibold text-sm text-gray-600">Sad</h6>
+            </>}
+            {isPresent?.type == 'Haha' && <>
+              <FiThumbsUp className="text-gray-600" />
+              <h6 className="font-semibold text-sm text-gray-600">Haha</h6>
+            </>}
+            {isPresent?.type == 'Angry' && <>
+              <FiThumbsUp className="text-gray-600" />
+              <h6 className="font-semibold text-sm text-gray-600">Angry</h6>
+            </>}
+            {isPresent?.type == 'Love' && <>
+              <FiThumbsUp className="text-gray-600" />
+              <h6 className="font-semibold text-sm text-gray-600">Love</h6>
+            </>}
+
+          
           </>
         )}
       </button>

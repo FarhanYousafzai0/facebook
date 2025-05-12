@@ -108,7 +108,7 @@ const Feed = ({ background, caption, _id, user_id, image }) => {
       {/* Buttons */}
       <div className="flex justify-around items-center p-3">
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
-          <FacebookReaction post_id={_id} />
+          <FacebookReaction post_id={_id} likes={likes} />
         </div>
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <FaRegComment className="text-gray-600" />
