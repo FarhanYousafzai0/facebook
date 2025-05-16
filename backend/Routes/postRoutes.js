@@ -1,5 +1,6 @@
 import express from 'express'
 import { addComments, getAllReactions, getPost, makeReactions, postData } from '../Controllers/PostControler.js';
+import { handleAuth } from '../Middlewares/AuthMiddleware.js';
 
 export const postRouter = express.Router();
 // Add Posts
@@ -20,7 +21,7 @@ postRouter.get('/get-reactions/:post_id',getAllReactions);
 
 // Add Comments:
 
-postRouter.post('/add-comments',addComments);
+postRouter.post('/add-comments',handleAuth,addComments);
 
 
 
