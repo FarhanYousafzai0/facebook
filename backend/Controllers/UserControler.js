@@ -116,7 +116,6 @@ export const register = asyncHandler(async (req, res) => {
 });
 
 // Verfiy otp:
-
 export const otpVerify = asyncHandler(async (req, res) => {
     const { otp } = req.body;
     const { user_id } = req.params;
@@ -154,9 +153,6 @@ export const otpVerify = asyncHandler(async (req, res) => {
 
 
 // Login:
-
-
-
 export const login = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
   

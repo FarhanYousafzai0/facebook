@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllReactions, getPost, makeReactions, postData } from '../Controllers/PostControler.js';
+import { addComments, getAllReactions, getPost, makeReactions, postData } from '../Controllers/PostControler.js';
 
 export const postRouter = express.Router();
 // Add Posts
@@ -15,3 +15,12 @@ postRouter.post('/make-reactions/:post_id/:user_id',makeReactions)
 // Get-post-Reactions:
 
 postRouter.get('/get-reactions/:post_id',getAllReactions);
+
+
+
+// Add Comments:
+
+postRouter.post('/add-comments',addComments);
+
+
+

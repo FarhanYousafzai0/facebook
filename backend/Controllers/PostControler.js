@@ -92,3 +92,12 @@ export const getAllReactions = asyncHandler(async (req, res) => {
     reactionSummary: sortedReactions
   });
 });
+
+
+
+
+export const addComments = async(req,res)=>{
+
+console.log("This is Add comments");
+
+}
