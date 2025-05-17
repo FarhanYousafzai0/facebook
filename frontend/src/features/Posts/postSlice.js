@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addPost, AddReactions, getallPost } from './postService';
+import { addComments, addPost, AddReactions, getallPost } from './postService';
 
 
 // Initial State
@@ -13,7 +13,12 @@ const initialState = {
     reactionLaoding : false,
   reactionSuccess:false,
   reactionError:false,
-  reactionMessage:false
+  reactionMessage:false,
+
+  commentLoading:false,
+  commentError:false,
+  commentSuccess:false,
+  commentMessage:''
 };
 
 // Async Thunks
@@ -58,6 +63,22 @@ try {
 })
 
 
+// Add Comments:
+
+
+export const addCommentsData = createAsyncThunk('add-comment',async(addComment,thunkAPI)=>{
+
+try {
+const token = thunkAPI.getState().auth.user.token
+return await addComments(addComment,token);
+
+    
+} catch (error) {
+    thunkAPI.rejectWithValue(error.response.data.error)
+}
+
+})
+
 
 
 // Slice
@@ -74,6 +95,10 @@ const postSlice = createSlice({
             state.reactionLaoding = false;
             state.reactionSuccess = false;
             state.reactionMessage = "";
+            state.commentError = false,
+            state.commentLoading = false,
+            state.commentSuccess = false,
+            state.commentMessage = ""
         },
     },
     extraReducers: (builder) => {
@@ -120,8 +145,25 @@ const postSlice = createSlice({
                 state.reactionMessage = action.payload;
             })
             .addCase(addReactionsData.fulfilled, (state, action) => {
-               
-            });
+                state.reactionError = false
+                state.reactionLaoding = false
+               state.reactionSuccess = true
+            })
+            // Add_comments:
+
+            .addCase(addCommentsData.pending, (state) => {
+    state.commentLoading = true;
+})
+.addCase(addCommentsData.rejected, (state, action) => {
+    state.commentLoading = false;
+    state.commentError = true;
+    state.commentMessage = action.payload;
+})
+
+            .addCase(addCommentsData.fulfilled, (state, action) => {
+               state.commentSuccess = true
+               state.commentLoading = false
+            })
     },
 });
 
