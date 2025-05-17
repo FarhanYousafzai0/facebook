@@ -96,6 +96,10 @@ export const otpVerify = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: "Please enter OTP!" });
   }
 
+  if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) {
+    return res.status(400).json({ error: "Invalid or missing user ID!" });
+  }
+
   const findUser = await user.findById(user_id);
 
   if (!findUser) {

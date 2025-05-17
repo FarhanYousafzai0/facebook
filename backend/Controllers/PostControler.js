@@ -98,6 +98,19 @@ export const getAllReactions = asyncHandler(async (req, res) => {
 
 export const addComments = async(req,res)=>{
 
-console.log("This is Add comments");
+  const {post_id} = req.params
+  const {user_id} = req.user.id
+  const {comment} = res.body
+
+  const findPost = await Post.findById(post_id);
+
+  if(!findPost){
+    res.status(401).json({message:"Post Not Found"});
+  }
+
+  findPost.comments.push({user:req.user,comment});
+  res.save(findPost);
+  res.send(findPost);
+
 
 }

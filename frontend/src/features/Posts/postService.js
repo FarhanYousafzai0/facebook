@@ -34,3 +34,25 @@ export const AddReactions = async (reactionsData) => {
   );
   return response.data;
 };
+
+
+
+
+
+// Add-Comments:
+export const addComments = async(postData,token)=>{
+
+  // When we senting a token into backend ,so have to sent it in the config format :
+
+  const config = {
+    headers:{
+      Authorizations:`Bearer ${token}`
+    }
+  }
+
+  const response = axios.post(`${URL}/add-comments/${postData.post_id}`,postData,config);
+  return response.data
+
+
+
+}

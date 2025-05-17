@@ -21,7 +21,7 @@ postRouter.get('/get-reactions/:post_id',getAllReactions);
 
 // Add Comments:
 
-postRouter.post('/add-comments',handleAuth,addComments);
+postRouter.post('/add-comments/:post_id',handleAuth,addComments);
 
 
 
