@@ -1,0 +1,122 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import { FaRegComment, FaUser } from 'react-icons/fa';
+import { PiShareFat } from 'react-icons/pi';
+import { RxAvatar } from 'react-icons/rx';
+import { BsEmojiSmile } from 'react-icons/bs';
+import { BiSolidSend } from 'react-icons/bi';
+import FacebookReaction from './FacebookReaction';
+
+
+export default function CommentsModel() {
+  const [open, setOpen] = React.useState(false);
+  const [comment, setComment] = React.useState("");
+  const user = { f_name: "Farhan" }; // replace with actual logged-in user
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleComment = () => {
+    console.log("Comment submitted:", comment);
+    setComment("");
+  };
+
+  return (
+    <div>
+      <Button onClick={handleOpen}>
+        <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
+          <FaRegComment className="text-gray-600 text-lg" />
+          <h6 className="text-sm text-gray-600">Comment</h6>
+        </div>
+      </Button>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black rounded w-[95%] max-w-2xl max-h-[90vh] overflow-y-auto">
+          {/* Modal Header */}
+          <div className='flex items-center justify-center h-[70px] border-b border-gray-300'>
+            <h1 className='font-semibold text-2xl'>Farhan's Post</h1>
+          </div>
+
+          {/* Actual Post */}
+          <div className="bg-white w-full  rounded-md shadow-md font-sans">
+            {/* Top Header */}
+            <div className="flex items-center p-4 border-b">
+              <img
+                src="https://scontent.fisb17-1.fna.fbcdn.net/v/t39.30808-6/498948044_698083949390945_3426704093410471690_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=SAwTJYo9lJQQ7kNvwE9-brH&_nc_oc=AdkHhE2aF_tBiReICULCv8K1pwhvQplGq1mBeeIP9aCRcJOHQl87cSFXLMr5ziFhsoP1AArJIJV089mwhOwM4mZo&_nc_zt=23&_nc_ht=scontent.fisb17-1.fna&_nc_gid=7iXnqBY0ekePYa002ONIbA&oh=00_AfJWVotPTD1TqVuXudrKuxLKekbtIMF2Sldjf6JiNrQlgQ&oe=682E25B0"
+                alt="profile"
+                className="rounded-full w-10 h-10 mr-3"
+              />
+              <div>
+                <p className="font-semibold text-sm">
+                  Imtiaz Hussain Photography <span className="text-gray-500">is in</span>{" "}
+                  <span className="font-semibold text-sm">Gilgit-Baltistan.</span>
+                </p>
+                <p className="text-xs text-gray-500">5h · 🌐</p>
+              </div>
+            </div>
+
+            {/* Post Image */}
+            <div className="w-full">
+              <img
+                src="https://scontent.fisb17-1.fna.fbcdn.net/v/t39.30808-6/498948044_698083949390945_3426704093410471690_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=SAwTJYo9lJQQ7kNvwE9-brH&_nc_oc=AdkHhE2aF_tBiReICULCv8K1pwhvQplGq1mBeeIP9aCRcJOHQl87cSFXLMr5ziFhsoP1AArJIJV089mwhOwM4mZo&_nc_zt=23&_nc_ht=scontent.fisb17-1.fna&_nc_gid=7iXnqBY0ekePYa002ONIbA&oh=00_AfJWVotPTD1TqVuXudrKuxLKekbtIMF2Sldjf6JiNrQlgQ&oe=682E25B0"
+                alt="Gilgit Baltistan"
+                className="w-full rounded"
+              />
+            </div>
+
+            {/* Like, Comment, Share */}
+            <div className="flex px-10  py-3 items-center justify-between">
+              <FacebookReaction />
+              <div className="flex gap-2 cursor-pointer justify-center hover:bg-gray-200 transition-all p-2 rounded  items-center ">
+                <FaRegComment className="text-gray-600" />
+                <h6 className="font-semibold text-sm text-gray-600 bg-b">Comment</h6>
+              </div>
+              <div className="flex gap-2 justify-center cursor-pointer items-center hover:bg-gray-200 transition-all p-2 rounded ">
+                <PiShareFat className="text-gray-600" />
+                <h6 className="font-semibold text-sm  text-gray-600">Share</h6>
+              </div>
+            </div>
+
+            {/* Single Comment Display */}
+            <div className="p-4 text-sm">
+             
+            </div>
+
+            {/* Comment Input Box */}
+            <div className="flex w-full p-3 gap-2 sticky bottom-0 left-0 bg-white">
+              <div className="w-[35px] h-[35px] bg-gray-200 border-gray-300 rounded-full border flex justify-center items-center">
+                <FaUser size={15} className="text-gray-600" />
+              </div>
+
+              <div className="bg-gray-100 rounded-xl w-full text-sm text-gray-800">
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder={`Comment as ${user?.f_name}`}
+                  className="outline-none resize-none w-full border-0 p-3 rounded-xl"
+                  rows={2}
+                ></textarea>
+                <div className="flex gap-2 justify-between items-center px-3 pb-2">
+                  <div className="flex gap-3 text-lg text-gray-500">
+                    <RxAvatar />
+                    <BsEmojiSmile />
+                  </div>
+                  <BiSolidSend
+                    onClick={handleComment}
+                    className="cursor-pointer text-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Box>
+      </Modal>
+    </div>
+  );
+}

@@ -4,6 +4,7 @@ import { PiShareFat } from "react-icons/pi";
 import FacebookReaction from "./FacebookReaction";
 import axios from "axios";
 import { emojiMap } from "./emojis";
+import CommentsModel from "./CommentsModel";
 
 const Feed = ({ background, caption, _id, user_id, image }) => {
   const [likes, setLikes] = useState([]);
@@ -110,10 +111,7 @@ const Feed = ({ background, caption, _id, user_id, image }) => {
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <FacebookReaction post_id={_id} likes={likes} />
         </div>
-        <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
-          <FaRegComment className="text-gray-600" />
-          <h6 className="font-semibold text-sm text-gray-600">Comment</h6>
-        </div>
+        <CommentsModel/>
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <PiShareFat className="text-gray-600" />
           <h6 className="font-semibold text-sm text-gray-600">Share</h6>
