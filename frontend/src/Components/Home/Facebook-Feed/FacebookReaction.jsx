@@ -95,13 +95,14 @@ const FacebookReaction = ({ onReactionSelect, post_id, likes }) => {
   return (
     <div
       ref={componentRef}
-      className="reaction-container"
+      className="reaction-container p-2 hover:bg-gray-200 transition-all rounded"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+
       style={{ position: 'relative', display: 'inline-block' }}
     >
       <button
-        className="reaction-trigger"
+        className="reaction-trigger  h"
         style={{
           background: 'none',
           border: 'none',
@@ -135,7 +136,7 @@ const FacebookReaction = ({ onReactionSelect, post_id, likes }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="emoji-reactions"
+            className="emoji-reactions "
             style={{
               position: 'absolute',
               bottom: '100%',
@@ -153,6 +154,7 @@ const FacebookReaction = ({ onReactionSelect, post_id, likes }) => {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.5, y: -10 }}
+                className=''
                 transition={{ type: 'spring', stiffness: 500 }}
                 style={{ margin: '0 6px', cursor: 'pointer', textAlign: 'center' }}
                 onClick={() => handleEmojiClick(emoji)}
