@@ -23,7 +23,7 @@ path: "/friends",
     id:3,
 title:"Video",
 icon: <FaVideo />,
-path: "/home",
+path: "/video",
 
     },{
     id:4,

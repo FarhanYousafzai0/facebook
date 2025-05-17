@@ -11,6 +11,7 @@ import FacebookReaction from './FacebookReaction';
 import { HiOutlineGif } from "react-icons/hi2";
 import { Avatar, Tooltip } from '@mui/material';
 import {motion} from 'framer-motion'
+import { useDispatch } from 'react-redux';
 
 
 export default function CommentsModel() {
@@ -20,6 +21,8 @@ export default function CommentsModel() {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const dispatch = useDispatch();
   const handleComment = () => {
     console.log("Comment submitted:", comment);
     setComment("");

@@ -6,13 +6,16 @@ import nav_data from './Data/NavData.jsx';
 import Menu from './Data/RightSideDataNav/Menu.jsx';
 import AccountSetting from './Main-content/AccountSetting.jsx';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import {motion} from 'framer-motion'
+import { Link, useLocation } from 'react-router-dom';
 
 const Nav = () => {
   const [focus, setFocus] = useState(false);
   const {user} = useSelector((state)=>state.auth)
   const [openMenu,setOpenMenu] = useState(false);
   const [openAcount,setOpenAcount] = useState(false);
+
+  const location = useLocation();
 
   return (
     <>
@@ -72,17 +75,44 @@ const Nav = () => {
         {/* Center Icons - Hidden on small screens when search is focused */}
         {(!focus || window.innerWidth >= 768) && (
           <ul className='hidden md:flex items-center list-none gap-1 lg:gap-4 mx-2'>
-            {nav_data?.map((item,index) => (
-              <li 
-                className='text-gray-600 text-2xl relative px-4 py-3 rounded-md hover:bg-gray-100 group cursor-pointer' 
-                key={index}
-              >
-                {item.icon}
-                <span className={`absolute top-full opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-1/2 left-1/2 rounded-md text-white bg-black px-2 py-1 text-xs whitespace-nowrap`}>
-                  {item?.title}
-                </span>
-              </li>
-            ))}
+            {nav_data?.map((item, index) => {
+              const isActive = location.pathname === item.path;
+
+              return (
+                <li
+                  key={index}
+                  className={`relative text-2xl px-4 py-3 rounded-md group cursor-pointer
+                    ${isActive ? 'text-blue-600' : 'text-gray-600'}
+                    hover:bg-gray-100 transition-colors duration-200`}
+                >
+                  <Link to={item.path} className="flex flex-col items-center">
+                    {item.icon}
+                    
+                    {/* Modern animated underline */}
+                    {isActive && (
+                      <motion.span 
+                        className="absolute w-5 h-[3px] rounded-full bg-blue-600 top-[105%]"
+                        initial={{ width: 0 }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: 0.3 }}
+                        layoutId="navUnderline"
+                      />
+                    )}
+                  </Link>
+
+                  {/* Enhanced tooltip with animation */}
+                  <motion.span 
+                    className={`absolute top-full -translate-x-1/2 left-1/2 rounded-md text-white bg-gray-800 px-2 py-1 text-xs whitespace-nowrap pointer-events-none`}
+                    initial={{ opacity: 0, y: -5 }}
+                    whileHover={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {item?.title}
+                    <span className="absolute w-2 h-2 bg-gray-800 rotate-45 -top-1 left-1/2 -translate-x-1/2"></span>
+                  </motion.span>
+                </li>
+              );
+            })}
           </ul>
         )}
 
