@@ -96,21 +96,27 @@ export const getAllReactions = asyncHandler(async (req, res) => {
 
 
 
-export const addComments = async(req,res)=>{
 
-  const {post_id} = req.params
-  const {user_id} = req.user.id
-  const {comment} = res.body
+export const addComments = async (req, res) => {
+  try {
+    const { post_id } = req.params;
+    const user_id = req.user.id; // ✅ Correct way to access user ID
+    const { comment } = req.body;
 
-  const findPost = await Post.findById(post_id);
+    const findPost = await Post.findById(post_id);
 
-  if(!findPost){
-    res.status(401).json({message:"Post Not Found"});
+    if (!findPost) {
+      return res.status(404).json({ message: "Post Not Found" }); // ✅ Use 404
+    }
+
+    // Add comment
+    findPost.comments.push({ user_id, comment ,post_id}); // Store user ID instead of full object
+
+    await findPost.save(); // ✅ Save the post
+
+    return res.status(200).json(findPost); // ✅ Send updated post
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    return res.status(500).json({ message: "Something went wrong", error: error.message });
   }
-
-  findPost.comments.push({user:req.user,comment});
-  res.save(findPost);
-  res.send(findPost);
-
-
-}
+};

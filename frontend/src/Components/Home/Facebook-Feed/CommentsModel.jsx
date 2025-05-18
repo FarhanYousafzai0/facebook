@@ -11,21 +11,32 @@ import FacebookReaction from './FacebookReaction';
 import { HiOutlineGif } from "react-icons/hi2";
 import { Avatar, Tooltip } from '@mui/material';
 import {motion} from 'framer-motion'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCommentsData } from '../../../features/Posts/postSlice';
+import { useEffect } from 'react';
 
 
-export default function CommentsModel() {
+export default function CommentsModel({post_id}) {
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState("");
-  const user = { f_name: "Farhan" }; // replace with actual logged-in user
+const {user} = useSelector((state)=>state.auth);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const dispatch = useDispatch();
+     
+
+ 
   const handleComment = () => {
-    console.log("Comment submitted:", comment);
-    setComment("");
+    
+   const postComment = {
+    post_id,
+    comment,
+   }
+dispatch(addCommentsData(postComment));
+setComment("")
+
   };
 
   return (
@@ -46,7 +57,7 @@ export default function CommentsModel() {
         <Box className="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black rounded w-[95%] max-w-2xl max-h-[90vh] overflow-y-auto">
           {/* Modal Header */}
           <div className='flex items-center justify-center h-[70px] border-b border-gray-300'>
-            <h1 className='font-semibold text-2xl'>Farhan's Post</h1>
+            <h1 className='font-semibold text-2xl'></h1>
           </div>
 
           {/* Actual Post */}

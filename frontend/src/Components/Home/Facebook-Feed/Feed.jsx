@@ -111,7 +111,7 @@ const Feed = ({ background, caption, _id, user_id, image }) => {
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <FacebookReaction post_id={_id} likes={likes} />
         </div>
-        <CommentsModel/>
+        <CommentsModel background={background} caption={caption} image={image} post_id={_id}  />
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <PiShareFat className="text-gray-600" />
           <h6 className="font-semibold text-sm text-gray-600">Share</h6>
