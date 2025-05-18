@@ -16,9 +16,8 @@ export const registerUserData = createAsyncThunk(
   "auth/registerUser",
   async (userData, thunkAPI) => {
     try {
-      const response = await registerUser(userData); // API call to register
-      localStorage.setItem("user", JSON.stringify(response.user));  // Save user to localStorage
-      return response;
+      
+      return await registerUser(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.error || "Something went wrong!");
     }
@@ -30,9 +29,7 @@ export const loginUserData = createAsyncThunk(
   "auth/loginUser",
   async (userData, thunkAPI) => {
     try {
-      const response = await loginUser(userData);  // API call to login
-      localStorage.setItem("user", JSON.stringify(response.user));  // Save user to localStorage
-      return response;
+      return await loginUser(userData)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.error || "Something went wrong!");
     }
@@ -83,7 +80,7 @@ const userSlice = createSlice({
       .addCase(registerUserData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.message = "Registration successful!";
       })
       .addCase(registerUserData.rejected, (state, action) => {

@@ -17,7 +17,7 @@ const saveUserData = async (userData)=>{
 // Register User:
 export const registerUser = async(userData)=>{
     const response = await axios.post(`${BASE_URL}register`,userData);
-    saveUserData(response.data);
+        localStorage.setItem("user",JSON.stringify(response.data));
     return response.data;
 }
 
@@ -37,6 +37,7 @@ return response.data;
 // Otp verify :
 
 export const verifyOtp = async (otpData) => {
+    console.log(otpData)
     const response = await axios.post(`${BASE_URL}/verifyOtp/${otpData?.id}`, otpData);
     return response.data;
   }
