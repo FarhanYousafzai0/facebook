@@ -8,6 +8,7 @@ import Home from './Pages/Home/Home';
 import OTPVerificationPage from './Pages/Auth/OTPVerificationPage';
 import ClimateCenter from './Pages/Home/ClimateCenter';
 import CommentsModel from './Components/Home/Facebook-Feed/CommentsModel';
+import AllStories from './Pages/Story/AllStories';
 
 
 const App = () => {
@@ -24,11 +25,14 @@ const App = () => {
 
           {/* Authentication Routes */}
           <Route path='/'>
-            <Route path='register' element={<Register />} /> {/* Removed the leading `/` */}
-            <Route path='' element={<Login />} />
+          <Route path='register' element={<Register />} /> {/* Removed the leading `/` */}
+          <Route path='' element={<Login />} />
           <Route path='/otp' element={<OTPVerificationPage/>} />
           <Route path='/climatecenterinfo' element={<ClimateCenter/>} />
-          <Route path='/comment' element={<CommentsModel/>} />
+          
+          <Route path='/stories' element={<AllStories/>} />
+
+
      
          
 
