@@ -43,7 +43,7 @@ const AccountSetting = ({ onClose }) => {
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="w-full p-2 cursor-pointer font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-150"
+            className="w-full p-2 cursor-pointer font-semibold text-black rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-150"
           >
             <span className="flex items-center gap-2 justify-center">
               <FaUserFriends />
