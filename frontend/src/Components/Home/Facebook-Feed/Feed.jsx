@@ -6,7 +6,7 @@ import axios from "axios";
 import { emojiMap } from "./emojis";
 import CommentsModel from "./CommentsModel";
 
-const Feed = ({ background, caption, _id, user_id, image,comments }) => {
+const Feed = ({ background, caption, _id, user_id, image,comments}) => {
   const [likes, setLikes] = useState([]);
   const [reactionSummary, setReactionSummary] = useState([]);
 
@@ -35,7 +35,7 @@ const Feed = ({ background, caption, _id, user_id, image,comments }) => {
             <FaUser size={25} className="text-gray-600" />
           </div>
           <div>
-            <h6 className="font-semibold text-sm">RAC Photography</h6>
+            <h6 className="font-semibold text-sm"></h6>
             <div className="flex items-center gap-1 text-gray-500 text-sm">
               <span>6h</span>
               <span className="h-[2px] w-[2px] bg-gray-500 rounded-full" />
@@ -111,7 +111,7 @@ const Feed = ({ background, caption, _id, user_id, image,comments }) => {
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <FacebookReaction post_id={_id} likes={likes} />
         </div>
-        <CommentsModel background={background} Commentcaption={caption} image={image} post_id={_id}  />
+        <CommentsModel background={background} comments={comments} Commentcaption={caption} image={image} post_id={_id}  />
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <PiShareFat className="text-gray-600" />
           <h6 className="font-semibold text-sm text-gray-600">Share</h6>

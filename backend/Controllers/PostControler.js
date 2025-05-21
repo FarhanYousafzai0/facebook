@@ -22,14 +22,13 @@ export const postData = asyncHandler(async (req, res) => {
 
 
 
-export const getPost = asyncHandler(async(req,res)=>{
+export const getPost = asyncHandler(async (req, res) => {
+  const allPost = await Post.find()
+    .populate('user_id', 'name profilePic')
+    .sort({ createdAt: -1 });
 
-    const allPost = await Post.find().sort({createdAt:-1});
-
-res.status(200).json(allPost);
-
-
-})
+  res.status(200).json(allPost);
+});
 
 
 export const makeReactions = asyncHandler(async (req, res) => {
