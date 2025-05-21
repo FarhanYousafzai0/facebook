@@ -66,18 +66,17 @@ try {
 // Add Comments:
 
 
-export const addCommentsData = createAsyncThunk('add-comment',async(addComment,thunkAPI)=>{
-
-try {
-const token = thunkAPI.getState().auth.user.token
-return await addComments(addComment,token);
-
-    
-} catch (error) {
-    thunkAPI.rejectWithValue(error.response.data.error)
-}
-
-})
+export const addCommentsData = createAsyncThunk(
+  'comments/add',
+  async (addComment, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth?.user?.token;
+      return await addComments(addComment, token);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.error || "Failed to add comment");
+    }
+  }
+);
 
 
 
@@ -160,10 +159,21 @@ const postSlice = createSlice({
     state.commentMessage = action.payload;
 })
 
-            .addCase(addCommentsData.fulfilled, (state, action) => {
-               state.commentSuccess = true
-               state.commentLoading = false
-            })
+        .addCase(addCommentsData.fulfilled, (state, action) => {
+  state.commentSuccess = true;
+  state.commentLoading = false;
+
+  state.post = state.post.map(item => {
+    if (item._id === action.payload.comments[0].post_id) {
+      return {
+        ...item,
+        comments: action.payload.comments,
+      };
+    }
+    return item;
+  });
+});
+
     },
 });
 

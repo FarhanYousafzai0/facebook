@@ -16,7 +16,7 @@ import { addCommentsData } from '../../../features/Posts/postSlice';
 import { useEffect } from 'react';
 
 
-export default function CommentsModel({post_id}) {
+export default function CommentsModel({post_id,background,image,Commentcaption,comments}) {
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState("");
 const {user} = useSelector((state)=>state.auth);
@@ -81,16 +81,26 @@ setComment("")
            
               </div>
             </div>
-     <p className='mt-2'>Love to see this view</p>
+     <p className='mt-2'>{Commentcaption}</p>
             </div>
 
             {/* Post Image */}
             <div className="w-full">
-              <img
-                src="https://scontent.fisb17-1.fna.fbcdn.net/v/t39.30808-6/498948044_698083949390945_3426704093410471690_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=SAwTJYo9lJQQ7kNvwE9-brH&_nc_oc=AdkHhE2aF_tBiReICULCv8K1pwhvQplGq1mBeeIP9aCRcJOHQl87cSFXLMr5ziFhsoP1AArJIJV089mwhOwM4mZo&_nc_zt=23&_nc_ht=scontent.fisb17-1.fna&_nc_gid=7iXnqBY0ekePYa002ONIbA&oh=00_AfJWVotPTD1TqVuXudrKuxLKekbtIMF2Sldjf6JiNrQlgQ&oe=682E25B0"
-                alt="Gilgit Baltistan"
-                className="w-full rounded"
-              />
+              <div
+          className="h-[400px] relative"
+          style={{
+            background: background.image || image
+              ? `url(${background.image || image})`
+              : `linear-gradient(${background?.startColor}, ${background?.endColor})`,
+            backgroundSize: "contain",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <p className="text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 text-white capitalize text-4xl">
+            {Commentcaption}
+          </p>
+        </div>
             </div>
 
             {/* Like, Comment, Share */}

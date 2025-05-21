@@ -89,6 +89,7 @@ export const getAllReactions = asyncHandler(async (req, res) => {
   res.status(200).json({
     count: findPost.likes.length,
     likes: findPost.likes,
+    post_id,
     reactionSummary: sortedReactions
   });
 });
@@ -100,23 +101,24 @@ export const getAllReactions = asyncHandler(async (req, res) => {
 export const addComments = async (req, res) => {
   try {
     const { post_id } = req.params;
-    const user_id = req.user.id; // ✅ Correct way to access user ID
+    const user_id = req.user.id; 
     const { comment } = req.body;
 
     const findPost = await Post.findById(post_id);
 
     if (!findPost) {
-      return res.status(404).json({ message: "Post Not Found" }); // ✅ Use 404
+      return res.status(404).json({ message: "Post Not Found" });
     }
 
-    // Add comment
-    findPost.comments.push({ user_id, comment ,post_id}); // Store user ID instead of full object
+    // Add the comment (structured correctly)
+    findPost.comments.push({ user_id, comment, post_id });
 
-    await findPost.save(); // ✅ Save the post
+    await findPost.save();
 
-    return res.status(200).json(findPost); // ✅ Send updated post
+    return res.status(200).json(findPost);  // ✅ Return updated post or just the new comment
   } catch (error) {
     console.error('Error adding comment:', error);
     return res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 };
+

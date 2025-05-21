@@ -33,6 +33,7 @@ const postSchema = new mongoose.Schema({
     {
       type: {
         type: String,
+      
         required: true,
       },
       id: {
@@ -44,6 +45,7 @@ const postSchema = new mongoose.Schema({
   ],
   comments:{
     type:Array,
+   
     default:[],
     required:false
   }

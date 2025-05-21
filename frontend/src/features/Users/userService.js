@@ -17,7 +17,8 @@ const saveUserData = async (userData)=>{
 // Register User:
 export const registerUser = async(userData)=>{
     const response = await axios.post(`${BASE_URL}register`,userData);
-        localStorage.setItem("user",JSON.stringify(response.data));
+        // localStorage.setItem("user",JSON.stringify(response.data));
+        saveUserData(response.data)
     return response.data;
 }
 
