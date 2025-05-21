@@ -4,9 +4,11 @@ import { PiShareFat } from "react-icons/pi";
 import FacebookReaction from "./FacebookReaction";
 import axios from "axios";
 import { emojiMap } from "./emojis";
+import { Avatar } from '@mui/material';
 import CommentsModel from "./CommentsModel";
 
-const Feed = ({ background, caption, _id, user_id, image,comments}) => {
+const Feed = ({
+   background, caption, _id, user_id, image,comments}) => {
   const [likes, setLikes] = useState([]);
   const [reactionSummary, setReactionSummary] = useState([]);
 
@@ -31,11 +33,13 @@ const Feed = ({ background, caption, _id, user_id, image,comments}) => {
       {/* User Info */}
       <div className="flex p-3 justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-[45px] h-[45px] bg-gray-200 border-gray-300 rounded-full border flex justify-center items-center">
-            <FaUser size={25} className="text-gray-600" />
-          </div>
+        <Avatar
+                    sx={{ width: 40, height: 40 }}
+                    alt={user_id?.name || "User Avatar"}
+                    src={user_id?.profilePic || "/static/images/avatar/1.jpg"}
+                  />
           <div>
-            <h6 className="font-semibold text-sm"></h6>
+            <h6 className="font-semibold text-sm">{user_id?.name}</h6>
             <div className="flex items-center gap-1 text-gray-500 text-sm">
               <span>6h</span>
               <span className="h-[2px] w-[2px] bg-gray-500 rounded-full" />
