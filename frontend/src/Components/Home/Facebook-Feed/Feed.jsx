@@ -75,7 +75,8 @@ const Feed = ({
       )}
 
       {/* Reactions */}
-      <div className="p-3 text-gray-600 flex items-center gap-1 text-sm">
+     <div className="flex items-center justify-between px-3">
+       <div className="p-3 text-gray-600 flex  items-center gap-1 text-sm">
         {likes.length > 0 ? (
           <>
             {reactionSummary.map((reaction, index) => {
@@ -85,7 +86,7 @@ const Feed = ({
               return (
                 <span
                   key={reaction.type}
-                  className={`relative z-${50 - index} -ml-2 animate-shake`}
+                  className={`relative z-${50 - index} -ml-2 animate-shake cursor-pointer`}
                   style={{ animationDuration: "0.5s" }}
                   title={`${reaction.type} (${reaction.count})`}
                 >
@@ -107,7 +108,11 @@ const Feed = ({
         ) : (
           <span>No reactions yet</span>
         )}
+        
       </div>
+
+      <p className="hover:underline cursor-pointer">{comments.length} Comments</p>
+     </div>
 
       <hr className="bg-gray-300 h-[1px] border-0" />
 
