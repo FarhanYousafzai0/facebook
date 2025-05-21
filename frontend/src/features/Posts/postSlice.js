@@ -143,11 +143,15 @@ const postSlice = createSlice({
         state.reactionError = true;
         state.reactionMessage = action.payload;
       })
-      .addCase(addReactionsData.fulfilled, (state, action) => {
-        state.reactionError = false;
-        state.reactionLoading = false;
-        state.reactionSuccess = true;
-      })
+    .addCase(addReactionsData.fulfilled, (state, action) => {
+  state.reactionError = false;
+  state.reactionLoading = false;
+  state.reactionSuccess = true;
+
+  // Update the likes of the specific post
+ 
+})
+
 
       // Add Comments:
       .addCase(addCommentsData.pending, (state) => {

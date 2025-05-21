@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import { Post } from '../Models/postModel.js';
+import mongoose from 'mongoose';
 
 // Post Controller
 export const postData = asyncHandler(async (req, res) => {
@@ -31,34 +32,50 @@ export const getPost = asyncHandler(async (req, res) => {
 });
 
 
+
+
 export const makeReactions = asyncHandler(async (req, res) => {
-    const { post_id, user_id } = req.params;
-    const { emoji } = req.body;
-  
-    const findPost = await Post.findById(post_id);
-  
-    if (!findPost) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-  
-    const checkPost = findPost.likes.find((item) => item.id == user_id);
-  
-    if (!checkPost) {
-      // Add new reaction
-      findPost.likes.push({ type: emoji, id: user_id });
-    } else if (checkPost.type === emoji) {
-      // Remove reaction (toggle off)
-      findPost.likes = findPost.likes.filter((item) => item.id !== user_id);
-    } else {
-      // Change reaction
-      checkPost.type = emoji;
-    }
-  
-    await findPost.save(); // 🔥 this was missing!
-  
-    res.status(200).json(findPost);
+  const { post_id, user_id } = req.params;
+  let { emoji } = req.body;
+
+  // Ensure emoji is a string
+  const emojiType = Array.isArray(emoji) ? emoji[0] : emoji;
+
+  // Validate ObjectIds
+  if (!mongoose.Types.ObjectId.isValid(post_id) || !mongoose.Types.ObjectId.isValid(user_id)) {
+    return res.status(400).json({ error: "Invalid post_id or user_id" });
+  }
+
+  const findPost = await Post.findById(post_id);
+  if (!findPost) return res.status(404).json({ error: "Post not found" });
+
+  const existingReaction = findPost.likes.find(
+    like => like.id.toString() === user_id
+  );
+
+  if (!existingReaction) {
+    // Add new reaction
+    findPost.likes.push({ type: emojiType, id: user_id });
+  } else if (existingReaction.type === emojiType) {
+    // Remove reaction (toggle off)
+    findPost.likes = findPost.likes.filter(
+      like => like.id.toString() !== user_id
+    );
+  } else {
+    // Update emoji type
+    existingReaction.type = emojiType;
+  }
+
+  await findPost.save();
+
+  res.status(200).json({
+    message: "Reaction updated",
+    likes: findPost.likes,
+    post_id: findPost._id,
   });
-  
+});
+
+
 
 
 // Geting all the reactions ,store in the mongoDb to show on Client server:
@@ -88,7 +105,7 @@ export const getAllReactions = asyncHandler(async (req, res) => {
   res.status(200).json({
     count: findPost.likes.length,
     likes: findPost.likes,
-    post_id,
+
     reactionSummary: sortedReactions
   });
 });
