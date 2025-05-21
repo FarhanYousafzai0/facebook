@@ -5,10 +5,11 @@ import FacebookReaction from "./FacebookReaction";
 import axios from "axios";
 import { emojiMap } from "./emojis";
 import { Avatar } from '@mui/material';
+import moment from 'moment'
 import CommentsModel from "./CommentsModel";
 
 const Feed = ({
-   background, caption, _id, user_id, image,comments}) => {
+   background, caption, _id, user_id, image,comments,createdAt}) => {
   const [likes, setLikes] = useState([]);
   const [reactionSummary, setReactionSummary] = useState([]);
 
@@ -41,7 +42,7 @@ const Feed = ({
           <div>
             <h6 className="font-semibold text-sm">{user_id?.name}</h6>
             <div className="flex items-center gap-1 text-gray-500 text-sm">
-              <span>6h</span>
+               <span>{moment(createdAt).fromNow()}</span>
               <span className="h-[2px] w-[2px] bg-gray-500 rounded-full" />
               <FaGlobe />
             </div>
