@@ -2,6 +2,10 @@ import React, { useRef } from "react";
 import { FiSettings } from "react-icons/fi";
 import { FaImage, FaFont } from "react-icons/fa6";
 import { useState } from "react";
+import {  useSelector } from "react-redux";
+import {motion} from 'framer-motion'
+import { RxCross1 } from "react-icons/rx";
+import { Link } from "react-router-dom";
 
 const CreateStory = () => {
   const fileRef = useRef(null);
@@ -13,15 +17,53 @@ const CreateStory = () => {
     if (file) setPreview(URL.createObjectURL(file));
 
 
+
+
+
   };
 
   return (
     <div className="min-h-screen  bg-gray-100 flex flex-col md:flex-row">
       {/* Sidebar */}
-      <aside className="w-full md:w-74 bg-white shadow-md p-4">
-        <div className="flex justify-between items-center mb-6">
+      <aside className="w-full md:w-74 bg-white shadow-md ">
+<motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{
+                y: 0,
+                opacity: 1,
+                transition: { type: "spring", damping: 10, stiffness: 100 }
+              }}
+              whileHover={{
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                transition: { duration: 0.2 }
+              }}
+              className='flex items-center gap-4 p-3 border-b border-gray-200 bg-white/80 backdrop-blur-sm'
+            >
+              <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }}>
+                <Link to="/home" className='flex items-center justify-center h-10 w-10 rounded-full bg-gray-400 hover:bg-gray-300 transition-colors'>
+                  <RxCross1 size={20} className="text-la" />
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <img
+                  width={45}
+                  src='https://cdn.freebiesupply.com/logos/large/2x/facebook-logo-2019.png'
+                  alt='Logo'
+                  className='drop-shadow-sm'
+                />
+              </motion.div>
+            </motion.div>
+
+
+        <div className="p-3">
+            <div className="flex justify-between items-center mb-6">
           <h2  className="text-lg cursor-pointer font-bold text-gray-900">Your story</h2>
-          <FiSettings className="text-gray-600 cursor-pointer" size={22} />
+          <FiSettings className="text-gray-600 cursor-pointer " size={22} />
         </div>
 
         <div className="flex items-center gap-3">
@@ -31,8 +73,9 @@ const CreateStory = () => {
             alt="profile"
           />
           <div>
-            <p className="text-sm font-semibold text-gray-800">Beat Melodies</p>
+            <p className="text-sm font-semibold text-gray-800"></p>
           </div>
+        </div>
         </div>
       </aside>
 
