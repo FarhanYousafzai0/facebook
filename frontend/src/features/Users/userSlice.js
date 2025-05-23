@@ -4,20 +4,19 @@ import { registerUser, loginUser, verifyOtp, getUsers } from "./userService";
 // Initial state - check if user is in localStorage
 const storedUser = JSON.parse(localStorage.getItem("user"));
 const initialState = {
-  user: storedUser || null,  // Load user data from localStorage if available
+  user: storedUser || null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
-  allUsers :[]
+  allUsers: [],
 };
 
-// Register User Async Thunk
+// ✅ Register User
 export const registerUserData = createAsyncThunk(
   "auth/registerUser",
   async (userData, thunkAPI) => {
     try {
-      
       return await registerUser(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.error || "Something went wrong!");
@@ -25,61 +24,55 @@ export const registerUserData = createAsyncThunk(
   }
 );
 
-// Login User Async Thunk
+// ✅ Login User
 export const loginUserData = createAsyncThunk(
   "auth/loginUser",
   async (userData, thunkAPI) => {
     try {
-      return await loginUser(userData)
+      return await loginUser(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.error || "Something went wrong!");
     }
   }
 );
 
-// OTP Verification Async Thunk
+// ✅ OTP Verification
 export const otpVerifyData = createAsyncThunk(
   "auth/otpVerification",
   async (otpData, thunkAPI) => {
     try {
-      const response = await verifyOtp(otpData);  // API call for OTP verification
-      return response;
+      return await verifyOtp(otpData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.error || "OTP verification failed!");
     }
   }
 );
 
-
-// Get all users:
-
-
-export const getAllUserData = createAsyncThunk("User-Data",async(_,thunkAPI)=>{
-
-
-  try {
-    return await getUsers();
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.reponse.data?.error || "Somethin went Wrong!");
+// ✅ Get All Users
+export const getAllUserData = createAsyncThunk(
+  "auth/getAllUsers",
+  async (_, thunkAPI) => {
+    try {
+      return await getUsers();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.error || "Something went wrong!");
+    }
   }
-})
+);
 
-// Slice definition
+// ✅ Slice Definition
 const userSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // This action will handle logging out the user
     logoutUser: (state) => {
-      state.user = null;  // Remove user from Redux state
+      state.user = null;
       state.isError = false;
       state.isSuccess = false;
       state.isLoading = false;
       state.message = "";
-      localStorage.removeItem("user");  // Remove user data from localStorage
+      localStorage.removeItem("user");
     },
-
-    // Reset state when necessary
     userReset: (state) => {
       state.isError = false;
       state.isSuccess = false;
@@ -89,6 +82,8 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+
+      // ✅ Register
       .addCase(registerUserData.pending, (state) => {
         state.isLoading = true;
       })
@@ -104,34 +99,15 @@ const userSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
-      
 
-      // Get all users:
- .addCase(getAllUserData.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getAllUserData.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.allUsers = action.payload;
-        state.message = "Registration successful!";
-      })
-      .addCase(getAllUserData.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-       
-      })
-
-
-      // Similar for login and OTP verification
+      // ✅ Login
       .addCase(loginUserData.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(loginUserData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload.user;
+        state.user = action.payload.user || action.payload;
         state.message = "Login successful!";
       })
       .addCase(loginUserData.rejected, (state, action) => {
@@ -140,15 +116,32 @@ const userSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
+
+      // ✅ OTP
       .addCase(otpVerifyData.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(otpVerifyData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = action.payload.message;
+        state.message = action.payload.message || "OTP Verified!";
       })
       .addCase(otpVerifyData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // ✅ Get All Users
+      .addCase(getAllUserData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUserData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.allUsers = action.payload;
+      })
+      .addCase(getAllUserData.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -6,7 +6,7 @@ const Story = () => {
   return (
     <div className='bg-white shadow-md xl:w-[70%] mx-auto lg:w-[80%] md:w-[90%] w-[95%] p-2 rounded-lg border border-gray-200 my-3'>
 
-        <Link to="/stories" className='flex  gap-2 transition-colors hover:bg-gray-100 rounded px-3 py-3'>
+        <Link to="/create-story" className='flex  gap-2 transition-colors hover:bg-gray-100 rounded px-3 py-3'>
                <span className='flex items-center bg-blue-100 justify-center w-[45px] h-[45px] rounded-full'>
                 <IoMdAdd className='text-blue-500' size={25}/>
                </span>

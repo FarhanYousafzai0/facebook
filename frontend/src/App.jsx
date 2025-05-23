@@ -10,6 +10,9 @@ import ClimateCenter from './Pages/Home/ClimateCenter';
 import CommentsModel from './Components/Home/Facebook-Feed/CommentsModel';
 import AllStories from './Pages/Story/AllStories';
 import Friends from './Pages/Freinds/Friends';
+import 'react-loading-skeleton/dist/skeleton.css'
+import CreateStory from './Pages/Story/CreateStory';
+
 
 
 const App = () => {
@@ -32,9 +35,11 @@ const App = () => {
           <Route path='/climatecenterinfo' element={<ClimateCenter/>} />
       
           <Route path='/stories' element={<AllStories/>} />
-          <Route path='/freinds' element={<Friends/>} />
+          <Route path='/create-story' element={<CreateStory/>}  />
+          <Route path='/friends' element={<Friends/>} />
 
 
+           
 
      
          
