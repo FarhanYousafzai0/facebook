@@ -144,11 +144,17 @@ const postSlice = createSlice({
         state.reactionMessage = action.payload;
       })
     .addCase(addReactionsData.fulfilled, (state, action) => {
-  state.reactionError = false;
-  state.reactionLoading = false;
-  state.reactionSuccess = true;
+  console.log(action.payload)
+state.post = state.post.map((item, index) => {
+  if (item._id === action.payload.post_id) {
+    return {
+      ...item,
+      likes: action.payload.likes,
+    };
+  }
+  return item;
+});
 
-  // Update the likes of the specific post
  
 })
 

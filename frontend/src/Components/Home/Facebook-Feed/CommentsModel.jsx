@@ -14,7 +14,7 @@ import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCommentsData } from '../../../features/Posts/postSlice';
 
-export default function CommentsModel({ post_id, background, image, Commentcaption, comments }) {
+export default function CommentsModel({ post_id, background, image, Commentcaption, comments,userInfo }) {
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState("");
   const { user } = useSelector((state) => state.auth);
@@ -23,6 +23,7 @@ export default function CommentsModel({ post_id, background, image, Commentcapti
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  console.log(userInfo)
   const handleComment = () => {
     if (!comment.trim()) return;
 
@@ -62,14 +63,16 @@ export default function CommentsModel({ post_id, background, image, Commentcapti
             {/* Top Header */}
             <div className="p-4">
               <div className="flex items-center">
-                <img
-                  src="https://scontent.fisb17-1.fna.fbcdn.net/v/t39.30808-6/498948044_698083949390945_3426704093410471690_n.jpg"
-                  alt="profile"
-                  className="rounded-full w-10 h-10 mr-3"
-                />
+                <Avatar
+                                   sx={{ width: 40, height: 40 }}
+                                   alt={userInfo?.name || "User Avatar"}
+                                   src={userInfo?.profilePic || "/static/images/avatar/1.jpg"}
+                                 />
+                        
                 <div>
                   <p className="font-semibold text-sm">
-                    Imtiaz Hussain Photography <span className="text-gray-500">is in</span>{" "}
+                   
+                   {userInfo?.name} <span className="text-gray-500">is in</span>{" "}
                     <span className="font-semibold text-sm">Gilgit-Baltistan.</span>
                   </p>
                   <p className="text-xs text-gray-500">5h · 🌐</p>

@@ -7,12 +7,15 @@ import { emojiMap } from "./emojis";
 import { Avatar } from '@mui/material';
 import moment from 'moment'
 import CommentsModel from "./CommentsModel";
+import { useSelector } from "react-redux";
 
 const Feed = ({
    background, caption, _id, user_id, image,comments,createdAt}) => {
   const [likes, setLikes] = useState([]);
   const [reactionSummary, setReactionSummary] = useState([]);
 
+
+  const {post} = useSelector((state)=>state.post)
   const handleGetLikes = async () => {
     try {
       const response = await axios.get(
@@ -27,7 +30,7 @@ const Feed = ({
 
   useEffect(() => {
     handleGetLikes();
-  }, []);
+  }, [post]);
 
   return (
     <div className="shadow-lg xl:w-[70%] mx-auto lg:w-[80%] md:w-[90%]  w-[95%] bg-white rounded-md my-2">
@@ -121,7 +124,7 @@ const Feed = ({
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <FacebookReaction post_id={_id} likes={likes} />
         </div>
-        <CommentsModel background={background} comments={comments} Commentcaption={caption} image={image} post_id={_id}  />
+        <CommentsModel userInfo={user_id} background={background} comments={comments} Commentcaption={caption} image={image} post_id={_id}  />
         <div className="flex gap-2 items-center w-full cursor-pointer hover:bg-gray-100 py-2 rounded-md justify-center">
           <PiShareFat className="text-gray-600" />
           <h6 className="font-semibold text-sm text-gray-600">Share</h6>

@@ -29,20 +29,11 @@ const postSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  likes: [
-  {
-    type: {
-      type: String,
-      enum: ['Like', 'Love', 'Haha', 'Wow', 'Sad', 'Angry'], // customize as needed
-      required: true,
+likes: {
+      type: Array,
+      default: [],
+      required: false,
     },
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    }
-  }
-],
 
   comments:{
     type:Array,

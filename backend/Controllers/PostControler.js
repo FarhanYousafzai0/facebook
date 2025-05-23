@@ -34,51 +34,43 @@ export const getPost = asyncHandler(async (req, res) => {
 
 
 
-export const makeReactions = asyncHandler(async (req, res) => {
+// 👍 Add or toggle a reaction
+export const makeReaction = async (req, res) => {
   const { post_id, user_id } = req.params;
-  let { emoji } = req.body;
+  const { emoji } = req.body;
 
-  // Ensure emoji is a string
-  const emojiType = Array.isArray(emoji) ? emoji[0] : emoji;
+  try {
+    // Find the post
+    const findPost = await Post.findById(post_id);
+    if (!findPost) {
+      return res.status(404).send({ message: 'Post not found' });
+    }
 
-  // Validate ObjectIds
-  if (!mongoose.Types.ObjectId.isValid(post_id) || !mongoose.Types.ObjectId.isValid(user_id)) {
-    return res.status(400).json({ error: "Invalid post_id or user_id" });
+    // Find the index of the user's reaction
+    const reactionIndex = findPost.likes.findIndex(item => item.id == user_id);
+
+    if (reactionIndex === -1) {
+      // If reaction doesn't exist, add it
+      findPost.likes.push({ type: emoji, id: user_id,post_id });
+      await findPost.save();
+    } else {
+      // If reaction exists, update it directly in the array
+      findPost.likes[reactionIndex].type = emoji;
+      await findPost.save();
+    }
+
+    // Save once after all modifications
+    await findPost.save();
+    res.send(findPost);
+
+  } catch (error) {
+    console.error('Error in makeReaction:', error);
+    res.status(500).send({ message: 'Server error' });
   }
-
-  const findPost = await Post.findById(post_id);
-  if (!findPost) return res.status(404).json({ error: "Post not found" });
-
-  const existingReaction = findPost.likes.find(
-    like => like.id.toString() === user_id
-  );
-
-  if (!existingReaction) {
-    // Add new reaction
-    findPost.likes.push({ type: emojiType, id: user_id });
-  } else if (existingReaction.type === emojiType) {
-    // Remove reaction (toggle off)
-    findPost.likes = findPost.likes.filter(
-      like => like.id.toString() !== user_id
-    );
-  } else {
-    // Update emoji type
-    existingReaction.type = emojiType;
-  }
-
-  await findPost.save();
-
-  res.status(200).json({
-    message: "Reaction updated",
-    likes: findPost.likes,
-    post_id: findPost._id,
-  });
-});
+};
 
 
-
-
-// Geting all the reactions ,store in the mongoDb to show on Client server:
+// 👍 Get all reactions + summary
 export const getAllReactions = asyncHandler(async (req, res) => {
   const { post_id } = req.params;
 
@@ -89,26 +81,23 @@ export const getAllReactions = asyncHandler(async (req, res) => {
 
   const countReactions = {};
 
-  // Count each reaction type
   findPost.likes.forEach((reaction) => {
-    if (reaction.type) {
-      countReactions[reaction.type] = (countReactions[reaction.type] || 0) + 1;
+    if (reaction.reactionType) {
+      countReactions[reaction.reactionType] = (countReactions[reaction.reactionType] || 0) + 1;
     }
   });
 
-  // Sort them by frequency
   const sortedReactions = Object.entries(countReactions)
-    .sort((a, b) => b[1] - a[1]) // descending order
+    .sort((a, b) => b[1] - a[1])
     .map(([type, count]) => ({ type, count }));
 
-  // Send both full list and summary
   res.status(200).json({
     count: findPost.likes.length,
     likes: findPost.likes,
-
-    reactionSummary: sortedReactions
+    reactionSummary: sortedReactions,
   });
 });
+
 
 
 

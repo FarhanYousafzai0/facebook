@@ -1,5 +1,5 @@
 import express from 'express'
-import { addComments, getAllReactions, getPost, makeReactions, postData } from '../Controllers/PostControler.js';
+import { addComments, getAllReactions, getPost, makeReaction,  postData } from '../Controllers/PostControler.js';
 import { handleAuth } from '../Middlewares/AuthMiddleware.js';
 
 export const postRouter = express.Router();
@@ -11,7 +11,7 @@ postRouter.post('/addPost/:user_id',postData);
 postRouter.get('/get-all-posts',getPost);
 
 //Make- reaction:
-postRouter.post('/make-reactions/:post_id/:user_id',makeReactions)
+postRouter.post('/make-reactions/:post_id/:user_id',makeReaction)
 
 // Get-post-Reactions:
 
