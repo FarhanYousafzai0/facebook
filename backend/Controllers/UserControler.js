@@ -145,3 +145,24 @@ export const login = asyncHandler(async (req, res) => {
     token: generateToken(foundUser._id)
   });
 });
+
+
+
+
+// Get all user:
+
+
+export const getallUser = asyncHandler(async(req,res)=>{
+
+
+const getUser = await user.find();
+
+
+if(!getUser){
+  res.status(400).json({message:"Users not found!"});
+}
+
+res.status(200).json(getUser);
+
+
+})

@@ -9,6 +9,7 @@ import OTPVerificationPage from './Pages/Auth/OTPVerificationPage';
 import ClimateCenter from './Pages/Home/ClimateCenter';
 import CommentsModel from './Components/Home/Facebook-Feed/CommentsModel';
 import AllStories from './Pages/Story/AllStories';
+import Friends from './Pages/Freinds/Friends';
 
 
 const App = () => {
@@ -29,8 +30,10 @@ const App = () => {
           <Route path='' element={<Login />} />
           <Route path='/otp' element={<OTPVerificationPage/>} />
           <Route path='/climatecenterinfo' element={<ClimateCenter/>} />
-          
+      
           <Route path='/stories' element={<AllStories/>} />
+          <Route path='/freinds' element={<Friends/>} />
+
 
 
      

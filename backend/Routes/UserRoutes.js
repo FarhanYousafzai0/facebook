@@ -1,5 +1,5 @@
 import express, { Router } from 'express'
-import { login, otpVerify, register } from '../Controllers/UserControler.js'
+import { getallUser, login, otpVerify, register } from '../Controllers/UserControler.js'
 
 
 
@@ -13,7 +13,10 @@ userRouter.post('/register',register)
 
 userRouter.post('/login',login);
 
-// Lougout:
+// Get all user:
+
+
+userRouter.get('/get-all-users',getallUser);
 
 
 

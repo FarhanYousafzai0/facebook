@@ -43,3 +43,18 @@ export const verifyOtp = async (otpData) => {
     return response.data;
   }
   
+
+
+
+
+//   Get all user:
+
+
+export const  getUsers = async()=>{
+
+
+const response = axios.get(`${BASE_URL}get-all-users`);
+return response.data
+
+
+}

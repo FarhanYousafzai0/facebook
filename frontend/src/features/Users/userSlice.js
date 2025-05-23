@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser, loginUser, verifyOtp } from "./userService";
+import { registerUser, loginUser, verifyOtp, getUsers } from "./userService";
 
 // Initial state - check if user is in localStorage
 const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -9,6 +9,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
+  allUsers :[]
 };
 
 // Register User Async Thunk
@@ -48,6 +49,20 @@ export const otpVerifyData = createAsyncThunk(
     }
   }
 );
+
+
+// Get all users:
+
+
+export const getAllUserData = createAsyncThunk("User-Data",async(_,thunkAPI)=>{
+
+
+  try {
+    return await getUsers();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.reponse.data?.error || "Somethin went Wrong!");
+  }
+})
 
 // Slice definition
 const userSlice = createSlice({
@@ -90,6 +105,25 @@ const userSlice = createSlice({
         state.user = null;
       })
       
+
+      // Get all users:
+ .addCase(getAllUserData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUserData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.allUsers = action.payload;
+        state.message = "Registration successful!";
+      })
+      .addCase(getAllUserData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+       
+      })
+
+
       // Similar for login and OTP verification
       .addCase(loginUserData.pending, (state) => {
         state.isLoading = true;
