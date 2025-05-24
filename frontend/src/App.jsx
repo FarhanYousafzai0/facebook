@@ -12,6 +12,7 @@ import AllStories from './Pages/Story/AllStories';
 import Friends from './Pages/Freinds/Friends';
 import 'react-loading-skeleton/dist/skeleton.css'
 import CreateStory from './Pages/Story/CreateStory';
+import ProfilePage from './Pages/Profile/ProfilePage';
 
 
 
@@ -40,7 +41,8 @@ const App = () => {
 
 
            
-
+{/* ProfilePage */}
+          <Route path='/profile' element={<ProfilePage/>} />
      
          
 
