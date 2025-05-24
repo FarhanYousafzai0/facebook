@@ -176,7 +176,7 @@ const Friends = () => {
                   ))
                 : allUsers?.map((item, index) => (
                     <motion.div key={item._id || index} variants={itemVariants}>
-                      <PeopleKNow name={item.name} profilePic={item.profilePic} />
+                      <PeopleKNow  {...item} />
                     </motion.div>
                   ))}
             </motion.div>

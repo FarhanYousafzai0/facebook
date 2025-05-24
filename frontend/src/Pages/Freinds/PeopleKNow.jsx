@@ -1,16 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const PeopleKNow = ({name,profilePic}) => {
+const PeopleKNow = ({name,profilePic,_id}) => {
   return (
     <div>
       <>
         <div className="bg-white sm:h-[350px] w-[100%] rounded-2xl overflow-hidden  shadow-lg sm:my-3 my-1">
           <div className="flex sm:flex-col items-center justify-content gap-2 ">
-            <img
+           
+<Link to={`/profile/${_id}`}>
+
+ <img
               src={profilePic}
               className="sm:h-[200px] rounded-full sm:rounded-t-2xl sm:rounded-b-none h-[100px] sm:w-[100%] bg-cover "
               alt=""
             />
+</Link>
+
+
             <div className="flex flex-col p-0">
               <p className=" font-semibold text-black">{name}</p>
               <div className="flex items-center">

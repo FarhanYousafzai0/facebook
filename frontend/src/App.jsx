@@ -42,7 +42,7 @@ const App = () => {
 
            
 {/* ProfilePage */}
-          <Route path='/profile' element={<ProfilePage/>} />
+          <Route path='/profile/:id' element={<ProfilePage/>} />
      
          
 

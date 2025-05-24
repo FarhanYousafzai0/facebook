@@ -14,7 +14,7 @@ const AddPost = () => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-lg shadow mb-4 p-4"
+        className="bg-white rounded-lg shadow my-4 p-4"
       >
         {/* Top Row: Profile Image and Placeholder Input */}
         <div className="flex items-center gap-3 mb-4">
