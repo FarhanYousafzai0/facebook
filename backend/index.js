@@ -24,12 +24,10 @@ const io = new Server(My_Server, {
 
 // Socket.IO events
 io.on('connection', (socket) => {
-  console.log(`Socket connected: ${socket.id}`);
-
 
 socket.on('Messenger',(data)=>{
 
-   socket.broadcast.emit('received-message',data);
+socket.broadcast.emit('received-message',data);
 })
 
 

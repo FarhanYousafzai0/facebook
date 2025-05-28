@@ -35,6 +35,8 @@ export default function MessagePanel({ myInfo, status = "active" }) {
     return () => socketRef.current.disconnect();
   }, []);
 
+
+//   Sent-Message:
   const handleSendMessage = () => {
     if (message.trim() !== "") {
       const newMessage = {
@@ -48,6 +50,7 @@ export default function MessagePanel({ myInfo, status = "active" }) {
     }
   };
 
+//   Recived-Message:
   useEffect(() => {
     socketRef.current.on('received-message', (data) => {
       const newMessage = {
