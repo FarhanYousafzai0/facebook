@@ -24,7 +24,8 @@ export default function MessagePanel({ myInfo, status = "active" }) {
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(false);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [sentMessages, setSentMessages] = useState([]);
+  const [receivedMessages, setReceivedMessages] = useState([]);
   const socketRef = useRef(null);
 
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
@@ -36,22 +37,29 @@ export default function MessagePanel({ myInfo, status = "active" }) {
 
   const handleSendMessage = () => {
     if (message.trim() !== "") {
-      socketRef.current.emit('Messenger', message);
+      const newMessage = {
+        sent: true,
+        time: Date.now(),
+        message,
+      };
+      socketRef.current.emit('Messenger', newMessage);
+      setSentMessages((prev) => [...prev, newMessage]);
       setMessage("");
     }
   };
 
+  useEffect(() => {
+    socketRef.current.on('received-message', (data) => {
+      const newMessage = {
+        sent: false,
+        time: Date.now(),
+        message: data?.message,
+      };
+      setReceivedMessages((prev) => [...prev, newMessage]);
+    });
+  }, []);
 
-  useEffect(()=>{
-
-
-     socketRef.current.on('received-message',(data)=>{
-
-        alert(message)
-     })
-
-
-  },[socketRef])
+  const allMessages = [...sentMessages, ...receivedMessages].sort((a, b) => a.time - b.time);
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -102,11 +110,7 @@ export default function MessagePanel({ myInfo, status = "active" }) {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
             color={status === "active" ? "success" : "default"}
-            sx={{
-              '& .MuiBadge-badge': {
-                border: '2px solid white',
-              }
-            }}
+            sx={{ '& .MuiBadge-badge': { border: '2px solid white' } }}
           >
             <Avatar
               src="https://randomuser.me/api/portraits/men/32.jpg"
@@ -142,7 +146,7 @@ export default function MessagePanel({ myInfo, status = "active" }) {
           flexDirection: 'column',
           gap: 1,
         }}>
-          {messages.length === 0 ? (
+          {allMessages.length === 0 ? (
             <Box sx={{
               display: 'flex',
               flexDirection: 'column',
@@ -167,39 +171,39 @@ export default function MessagePanel({ myInfo, status = "active" }) {
               </Typography>
             </Box>
           ) : (
-            messages.map((msg) => (
+            allMessages.map((msg, index) => (
               <Box
-                key={msg.id}
+                key={index}
                 sx={{
-                  alignSelf: msg.sender === 'me' ? 'flex-end' : 'flex-start',
+                  alignSelf: msg.sent ? 'flex-end' : 'flex-start',
                   maxWidth: '70%',
                   mb: 1,
                 }}
               >
                 <Box
                   sx={{
-                    bgcolor: msg.sender === 'me' ? '#0084ff' : '#e4e6eb',
-                    color: msg.sender === 'me' ? 'white' : 'black',
+                    bgcolor: msg.sent ? '#0084ff' : '#e4e6eb',
+                    color: msg.sent ? 'white' : 'black',
                     p: 1.5,
-                    borderRadius: msg.sender === 'me'
+                    borderRadius: msg.sent
                       ? '18px 18px 0 18px'
                       : '18px 18px 18px 0',
                     boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
                   }}
                 >
-                  <Typography variant="body2">{msg.text}</Typography>
+                  <Typography variant="body2">{msg.message}</Typography>
                 </Box>
                 <Typography
                   variant="caption"
                   sx={{
                     display: 'block',
-                    textAlign: msg.sender === 'me' ? 'right' : 'left',
+                    textAlign: msg.sent ? 'right' : 'left',
                     color: '#65676b',
                     mt: 0.5,
                     px: 1,
                   }}
                 >
-                  {msg.time}
+                  {new Date(msg.time).toLocaleTimeString()}
                 </Typography>
               </Box>
             ))
