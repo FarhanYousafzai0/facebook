@@ -35,3 +35,16 @@ export const getUsers = async () => {
   const response = await axios.get(`${BASE_URL}get-all-users`);
   return response.data;
 };
+
+
+
+
+// Users-info:
+
+
+
+
+export const getUsersInfo = async(user_id) => {
+  const response = await axios.get(`${BASE_URL}userInfo/${user_id}`);
+  return response.data;
+};

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProfilePosts = () => {
+const ProfilePosts = ({myInfo}) => {
   return (
     <>
       <div className="bg-white rounded-lg shadow">
@@ -8,12 +8,12 @@ const ProfilePosts = () => {
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center space-x-2">
                     <img
-                      src="https://i.pravatar.cc/150?img=5"
+                      src={myInfo.profilePic}
                       alt="User"
                       className="w-10 h-10 rounded-full"
                     />
                     <div>
-                      <p className="font-medium text-black">Jane Smith</p>
+                      <p className="font-medium text-black">{myInfo?.name}</p>
                       <p className="text-xs text-gray-500">Yesterday at 3:45 PM · <span className="text-blue-500">Public</span></p>
                     </div>
                   </div>

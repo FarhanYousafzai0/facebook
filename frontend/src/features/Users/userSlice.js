@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser, loginUser, verifyOtp, getUsers } from "./userService";
+import { registerUser, loginUser, verifyOtp, getUsers, getUsersInfo } from "./userService";
 
 // Initial state - check if user is in localStorage
 const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -10,6 +10,7 @@ const initialState = {
   isLoading: false,
   message: "",
   allUsers: [],
+  myInfo :{}
 };
 
 // ✅ Register User
@@ -56,6 +57,24 @@ export const getAllUserData = createAsyncThunk(
       return await getUsers();
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.error || "Something went wrong!");
+    }
+  }
+);
+
+
+
+// Get-Users-info
+
+export const UserInfoData = createAsyncThunk(
+  'user-info',
+  async (userInfo, thunkAPI) => {
+    try {
+      const data = await getUsersInfo(userInfo);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.error || "Something went wrong"
+      );
     }
   }
 );
@@ -142,6 +161,22 @@ const userSlice = createSlice({
         state.allUsers = action.payload;
       })
       .addCase(getAllUserData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // Get-users:
+
+      .addCase(UserInfoData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(UserInfoData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.myInfo = action.payload;
+      })
+      .addCase(UserInfoData.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

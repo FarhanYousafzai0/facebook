@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProfilePosts from './ProfilePosts';
+import Nav from '../../Components/Home/Nav';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserInfoData } from '../../features/Users/userSlice';
 
 const ProfilePage = () => {
+
+
+
+    const {id} = useParams();
+
+    const {myInfo} = useSelector((state)=>state.auth);
+
+    const disptach = useDispatch();
+
+
+    useEffect(()=>{
+
+   disptach(UserInfoData(id));
+
+    },[])
+
+
+
+
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
       {/* Main Content Container */}
+
+        <Nav/>
       <div className="max-w-6xl mx-auto">
         {/* Cover Photo Section */}
         <div className="relative bg-gray-200 h-80 text-black w-full">
@@ -13,6 +38,8 @@ const ProfilePage = () => {
             alt="Cover"
             className="w-full h-full object-cover"
           />
+
+        
           <div className="absolute bottom-4 right-4 flex space-x-2">
             <button className="bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 font-medium px-3 py-1.5 rounded shadow flex items-center space-x-1">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -34,16 +61,21 @@ const ProfilePage = () => {
           {/* Profile Picture */}
           <div className="absolute -top-16 left-4 sm:left-8 border-4 border-white rounded-full overflow-hidden shadow-lg">
             <img
-              src="https://i.pravatar.cc/200"
+              src={myInfo.profilePic}
               alt="Profile"
               className="w-32 h-32 object-cover"
             />
-            <div className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-blue-600">
+            <div className="absolute bottom-2 z-40 left-20 bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-blue-600">
               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
               </svg>
             </div>
+
+           
           </div>
+
+
+
 
           {/* Profile Actions */}
           <div className="flex justify-end pt-4 pb-2">
@@ -74,7 +106,7 @@ const ProfilePage = () => {
 
           {/* Profile Name and Info */}
           <div className="mt-16 mb-4">
-            <h1 className="text-3xl font-bold">Beat Melodies</h1>
+            <h1 className="text-3xl font-bold">{myInfo.name}</h1>
             <p className="text-gray-600">420 friends · 1.2K followers</p>
           </div>
 
@@ -165,14 +197,14 @@ const ProfilePage = () => {
             <div className="bg-white rounded-lg shadow p-4">
               <div className="flex items-center space-x-2 mb-4">
                 <img
-                  src="https://i.pravatar.cc/150?img=3"
+                   src={myInfo.profilePic}
                   alt="User"
                   className="w-10 h-10 rounded-full"
                 />
                 <input
                   type="text"
-                  placeholder="What's on your mind?"
-                  className="flex-1 bg-gray-100 rounded-full px-4 py-2 hover:bg-gray-200 focus:outline-none"
+                  placeholder={`What's on your mind? ${myInfo.name}`}
+                  className="flex-1 bg-gray-100 text-black rounded-full px-4 py-2 hover:bg-gray-200 focus:outline-none"
                 />
               </div>
               <div className="flex border-t pt-3">
@@ -199,7 +231,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Sample Post */}
-            <ProfilePosts/>
+            <ProfilePosts myInfo={myInfo} />
           </div>
         </div>
       </div>

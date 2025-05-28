@@ -166,3 +166,21 @@ res.status(200).json(getUser);
 
 
 })
+
+
+
+
+// User info:
+
+
+export const UserInfo = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const userInfo = await user.findById(id);
+
+  if (!userInfo) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  res.status(200).json(userInfo);
+});
