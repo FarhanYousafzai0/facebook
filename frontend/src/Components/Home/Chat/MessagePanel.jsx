@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Drawer,
   Avatar,
   Typography,
-  Divider,
   TextField,
   IconButton,
   Badge,
@@ -16,34 +15,43 @@ import {
   FaImage,
   FaGift,
   FaEllipsisH,
-  FaMicrophone,
 } from 'react-icons/fa';
-import { BsChatDots, BsSend, BsEmojiSmile, BsThreeDotsVertical } from 'react-icons/bs';
+import { BsChatDots, BsSend, BsEmojiSmile } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
+import { io } from 'socket.io-client';
 
-export default function MessagePanel({ myInfo, status = "active"  }) {
+export default function MessagePanel({ myInfo, status = "active" }) {
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(false);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hey there!", sender: "them", time: "10:30 AM" },
-    { id: 2, text: "Hi! How are you?", sender: "me", time: "10:31 AM" },
-  ]);
+  const [messages, setMessages] = useState([]);
+  const socketRef = useRef(null);
 
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
 
+  useEffect(() => {
+    socketRef.current = io('http://localhost:8000');
+    return () => socketRef.current.disconnect();
+  }, []);
+
   const handleSendMessage = () => {
-    if (message.trim()) {
-      const newMessage = {
-        id: messages.length + 1,
-        text: message,
-        sender: "me",
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      setMessages([...messages, newMessage]);
+    if (message.trim() !== "") {
+      socketRef.current.emit('Messenger', message);
       setMessage("");
     }
   };
+
+
+  useEffect(()=>{
+
+
+     socketRef.current.on('received-message',(data)=>{
+
+        alert(message)
+     })
+
+
+  },[socketRef])
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -65,14 +73,12 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
       <Drawer
         anchor="right"
         open={open}
-        onClose={toggleDrawer(false)}
         PaperProps={{
           sx: {
             width: '380px',
             height: '580px',
             borderRadius: '12px 0 0 12px',
-            top: "auto",
-            bottom: "20px",
+            bottom: '20px',
             right: '20px',
             backgroundColor: '#fff',
             boxShadow: '0 5px 15px rgba(0, 0, 0, 0.15)',
@@ -84,10 +90,10 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
         }}
       >
         {/* Header */}
-        <Box sx={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          p: 2, 
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          p: 2,
           bgcolor: '#0084ff',
           color: 'white',
         }}>
@@ -96,7 +102,7 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
             color={status === "active" ? "success" : "default"}
-            sx={{ 
+            sx={{
               '& .MuiBadge-badge': {
                 border: '2px solid white',
               }
@@ -127,31 +133,31 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
         </Box>
 
         {/* Message Area */}
-        <Box sx={{ 
-          flexGrow: 1, 
-          p: 2, 
-          bgcolor: '#f0f2f5', 
+        <Box sx={{
+          flexGrow: 1,
+          p: 2,
+          bgcolor: '#f0f2f5',
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
           gap: 1,
         }}>
           {messages.length === 0 ? (
-            <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
               height: '100%',
               color: '#65676b'
             }}>
               <Avatar
                 src="https://randomuser.me/api/portraits/men/32.jpg"
-                alt={username}
+                alt={myInfo.name}
                 sx={{ width: 80, height: 80, mb: 2 }}
               />
               <Typography variant="h6" fontWeight="600">
-                {username}
+                {myInfo.name}
               </Typography>
               <Typography variant="body2">
                 You're friends on Facebook
@@ -162,7 +168,7 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
             </Box>
           ) : (
             messages.map((msg) => (
-              <Box 
+              <Box
                 key={msg.id}
                 sx={{
                   alignSelf: msg.sender === 'me' ? 'flex-end' : 'flex-start',
@@ -175,17 +181,17 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
                     bgcolor: msg.sender === 'me' ? '#0084ff' : '#e4e6eb',
                     color: msg.sender === 'me' ? 'white' : 'black',
                     p: 1.5,
-                    borderRadius: msg.sender === 'me' 
-                      ? '18px 18px 0 18px' 
+                    borderRadius: msg.sender === 'me'
+                      ? '18px 18px 0 18px'
                       : '18px 18px 18px 0',
                     boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
                   }}
                 >
                   <Typography variant="body2">{msg.text}</Typography>
                 </Box>
-                <Typography 
-                  variant="caption" 
-                  sx={{ 
+                <Typography
+                  variant="caption"
+                  sx={{
                     display: 'block',
                     textAlign: msg.sender === 'me' ? 'right' : 'left',
                     color: '#65676b',
@@ -201,13 +207,13 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
         </Box>
 
         {/* Input Area */}
-        <Box sx={{ 
-          p: 2, 
-          bgcolor: 'white', 
+        <Box sx={{
+          p: 2,
+          bgcolor: 'white',
           borderTop: '1px solid #e5e7eb',
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: 1 
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1
         }}>
           <IconButton sx={{ color: '#65676b' }}>
             <FaPaperclip size={18} />
@@ -218,7 +224,7 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
           <IconButton sx={{ color: '#65676b' }}>
             <FaGift size={18} />
           </IconButton>
-          
+
           <TextField
             variant="outlined"
             size="small"
@@ -245,12 +251,12 @@ export default function MessagePanel({ myInfo, status = "active"  }) {
               },
             }}
           />
-          
+
           {message ? (
-            <IconButton 
+            <IconButton
               onClick={handleSendMessage}
-              sx={{ 
-                color: 'white', 
+              sx={{
+                color: 'white',
                 bgcolor: '#0084ff',
                 '&:hover': { bgcolor: '#0073e6' },
               }}

@@ -1,44 +1,50 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import cors from 'cors'
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
 import connectDB from './Config/connetToDB.js';
 import userRouter from './Routes/UserRoutes.js';
-import { Server } from 'socket.io';
-import http from 'http';
 import { postRouter } from './Routes/postRoutes.js';
+
 dotenv.config();
-
-
-
-
-
-
-
-
-
+connectDB();
 
 const app = express();
-connectDB();
-const PORT  = process.env.PORT || 5000;
-
-
-
-
+const PORT = process.env.PORT || 5000;
 const My_Server = http.createServer(app);
 
-const ios = new Server(My_Server,{
-    cors:"*",
-    origin:"*"
+// Setup Socket.IO with proper CORS
+const io = new Server(My_Server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+});
+
+// Socket.IO events
+io.on('connection', (socket) => {
+  console.log(`Socket connected: ${socket.id}`);
+
+
+socket.on('Messenger',(data)=>{
+
+   socket.broadcast.emit('received-message',data);
 })
-// Middlewares:
+
+
+});
+
+// Middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-// Server:
-app.use('/api/user',userRouter);
-app.use('/api/post',postRouter);
 
+// Routes
+app.use('/api/user', userRouter);
+app.use('/api/post', postRouter);
 
-
-
-My_Server.listen(PORT,console.log(`Server has been connected on ${PORT}`));
+// Start Server
+My_Server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
