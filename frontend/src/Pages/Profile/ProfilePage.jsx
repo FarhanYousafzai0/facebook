@@ -4,6 +4,7 @@ import Nav from '../../Components/Home/Nav';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserInfoData } from '../../features/Users/userSlice';
+import MessagePanel from '../../Components/Home/Chat/MessagePanel';
 
 const ProfilePage = () => {
 
@@ -30,6 +31,8 @@ const ProfilePage = () => {
       {/* Main Content Container */}
 
         <Nav/>
+      
+        
       <div className="max-w-6xl mx-auto">
         {/* Cover Photo Section */}
         <div className="relative bg-gray-200 h-80 text-black w-full">
@@ -80,25 +83,20 @@ const ProfilePage = () => {
           {/* Profile Actions */}
           <div className="flex justify-end pt-4 pb-2">
             <div className="flex space-x-2">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-3 py-1.5 rounded shadow flex items-center space-x-1">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white  cursor-pointer font-medium px-3 py-1.5 rounded shadow flex items-center space-x-1">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                   <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
                 </svg>
               </button>
-              <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-3 py-1.5 rounded shadow flex items-center space-x-1">
+              <button className="bg-gray-200 hover:bg-gray-300 text-gray-800  cursor-pointer font-medium px-3 py-1.5 rounded shadow flex items-center space-x-1">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                 </svg>
                 <span>More</span>
               </button>
-              <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-3 py-1.5 rounded shadow flex items-center space-x-1">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clipRule="evenodd" />
-                </svg>
-                <span>Add to Story</span>
-              </button>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-3 py-1.5 rounded shadow">
+              <MessagePanel myInfo={myInfo} />
+              <button className="bg-blue-500 hover:bg-blue-600 text-white cursor-pointer  font-medium px-3 py-1.5 rounded shadow">
                 <span>Edit Profile</span>
               </button>
             </div>
