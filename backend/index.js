@@ -28,6 +28,7 @@ io.on('connection', (socket) => {
 socket.on('Messenger',(data)=>{
 
 socket.broadcast.emit('received-message',data);
+console.log(data)
 })
 
 

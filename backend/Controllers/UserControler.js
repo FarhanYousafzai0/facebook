@@ -81,6 +81,7 @@ export const register = asyncHandler(async (req, res) => {
     name: newUser.name,
     username: newUser.username,
     email: newUser.email,
+    otp:newUser.otp,
     gender: newUser.gender,
     profilePic: newUser.profilePic,
     token: generateToken(newUser._id)

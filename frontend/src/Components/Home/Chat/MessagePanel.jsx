@@ -19,6 +19,7 @@ import {
 import { BsChatDots, BsSend, BsEmojiSmile } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
 import { io } from 'socket.io-client';
+import { useSelector } from 'react-redux';
 
 export default function MessagePanel({ myInfo, status = "active" }) {
   const [open, setOpen] = useState(false);
@@ -29,6 +30,7 @@ export default function MessagePanel({ myInfo, status = "active" }) {
   const socketRef = useRef(null);
 
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
+  const {user} = useSelector((state)=>state.auth)
 
   useEffect(() => {
     socketRef.current = io('http://localhost:8000');
@@ -43,6 +45,9 @@ export default function MessagePanel({ myInfo, status = "active" }) {
         sent: true,
         time: Date.now(),
         message,
+        sender_id:user?._id,
+        receiver_id:myInfo._id,
+        
       };
       socketRef.current.emit('Messenger', newMessage);
       setSentMessages((prev) => [...prev, newMessage]);
@@ -53,12 +58,18 @@ export default function MessagePanel({ myInfo, status = "active" }) {
 //   Recived-Message:
   useEffect(() => {
     socketRef.current.on('received-message', (data) => {
-      const newMessage = {
-        sent: false,
-        time: Date.now(),
-        message: data?.message,
-      };
-      setReceivedMessages((prev) => [...prev, newMessage]);
+
+
+      if(data?.receiver_id == user?._id){
+        
+        const newMessage = {
+          sent:false,
+          time:Date.now(),
+          message:data?.message
+        }
+          setReceivedMessages((prev) => [...prev, newMessage]);
+
+      }
     });
   }, []);
 
@@ -89,9 +100,9 @@ export default function MessagePanel({ myInfo, status = "active" }) {
             width: '380px',
             height: '580px',
             borderRadius: '12px 0 0 12px',
-            bottom: '20px',
+            bottom: '50px',
             right: '20px',
-            backgroundColor: '#fff',
+            backgroundColor: 'glack',
             boxShadow: '0 5px 15px rgba(0, 0, 0, 0.15)',
             display: 'flex',
             flexDirection: 'column',
