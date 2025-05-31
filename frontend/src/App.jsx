@@ -13,6 +13,7 @@ import Friends from './Pages/Freinds/Friends';
 import 'react-loading-skeleton/dist/skeleton.css'
 import CreateStory from './Pages/Story/CreateStory';
 import ProfilePage from './Pages/Profile/ProfilePage';
+import VideoCallZego from './Pages/VedioChat/Vedio';
 
 
 
@@ -44,8 +45,10 @@ const App = () => {
 {/* ProfilePage */}
           <Route path='/profile/:id' element={<ProfilePage/>} />
      
-         
 
+     {/* Vedio-Call */}
+         
+<Route path='/vedio-call/:sender._id/:receiver._id' element={<VideoCallZego/>}/>
 
           </Route>
         </Routes>

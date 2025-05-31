@@ -16,6 +16,7 @@
     "@mui/icons-material": "^7.0.2",
     "@reduxjs/toolkit": "^2.7.0",
     "@tailwindcss/postcss": "^4.0.13",
+    "@zegocloud/zego-uikit-prebuilt": "^2.15.0",
     "axios": "^1.8.4",
     "deepmerge": "^4.3.1",
     "echarts": "^5.6.0",

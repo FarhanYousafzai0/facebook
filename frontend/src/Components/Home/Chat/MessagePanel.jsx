@@ -20,6 +20,7 @@ import { BsChatDots, BsSend, BsEmojiSmile } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export default function MessagePanel({ myInfo, status = "active" }) {
   const [open, setOpen] = useState(false);
@@ -28,26 +29,23 @@ export default function MessagePanel({ myInfo, status = "active" }) {
   const [sentMessages, setSentMessages] = useState([]);
   const [receivedMessages, setReceivedMessages] = useState([]);
   const socketRef = useRef(null);
+  const { user } = useSelector((state) => state.auth);
 
   const toggleDrawer = (newOpen) => () => setOpen(newOpen);
-  const {user} = useSelector((state)=>state.auth)
 
   useEffect(() => {
     socketRef.current = io('http://localhost:8000');
     return () => socketRef.current.disconnect();
   }, []);
 
-
-//   Sent-Message:
   const handleSendMessage = () => {
     if (message.trim() !== "") {
       const newMessage = {
         sent: true,
         time: Date.now(),
         message,
-        sender_id:user?._id,
-        receiver_id:myInfo._id,
-        
+        sender_id: user?._id,
+        receiver_id: myInfo._id,
       };
       socketRef.current.emit('Messenger', newMessage);
       setSentMessages((prev) => [...prev, newMessage]);
@@ -55,25 +53,25 @@ export default function MessagePanel({ myInfo, status = "active" }) {
     }
   };
 
-//   Recived-Message:
   useEffect(() => {
     socketRef.current.on('received-message', (data) => {
-
-
-      if(data?.receiver_id == user?._id){
-        
+      if (data?.receiver_id === user?._id) {
         const newMessage = {
-          sent:false,
-          time:Date.now(),
-          message:data?.message
-        }
-          setReceivedMessages((prev) => [...prev, newMessage]);
-
+          sent: false,
+          time: Date.now(),
+          message: data?.message,
+        };
+        setReceivedMessages((prev) => [...prev, newMessage]);
       }
     });
   }, []);
 
   const allMessages = [...sentMessages, ...receivedMessages].sort((a, b) => a.time - b.time);
+
+
+
+  // Hanling Vedio-Call
+  
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -100,9 +98,10 @@ export default function MessagePanel({ myInfo, status = "active" }) {
             width: '380px',
             height: '580px',
             borderRadius: '12px 0 0 12px',
-            bottom: '50px',
-            right: '20px',
-            backgroundColor: 'glack',
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            backgroundColor: 'white',
             boxShadow: '0 5px 15px rgba(0, 0, 0, 0.15)',
             display: 'flex',
             flexDirection: 'column',
@@ -141,6 +140,19 @@ export default function MessagePanel({ myInfo, status = "active" }) {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
+            <Link onClick={handleVedioCall} to={`/vedio-call/${user?._id}/${myInfo._id}`}>
+            <IconButton sx={{ color: 'white', p: 0.5 }} title="Video Call">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17 10.5V7c0-1.1-.9-2-2-2H5C3.9 5 3 5.9 3 7v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-3.5l4 4v-11l-4 4z" />
+              </svg>
+            </IconButton>
+            
+            </Link>
+            <IconButton sx={{ color: 'white', p: 0.5 }} title="Audio Call">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.36-.12-.77-.02-1.05.26l-2.2 2.2c-3.25-1.7-5.9-4.34-7.6-7.6l2.2-2.2c.28-.28.38-.69.26-1.05C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4C3.45 3 3 3.45 3 4c0 10.5 8.5 19 19 19 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z" />
+              </svg>
+            </IconButton>
             <IconButton sx={{ color: 'white', p: 0.5 }}>
               <FaEllipsisH size={16} />
             </IconButton>
@@ -241,6 +253,14 @@ export default function MessagePanel({ myInfo, status = "active" }) {
           </IconButton>
           <IconButton sx={{ color: '#65676b' }}>
             <FaGift size={18} />
+          </IconButton>
+          <IconButton sx={{ color: '#65676b' }}>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/4/48/GIF_icon.png"
+              width={18}
+              height={18}
+              alt="GIF"
+            />
           </IconButton>
 
           <TextField
