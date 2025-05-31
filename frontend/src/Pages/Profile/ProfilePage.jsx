@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProfilePosts from './ProfilePosts';
 import Nav from '../../Components/Home/Nav';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserInfoData } from '../../features/Users/userSlice';
+import {io} from 'socket.io-client'
 import MessagePanel from '../../Components/Home/Chat/MessagePanel';
 
 const ProfilePage = () => {
 
-
+  const socketRef = useRef(null);
+const [call,setCall] = useState(false);
 
     const {id} = useParams();
 
@@ -21,8 +23,21 @@ const ProfilePage = () => {
 
    disptach(UserInfoData(id));
 
-    },[])
+    },[]);
 
+useEffect(() => {
+    socketRef.current = io('http://localhost:8000');
+    return () => socketRef.current.disconnect();
+  }, []);
+
+    useEffect(()=>{
+      socketRef.current.on('calling-received',(data)=>{
+
+
+
+      })
+
+    },[socketRef])
 
 
 

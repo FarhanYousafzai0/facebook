@@ -71,7 +71,11 @@ export default function MessagePanel({ myInfo, status = "active" }) {
 
 
   // Hanling Vedio-Call
-  
+  const handleVedioCall = ()=>{
+    socketRef.current.emit("calling",{sender_id:user?._id,receiver_id:myInfo._id,sender_name:user?.name })
+     
+  }
+
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
