@@ -144,8 +144,11 @@ export default function MessagePanel({ myInfo, status = "active" }) {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Link onClick={handleVedioCall} to={`/vedio-call/${user?._id}/${myInfo._id}`}>
-            <IconButton sx={{ color: 'white', p: 0.5 }} title="Video Call">
+<Link
+  target="_blank"
+  onClick={handleVedioCall}
+  to={`/video-call/${user?._id}/${myInfo._id}`}
+>            <IconButton sx={{ color: 'white', p: 0.5 }} title="Video Call">
               <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17 10.5V7c0-1.1-.9-2-2-2H5C3.9 5 3 5.9 3 7v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-3.5l4 4v-11l-4 4z" />
               </svg>

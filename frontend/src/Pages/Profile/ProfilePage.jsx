@@ -6,13 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { UserInfoData } from '../../features/Users/userSlice';
 import {io} from 'socket.io-client'
 import MessagePanel from '../../Components/Home/Chat/MessagePanel';
+import ToastVideo from '../VedioChat/ToastVideo';
 
 const ProfilePage = () => {
 
   const socketRef = useRef(null);
 const [call,setCall] = useState(false);
-
+const [caller,setCaller] = useState(null);
     const {id} = useParams();
+
+    const {user} = useSelector((state)=>state.auth)
 
     const {myInfo} = useSelector((state)=>state.auth);
 
@@ -32,7 +35,13 @@ useEffect(() => {
 
     useEffect(()=>{
       socketRef.current.on('calling-received',(data)=>{
+        if(data?.receiver_id == user?._id){
 
+          setCall(true);
+          setCaller(data?.sender_name)
+
+
+        }
 
 
       })
@@ -47,7 +56,11 @@ useEffect(() => {
 
         <Nav/>
       
-        
+
+      {call && 
+      
+      <ToastVideo/>
+        }
       <div className="max-w-6xl mx-auto">
         {/* Cover Photo Section */}
         <div className="relative bg-gray-200 h-80 text-black w-full">

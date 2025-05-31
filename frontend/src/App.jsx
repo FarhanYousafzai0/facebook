@@ -48,7 +48,7 @@ const App = () => {
 
      {/* Vedio-Call */}
          
-<Route path='/vedio-call/:sender._id/:receiver._id' element={<VideoCallZego/>}/>
+<Route path="/video-call/:senderId/:receiverId" element={<VideoCallZego />} />
 
           </Route>
         </Routes>

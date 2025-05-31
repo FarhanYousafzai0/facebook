@@ -9,7 +9,7 @@
 
     return (
 
-        <div className={`fixed top-6 right-6 max-w-xs w-full transition-all duration-500 ease-in-out transform opacity-100 translate-y-0 scale-100`}>
+        <div className={`fixed top-6 right-6 z-50 max-w-xs w-full transition-all duration-500 ease-in-out transform opacity-100 translate-y-0 scale-100`}>
             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl shadow-2xl p-4 flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                     <div className="bg-white/20 p-2 rounded-full">
@@ -25,13 +25,13 @@
                 <div className="flex gap-2 justify-end">
                     <button
                         onClick={handleAnswer}
-                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
+                        className="bg-green-500 cursor-pointer hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
                     >
                         Answer
                     </button>
                     <button
                         onClick={handleIgnore}
-                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
+                        className="bg-red-500 cursor-pointer hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
                     >
                         Ignore
                     </button>
