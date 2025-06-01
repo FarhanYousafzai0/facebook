@@ -39,6 +39,13 @@ socket.on('calling',(data)=>{
   console.log(data)
 })
 
+
+socket.on('Accept-calling',(data)=>{
+
+  console.log(data)
+  socket.broadcast.emit('calling-accept',data);
+})
+
 });
 
 // Middlewares

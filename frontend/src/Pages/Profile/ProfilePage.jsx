@@ -36,11 +36,11 @@ useEffect(() => {
     useEffect(()=>{
       socketRef.current.on('calling-received',(data)=>{
         if(data?.receiver_id == user?._id){
-
           setCall(true);
           setCaller(data?.sender_name)
-
-
+           let audio = new Audio('/calling.mp3');
+           audio.play();
+  
         }
 
 
