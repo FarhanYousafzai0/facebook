@@ -15,6 +15,7 @@ import ProfilePage from './Pages/Profile/ProfilePage';
 import VideoCallZego from './Pages/VedioChat/Vedio';
 import ProtectedRoute from './Components/Home/Error/ProtectRoutes';
 import NotFoundPage from './Components/Home/Error/NotFoundPage';
+import Marketplace from './Pages/MarketPlace/Marketplace';
 
 const App = () => {
   return (
@@ -82,6 +83,18 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/market"
+          element={
+            <ProtectedRoute>
+             <Marketplace/>
+            </ProtectedRoute>
+          }
+        />
+
+
+
 
         {/* 404 Fallback */}
         <Route path="*" element={<NotFoundPage/>} />
