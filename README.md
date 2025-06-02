@@ -1,112 +1,71 @@
-# 📘 Facebook Clone
+# 🌐 Social Media App - MERN Stack
 
-A modern, responsive Facebook clone built with **React**, **Tailwind CSS**, **Node.js**, and **MongoDB**. This project features a sleek UI, smooth interactions, and essential social media functionalities. Perfect for learning full-stack development and enhancing your portfolio.
+This is a full-featured **Social Media Application** built using the **MERN Stack (MongoDB, Express, React, Node.js)**. It offers real-time communication features, rich social media interactions, and modern design practices.
 
----
+## 🔥 Features
 
-## 🚀 Features
+- 📝 Create, Edit, Delete Posts
+- 💬 Comments on Posts
+- ❤️ Like/Unlike Posts
+- 🔁 Share Posts
+- 🧑‍🤝‍🧑 Follow/Unfollow Users
+- 📩 Real-time Chat (Private Messaging)
+- 🎥 Video Calling & 🎧 Audio Calling (WebRTC & Socket.IO)
+- 🛎️ Live Notifications via Socket.IO
+- 🔐 Secure Authentication (JWT)
+- 🌈 Responsive UI with React.js
+- 📦 RESTful APIs with Node.js and Express.js
+- ⚡ Real-time data with Socket.IO
+- 📚 MongoDB for database
+- 🔧 Advanced React Concepts: Context API, Custom Hooks, Lazy Loading
 
-✅ Modern UI with Facebook-like design  
-✅ Responsive layout for both desktop and mobile  
-✅ User authentication (Login & Signup)  
-✅ Secure password encryption using **bcrypt.js**  
-✅ Real-time data management with **MongoDB**  
-✅ Clean code with optimized folder structure  
-✅ Fast and efficient styling with **Tailwind CSS**  
-✅ Scalable backend using **Node.js** and **Express.js**  
+## 📸 Screenshots
 
----
+### 🏠 Home Feed  
+![Home Feed](./assets/img%201.PNG)
 
-## 🛠️ Tech Stack
+### 📝 Post Details  
+![Post Details](./assets/img%202.PNG)
 
-**Frontend:** React, Tailwind CSS  
-**Backend:** Node.js, Express.js  
-**Database:** MongoDB  
-**Authentication:** JWT (JSON Web Tokens), bcrypt.js  
+### 💬 Real-Time Chat  
+![Chat](https://your-image-link.com/chat.png)
 
----
+### 🎥 Video Call Interface  
+![Video Call](https://your-image-link.com/video-call.png)
 
-## 📂 Folder Structure
-```
-/ Facebook-Clone
-  ├── /client (React Frontend)
-  ├── /server (Node.js Backend)
-  ├── /config (Database & JWT Config)
-  ├── /routes (API Routes)
-  ├── /controllers (Logic & CRUD Operations)
-  ├── /models (MongoDB Schemas)
-  ├── /assets (Images, Icons, etc.)
-```
+### 🔔 Notifications  
+![Notifications](https://your-image-link.com/notifications.png)
 
----
+> Replace the above image links with your actual image URLs from an image hosting platform like [Imgur](https://imgur.com/) or [Cloudinary](https://cloudinary.com/).
 
-## ⚙️ Installation & Setup
+## 🛠️ Technologies Used
 
-1. **Clone the Repository**
+| Frontend | Backend | Database | Real-time |
+|----------|---------|----------|-----------|
+| React.js (with Hooks & Context API) | Node.js + Express.js | MongoDB + Mongoose | Socket.IO + WebRTC |
+
+## 🚀 Installation & Setup
+
 ```bash
-git clone https://github.com/yourusername/facebook-clone.git
-cd facebook-clone
-```
+# Clone the repository
+git clone https://github.com/hsuntarriq/fb_b18.git
+cd mern-social-app
 
-2. **Install Dependencies**
-```bash
 # Install frontend dependencies
-cd client
+cd frontend
 npm install
 
 # Install backend dependencies
-cd ../server
+cd 
 npm install
-```
 
-3. **Environment Variables (.env)**
-Create a `.env` file in the root of the `/server` folder and add:
-```
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-PORT=5000
-```
 
-4. **Run the Project**
-```bash
-# Run Backend Server
-cd server
-npm start
 
-# Run Frontend (In a New Terminal)
-cd ../client
-npm start
-```
+# Start the development servers
+# In one terminal
+cd backend
+npm run server
 
-5. **Visit the App**
-```
-http://localhost:3000
-```
-
----
-
-## 📷 Screenshots
-🚧 *Coming soon...*
-
----
-
-## 📌 Future Improvements
-🔹 Adding chat/messaging functionality  
-🔹 Image & video uploads  
-🔹 Improved UI animations for better user experience  
-🔹 Implementing friend requests and notifications  
-
----
-
-## 🤝 Contributing
-Contributions are welcome! Feel free to fork this repository and submit a pull request with improvements or new features. 😊
-
----
-
-## 📄 License
-This project is licensed under the **MIT License**.
-
----
-
-### 🌟 Don't forget to leave a star if you found this project helpful!
-
+# In another terminal
+cd frontend
+npm run dev
