@@ -6,6 +6,7 @@ import { Server } from 'socket.io';
 import connectDB from './Config/connetToDB.js';
 import userRouter from './Routes/UserRoutes.js';
 import { postRouter } from './Routes/postRoutes.js';
+import { PaymentRouter } from './Routes/PaymentRoute.js';
 
 dotenv.config();
 connectDB();
@@ -56,7 +57,7 @@ app.use(cors());
 // Routes
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
-
+app.use('/api/payment',PaymentRouter);
 // Start Server
 My_Server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -27,10 +27,13 @@ const makePayment = async (req, res) => {
       cancel_url: 'http://localhost:5174/market',
     });
 
-    res.send({ url: stripeSession.url });
+    res.send(JSON.stringify({ url: stripeSession.url }));
 
   } catch (error) {
     console.error("Stripe Payment Error:", error.message);
     res.status(500).json({ error: "Payment session creation failed" });
   }
 };
+
+
+export default makePayment

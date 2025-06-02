@@ -3,18 +3,29 @@ import { marketDataItems } from './marketItemsData'; // Adjust the path if neede
 import axios from 'axios';
 
 const MarketListing = () => {
+  const handleSubmitPayment = async (item) => {
+    try {
+      const { name, price, image } = item;
 
-const handleSumbitPayment = (item)=>{
+      const response = await axios.post(`http://localhost:8000/api/payment/stripe`, {
+        name,
+        price,
+        image,
+      });
 
-
-
-
-}
-
-
+      if (response?.data?.url) {
+        window.location.href = response.data.url;
+      } else {
+        alert("Something went wrong with the payment session.");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed. Please try again.");
+    }
+  };
 
   return (
-    <div className='flex-1 p-5 w-full h-full text-black '>
+    <div className='flex-1 p-5 w-full h-full text-black'>
       <h3 className='font-bold text-2xl xl:text-3xl mb-6'>Today's Picks</h3>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-5'>
@@ -36,8 +47,7 @@ const handleSumbitPayment = (item)=>{
               </div>
 
               <button
-
-              onClick={()=>handleSumbitPayment(item)}
+                onClick={() => handleSubmitPayment(item)}
                 className='mt-4 bg-blue-600 cursor-pointer hover:bg-blue-700 text-white py-2 px-4 rounded-lg w-full text-sm font-medium transition-colors duration-300'
               >
                 Buy Now
