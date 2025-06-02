@@ -3,6 +3,7 @@ import { IoIosSearch } from "react-icons/io";
 
 import { menu_data } from "./MenuData/MenuData";
 import { create_data } from "./MenuData/Create_data";
+import { Link } from "react-router-dom";
 
 const Menu = () => {
   return (
@@ -78,13 +79,13 @@ const Menu = () => {
                 {create_data?.map((item, index) => {
                   return (
                     <div key={index}>
-                      <li className="flex gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-1 my-2 capitalize items-center">
+                      <Link to={item?.link} className="flex gap-2 cursor-pointer hover:bg-gray-100 rounded-md p-1 my-2 capitalize items-center">
                         <div className="h-[30px] text-black  rounded-full w-[30px] bg-gray-300 flex items-center justify-center">
                           {item?.icon}
                         </div>
 
                         <h5 className="font-semibold text-black text-sm">{item?.title}</h5>
-                      </li>
+                      </Link>
                       {index == 3 && (
                         <hr className="border-0 h-[1px] bg-gray-300" />
                       )}
